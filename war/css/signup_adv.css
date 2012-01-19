@@ -1,0 +1,342 @@
+/* firefox, chrome 등 텍스트 상자, 드롭다운메뉴 등 선택 시 테두리 생기는 것 없앰 */
+textarea:focus, input:focus, select:focus{
+outline:none
+}
+ 
+/* 모든 이미지의 테두리 없앰 (IE 등에서 미설정시 기본으로 테두리가 생김) */
+img{border:none}
+ 
+body {
+	font: 100% Verdana, Tahoma, Arial, Helvetica, sans-serif, "맑은 고딕";
+	background: #e7e7e7;
+	background-image:url(img/bg.gif);
+	background-repeat:repeat-x;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	color: #000000;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "맑은 고딕";
+}
+ 
+ 
+.twoColFixRtHdr #container {
+	/* 전체 콘텐츠를 담는 컨테이너 */
+	width: 979px;
+	background: #e7e7e7;
+	margin: 0 auto;
+	border: 0px;
+	text-align: left;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "맑은 고딕";
+}
+ 
+.twoColFixRtHdr #header {
+	/* 최상단 로고와 메뉴 등이 들어가는 어두운 회색 영역 */
+	height: 93px;
+	background: #808080;
+	background-image:url(/img/bg.gif);
+	padding: 0 10px 0 0;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "맑은 고딕";
+	font-size: 10px;
+} 
+ 
+.searchBar {
+	/* 최상단 검색창 텍스트 필드 스타일 */
+	width: 183px;
+	background: transparent url('/img/search_top.gif') no-repeat;
+	color : #747862;
+	height:28px;
+	border:0;
+	padding:0 0 0 12px;
+	margin: 0px 295px 8px 15px;
+	text-align:left;
+	vertical-align:middle;
+	font-size:14px;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "맑은 고딕"
+}
+ 
+.menuText {
+	/* 최상단 메뉴 텍스트 스타일 */
+	color: #777;
+	font-size: 12px;
+	font-family: Arial, Helvetica, sans-serif, Tahoma, Verdana, "맑은 고딕";
+	letter-spacing:-20;
+	text-align: center;
+}
+ 
+.twoColFixRtHdr #mainTitle {
+	/* 메인 컨텐츠 제목 */
+	float: left;
+	width: 939px;
+	background: #f9f9f9;
+	padding: 10px 20px 20px 20px;
+	margin-top:30px;
+}
+ 
+.side_title {
+	/* 제목 스타일 */
+	font-size: 12pt;
+	font-family:Verdana, Tahoma, Arial, Helvetica, sans-serif, "맑은 고딕";
+	font-weight:bold;
+	color:#676767;
+}
+ 
+.twoColFixRtHdr #mainContent {
+	/* 메인 컨텐츠 전체 컨테이너 */
+	float:left;
+	width:939px;
+	height:auto;
+	margin: -10px 0 0 0;
+	padding: 20px 20px 40px 20px;
+	background-image:url(/img/table_line.gif);
+	background-repeat:repeat-x;
+	background-color:#fff;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+} 
+ 
+.twoColFixRtHdr #leftSide {
+	/* 맨 왼쪽의 회원가입 항목 */
+	float: left;
+	width: 170px;
+	padding: 10px 0 0 0;
+	text-align: right;
+	font-size:12px;
+	color:#777;
+	line-height:220%;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "맑은 고딕"
+}
+ 
+.twoColFixRtHdr #centerMain {
+	/* 회원가입 입력 영역 */
+	float: left;
+	width: 480px;
+	padding: 10px 0 0 20px;
+	font-size:12px;
+	color:#777;
+	line-height:200%;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "맑은 고딕"
+}
+ 
+.s_form {
+	/* 회원가입 텍스트 입력폼 */
+	width: 215px;
+	background: transparent url('/img/s_form_bg.gif') no-repeat;
+	color : #5e5e5e;
+	height:25px;
+	border:0;
+	padding-left:5px;
+	padding-right:0px;
+	padding-bottom:0px;
+	font-size:10pt;
+	font-family:Arial, Helvetica, sans-serif, calibri;
+}
+ 
+.twoColFixRtHdr #centerMainLeft {
+	/* 관심사 선택 부분 왼쪽 다단 */
+	float: left;
+	width: 150px;
+	padding: 0;
+	margin: -5px 0 0 0;
+	font-size:12px;
+	line-height:80%;
+	color:#777;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "맑은 고딕"
+}
+ 
+.twoColFixRtHdr #centerMainRight {
+	/* 관심사 선택 부분 오른쪽 다단 */
+	float: left;
+	width: 320px;
+	padding: 0;
+	margin: -5px 0 0 0;
+	font-size:12px;
+	line-height:80%;
+	color:#777;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "맑은 고딕"
+}
+ 
+.twoColFixRtHdr #centerMainLeft_fsb {
+	/* 언어선택 부분 왼쪽 다단 */
+	float: left;
+	width: 190px;
+	padding: 0;
+	margin: 17px 0 0 0;
+	font-size:12px;
+	line-height:80%;
+	color:#777;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "맑은 고딕"
+}
+ 
+.twoColFixRtHdr #centerMainRight_fsb {
+	/* 언어선택 부분 오른쪽 다단 */
+	float: left;
+	width: 190px;
+	padding: 0;
+	margin: 54px 0 0 0;
+	font-size:12px;
+	line-height:80%;
+	color:#777;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "맑은 고딕"
+}
+ 
+.s_select {
+	/* 언어선택 드롭다운 메뉴 스타일 */
+	width: 180px;
+	background: transparent url('/img/s_drop_bg.gif') no-repeat;
+	color : #5e5e5e;
+	height:25px;
+	border:0;
+	padding-left:5px;
+	padding-right:4px;
+	padding-bottom:3px;
+	padding-top:3px;
+	font-size:10pt;
+	font-family:Arial, Helvetica, sans-serif, calibri;
+}
+ 
+.twoColFixRtHdr #rightSide {
+	/* 우측 도움말 영역 */
+	float: left;
+	width: 240px;
+	padding: 10px 0 0 0;
+	margin: 0 0 40px 0;
+	text-align: left;
+	font-size:12px;
+	color:#777;
+	line-height:160%;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "맑은 고딕"
+}
+ 
+.hideShowMenuStyle {
+	/* hide/show메뉴 전체 틀 스타일 */
+	float:right;
+	position:relative;
+	top:-520px;
+	left:10px;
+	z-index:3;
+	background-image:url(/img/hs_login_bg.png);
+	background-repeat:no-repeat;
+    width:253px;
+    height:218px;
+    margin:0 auto;
+}
+ 
+.twoColFixRtHdr #hsm_email {
+	/* hide/show메뉴 로그인 이메일 텍스트 스타일 */
+	float:left;
+	width:220px;
+	height:auto;
+	padding:0;
+	margin: 20px 0 0 20px;
+	text-align:left;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "맑은 고딕";
+	color:#AAA;
+	font-size:12px;
+}
+ 
+.twoColFixRtHdr #hsm_password {
+	/* hide/show메뉴 로그인 비밀번호 텍스트 스타일 */
+	float:left;
+	width:220px;
+	height:auto;
+	padding:0;
+	margin: 5px 0 0 20px;
+	text-align:left;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "맑은 고딕";
+	color:#AAA;
+	font-size:12px;
+}
+ 
+.twoColFixRtHdr #hsm_form {
+	/* hide/show메뉴 로그인 입력 필드 영역 */
+	float:left;
+	width:220px;
+	height:auto;
+	padding:0;
+	margin: 1px 0 0 20px;
+}
+ 
+.hsm_formArea {
+	/* hide/show메뉴 로그인 입력 필드 스타일 */
+	width: 209px;
+	background: transparent url('/img/hs_loginbox_bg.gif') no-repeat;
+	color : #5e5e5e;
+	height:30px;
+	border:0;
+	padding-left:5px;
+	padding-right:0px;
+	padding-bottom:0px;
+	font-size:10pt;
+	font-family:Arial, Helvetica, sans-serif, calibri;
+}
+ 
+.twoColFixRtHdr #hsm_rememberForgot {
+	/* hide/show메뉴 로그인 기억 비밀번호 찾기 영역 */
+	float: left;
+	width: 220px;
+	margin: 8px 0 0 19px;
+	padding: 0;
+	text-align: left;
+	font-size:10px;
+	color:#DDD;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "맑은 고딕"
+}
+ 
+.twoColFixRtHdr #hsm_loginbtn {
+	/* hide/show메뉴 로그인버튼 이미지 */
+	float: left;
+	width: 220px;
+	margin: 12px 0 0 19px;
+	padding: 0;
+	text-align: left;
+	font-size:10px;
+	color:#DDD;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "맑은 고딕"
+}
+ 
+.twoColFixRtHdr #hsm_logintext {
+	/* hide/show메뉴 로그인버튼 텍스트 */
+	position:relative;
+	top:-30px;
+	left:0;
+	width:50px;
+	height:20px;
+	padding:0;
+	margin: 0 0 0 100px;
+	text-align:left;
+	font-family: Arial, Helvetica, sans-serif, Tahoma, Verdana, "맑은 고딕";
+	color:#6f7b0a;
+	font-size:15px;
+	font-weight:bold;
+}
+ 
+.twoColFixRtHdr #cancelChanges {
+	/* 우측 하단의 취소 버튼 영역 */
+	float:left;
+	width: 66px;
+	height:43px;
+	background-image:url(/img/btn_s_small.gif);
+	background-repeat:no-repeat;
+	margin: 0;
+	padding: 11px 0 0 30px;
+	text-align: left;
+	font-size:14px;
+	color:#777;
+	line-height:160%;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "맑은 고딕"
+}
+ 
+.twoColFixRtHdr #saveChanges {
+	/* 우측 하단의 완료 버튼 영역 */
+	float:left;
+	width: 88px;
+	height:43px;
+	background-image:url(/img/btn_s_big.gif);
+	background-repeat:no-repeat;
+	margin:0 0 0 5px;
+	padding: 11px 0 0 30px;
+	text-align: left;
+	font-size:14px;
+	color:#6f7b0a;
+	line-height:160%;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "맑은 고딕"
+}

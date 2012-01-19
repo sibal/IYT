@@ -1,0 +1,172 @@
+img{border:none}
+ 
+body {
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	color: #000000;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "맑은 고딕";
+}
+ 
+.twoColFixRtHdr #backgroundSet {
+	/* 브라우저의 종류와 상관 없이 배경 이미지가 올바로 보이도록 세팅 */
+	width: 100%;
+	height:548px;
+	border: 0px;
+	margin: 0;
+	padding: 0;
+	background-image:url(/img/login_bg_e.jpg);
+	background-repeat:repeat-x;
+	background-position:center;
+} 
+ 
+.twoColFixRtHdr #container {
+	/* 전체 콘텐츠를 담는 컨테이너 */
+	width: 579px;
+	margin: 0 auto;
+	padding: 150px 0 0 0;
+	border: 0px;
+	text-align: left;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "맑은 고딕";
+} 
+ 
+.twoColFixRtHdr #lableDiv {
+	/* 입력 폼 앞에 위치하는 레이블 텍스트 영역  */
+	float: left;
+	width: 120px;
+	padding: 8px 0 0 0;
+	text-align: right;
+	font-size:12px;
+	color:#BBB;
+	line-height:220%;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "맑은 고딕"
+}
+ 
+.twoColFixRtHdr #boxDiv {
+	/* 텍스트필드 영역 */
+	float: left;
+	width: 320px;
+	padding: 0 0 0 20px;
+	font-size:12px;
+	color:#777;
+	line-height:200%;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "맑은 고딕"
+}
+ 
+.textField {
+	/* (이름), 이메일, 비밀번호 입력 필드 (README!!) IE에서는 vertical-align:middle; 이 안먹혀서 위쪽에 위치함. 마진 주면 파이어폭스에서 아래로 밀림. */
+	width: 305px;
+	background: transparent url('/img/tb7.png') no-repeat;
+	color : #747862;
+	height:40px;
+	border:0;
+	padding-left:5px;
+	margin-bottom:4px;
+	text-align:left;
+	vertical-align:middle;
+	font-size:16px;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "맑은 고딕";
+}
+ 
+.twoColFixRtHdr #rememberForgot {
+	/* 로그인기억, 비밀번호 찾기 영역 */
+	float: left;
+	width: 280px;
+	margin: 8px 40px 0 2px;
+	padding: 0 0 0 135px;
+	text-align: left;
+	font-size:11px;
+	color:#DDD;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "맑은 고딕"
+}
+ 
+.twoColFixRtHdr #swapLoginSignin{
+	/* 로그인페이지와 가입페이지간 전환버튼 영역 */
+	width:66px;
+	float:left;
+	height:35px;
+	margin: 18px 0 0 139px;
+	padding: 13px 0 0 30px;
+	text-align: left;
+	font-size:14px;
+	color:#777;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "맑은 고딕";
+	background: transparent url('/img/btn_login_small.gif') no-repeat;
+}
+ 
+.twoColFixRtHdr #proceed{
+	/* 가입페이지에서 상세가입화면으로 넘어가는 버튼 영역 // 로그인페이지에서 로그인 버튼 영역 */
+	width:195px;
+	background: transparent url('/img/btn_login_big.gif') no-repeat;
+	float:left;
+	height:35px;
+	margin:18px 100px 0 5px;
+	padding: 13px 0 0 20px;
+	text-align: left;
+	font-size:14px;
+	color:#6f7b0a;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "맑은 고딕";
+}
+ 
+.twoColFixRtHdr #mayorDisplayPic{
+	/* mayor 랜덤 추천 영역의 프로필 사진 (README!!) 브라우저의 종류에 따라서 mayor 랜덤 추천 영역이 아래로 밀려 보입니다. 위치 고정 따로 시켜주세요. */
+	width:62px;
+	float:left;
+	height:35px;
+	margin:32px 25px 0 135px;
+	padding: 0;
+}
+ 
+.twoColFixRtHdr #mayorDisplayID{
+	/* mayor 랜덤 추천 영역의 아이디 텍스트 */
+	width:90px;
+	float:left;
+	margin:55px 5px 0 0;
+	padding: 0;
+	text-align: left;
+	font-size:16px;
+	color:#aaa;
+	font-weight:bold;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "맑은 고딕";
+}
+ 
+.twoColFixRtHdr #mayorDisplayLang{
+	/* mayor 랜덤 추천 영역의 언어 텍스트 */
+	width:110px;
+	float:left;
+	margin:55px 5px 0 0;
+	padding: 0;
+	text-align: left;
+	font-size:16px;
+	color:#aaa;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "맑은 고딕";
+}
+ 
+.bottomSettingsTitle {
+	/* 화면 최하단의 셋팅 및 기타 메뉴의 제목 텍스트 */
+	text-align: center;
+	margin-top:5px;
+	font-size:10px;
+	color:#888;
+	font-weight:bold;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "맑은 고딕"
+}
+ 
+.bottomSettings {
+	/* 화면 최하단의 셋팅 및 기타 메뉴의 본문 텍스트 */
+	text-align: center;
+		margin-top:5px;
+	font-size:10px;
+	color:#AAA;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "맑은 고딕"
+}
+ 
+.bottomSettingsLinks {
+	/* 화면 최하단의 셋팅 및 기타 메뉴의 링크된 텍스트 (README!!) 파일 맨 위에 하이퍼링크 디스플레이 관련된 셋팅이 있는데 (전 페이지 동일하게 설정됨) 필요에 따라 바꿔서 사용하셔야 할 듯합니다. */
+	text-align: center;
+	padding-bottom:10px;
+		margin-top:15px;
+	font-size:10px;
+	color:#8aac00;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "맑은 고딕"
+}
