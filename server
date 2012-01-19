@@ -1,0 +1,4 @@
+#!/bin/bash
+
+ant
+dev_appserver.sh -a 0.0.0.0 -p 8989 war
