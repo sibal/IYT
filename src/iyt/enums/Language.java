@@ -2,9 +2,9 @@ package iyt.enums;
 
 public enum Language {
 	ENGLISH(0, "English", "English"),
-	KOREAN(1, "Korean", "ÇÑ±¹¾î"),
-	CHINESE(2, "Chinese", "ñéÙş"),
-	JAPANESE(3, "Japanese", "ìíÜâåŞ");
+	KOREAN(1, "Korean", "Korean"),
+	CHINESE(2, "Chinese", "Chinese"),
+	JAPANESE(3, "Japanese", "Japanese");
 	
 	int num;
 	String name_en, name;

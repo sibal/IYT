@@ -4,6 +4,11 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import iyt.models.User;
+import com.googlecode.objectify.Objectify;
+import com.googlecode.objectify.ObjectifyService;
+
+
 public class UserValidator implements Validator{
 
 	@Override
@@ -33,8 +38,27 @@ public class UserValidator implements Validator{
 		User user = (User)target;
 		
 		if(!(user.getPassword().equals(user.getPassword_c()))){
-			errors.rejectValue("password", "notmatch.password");
+		    errors.rejectValue("password_c", "notmatch.password", "Conformation password is not matching");
 		}
+		String username = user.getUsername();
+		if(username != null){
+		    Objectify ofy = ObjectifyService.begin();
+		    try {
+			ObjectifyService.register(User.class);
+		    }
+		    catch (Exception e) { }
+
+		    User auser = null;
+		    try {
+			auser = ofy.get(User.class, username);
+		    }
+		    catch(Exception e) {
+		    }
+		    if(auser != null) 
+			errors.rejectValue("username", "duplicate.username", "The given email is already used");
+		}
+
+		
 	}
 	
 }

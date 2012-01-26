@@ -20,6 +20,9 @@ a:active {
 <link rel="StyleSheet" href="/css/signup_adv.css" type="text/css"/>
  
 <!-- 상단 Log in 클릭 시 나타나는 hide/show 메뉴 셋팅 --> 
+<script language="javascript" src="/js/jquery-1.7.1.js"></script>
+<script language="javascript" src="/js/jquery.form.js"></script>
+<script language="javascript" src="/js/form.js"></script>
 <script language="javascript" type="text/javascript"> 
 function showHideDiv()
     {
@@ -55,11 +58,11 @@ function MM_swapImage() { //v3.0
   var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
    if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
 }
+
+
  
 </script> 
-<script lang="text/javascript">
-function submit() {document.signupform.submit();}
-</script>
+
 
 </head> 
  
@@ -74,7 +77,7 @@ function submit() {document.signupform.submit();}
 	
 	
     <div id="mainContent"> 
-		<form:form name="signupform" action="/signup" method="POST"> 
+		<form:form id="signupform" name="signupform" action="/signup_chk" method="POST"> 
 		
     	<div id="leftSide"><!-- 맨 왼쪽의 회원가입 항목 --> 
 			<p>Full Name</p> 
@@ -96,11 +99,11 @@ function submit() {document.signupform.submit();}
     	</div> 
     	
 		<div id="centerMain"><!-- 회원가입 입력 영역 --> 
-            <p><form:input type="text" path="name" name="signupFullNameForm" id="signupFullName"  class="s_form" /></p> 
-            <p><form:input type="text" path="username" name="signupEmailForm" id="signupEmail"  class="s_form" />&nbsp;&nbsp;<img src="img/ok.gif" align="absbottom" width="15" height="25" /><span style="color:#99aa06">Verified</span></p> 
-            <p><form:input name="signupPasswordForm" path="password" type="password" class="s_form" id="signupPassword" />&nbsp;&nbsp;<img src="img/normal.gif" align="absbottom" width="15" height="25" /><span style="color:#ffa000">Could be more secure</span></p> 
-            <p><form:input type="password" path="password_c" name="signupPwvForm" id="signupPwv"  class="s_form" />&nbsp;&nbsp;<img src="img/bad.gif" align="absbottom" width="15" height="25" /><span style="color:#ff0000">Not matched</span></p> 
-            <p><form:input type="text" path="nick" name="signupNicknameForm" id="signupNickname"  class="s_form" />&nbsp;&nbsp;<img src="img/bad.gif" align="absbottom" width="15" height="25" /><span style="color:#ff0000">Not available</span></p> 
+            <p><form:input type="text" path="name" name="signupFullNameForm" id="signupFullName"  class="s_form" /><span id='c_name'/></p> 
+            <p><form:input type="text" path="username" name="signupEmailForm" id="signupEmail"  class="s_form" /><span id='c_username'/></p>
+            <p><form:input name="signupPasswordForm" path="password" type="password" class="s_form" id="signupPassword" /><span id='c_password'/></p>
+            <p><form:input type="password" path="password_c" name="signupPwvForm" id="signupPwv"  class="s_form" /><span id='c_password_c'/></p>
+            <p><form:input type="text" path="nick" name="signupNicknameForm" id="signupNickname"  class="s_form" /><span id='c_nick'/></p>
             <p>&nbsp;</p> 
 			
 			<!-- 관심사 선택 부분 왼쪽 다단 --> 

@@ -15,7 +15,7 @@
 </head> 
  
 <body class="twoColFixRtHdr"> 
-ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ 
+ 
 <div id="backgroundSet"> 
 	<form commandName="command" name="loginform" action="<c:url value='login_p' />" method="POST">
 	<div id="container"> 

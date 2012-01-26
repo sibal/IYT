@@ -5,7 +5,7 @@
   <property name="build.dir" value="${base.dir}/classes"/>  
   
   <target name="dist">
-    <javac deprecation="off" srcdir="${src.dir}" destdir="${build.dir}" listfiles="no" failonerror="true" >
+    <javac deprecation="off" debug="on" srcdir="${src.dir}" destdir="${build.dir}" listfiles="no" failonerror="true" >
       <classpath>
 	<pathelement path="${base.dir}/lib" />
 	<fileset dir="${base.dir}/lib">
