@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -36,6 +37,8 @@ public class ArticleController {
 		this.articleValidator = articleValidator;
 	}
 	
+	/*
+	//this mehtod should be edited, because the root url shows the timeline and the information for the time line will be given through ajax call.
 	@RequestMapping(value="/", method=RequestMethod.GET)
     public ModelAndView list() {
 		Objectify ofy = objectifyFactory.begin();
@@ -51,10 +54,23 @@ public class ArticleController {
 		mav.addObject("articles", articles);
 		return mav;
     }
+    */
+	
+	@RequestMapping(value="/", method=RequestMethod.GET)
+    public ModelAndView list() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		Objectify ofy = objectifyFactory.begin();
+		User user = (User)authentication.getPrincipal();
+		ModelAndView mav = new ModelAndView("article/list");
+		mav.addObject("command", new Article());
+		mav.addObject("user", user);
+		return mav;
+    }
 	
 	@RequestMapping(value="/article/{user_id}/{article_id}", method=RequestMethod.GET)
-    public ModelAndView show(@PathVariable String user_id, @PathVariable long article_id) {
+    public ModelAndView show(@PathVariable String user_id, @PathVariable String article_id) {
 		Objectify ofy = objectifyFactory.begin();
+		//What the hell?
 		Article article = ofy.get(new Key<Article>(new Key<User>(User.class, user_id), Article.class, article_id));
 		ModelAndView mav = new ModelAndView("partial/article");
 		mav.addObject("article", article);
@@ -73,4 +89,67 @@ public class ArticleController {
 		ofy.put(article);
 		return list();
     }
+	
+	// For register translation
+	@RequestMapping(value="/translate", method=RequestMethod.POST)
+    public ModelAndView doTranslate(@ModelAttribute("command") Translation translation, BindingResult result ) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		Objectify ofy = objectifyFactory.begin();
+		User author = (User)authentication.getPrincipal();
+		// Translate!
+		translation.setAuthor(author.getKey());
+		ofy.put(translation);
+		return list();
+    }
+	/*
+	// For showing translations
+	@RequestMapping(value="/translation/{article_id}", method=RequestMethod.GET)
+	public String getTranslations(@PathVariable String article_id) {
+		Objectify ofy = objectifyFactory.begin();
+		Query<Translation> q = ofy.query(Translation.class).limit(10);
+		List<Translation> translations = new ArrayList<Translation>();
+		for(Translation a: q) {
+			if(a.getAuthor() != null) a.setAuthor_data((User) ofy.get(a.getAuthor()));
+			translations.add(a);
+		}
+			
+		ModelAndView mav = new ModelAndView("article/translations");
+		mav.addObject("command", new Translation());
+		mav.addObject("translations", translations);
+		return mav;
+	}*/
+	
+	
+	// For showing translations
+	@RequestMapping(value="/translations", method=RequestMethod.GET)
+    public ModelAndView listTs() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User)authentication.getPrincipal();
+		Objectify ofy = objectifyFactory.begin();
+		Query<Translation> q = ofy.query(Translation.class).ancestor(user.getKey());
+
+		List<Translation> translations = new ArrayList<Translation>();
+		for(Translation a: q) {
+			if(a.getAuthor() != null) a.setAuthor_data((User) ofy.get(a.getAuthor()));
+			translations.add(a);
+		}
+
+		ModelAndView mav = new ModelAndView("article/translations");
+		mav.addObject("command", new Translation());
+		mav.addObject("user", user);
+		mav.addObject("translations", translations);
+		return mav;
+    }
+	
+	// For showing a translation
+	@RequestMapping(value="/translation/{user_id}/{t_id}", method=RequestMethod.POST)
+    public ModelAndView showT(@PathVariable String user_id, @PathVariable String t_id) {
+		Objectify ofy = objectifyFactory.begin();
+		//What the hell?
+		Translation translation = ofy.get(new Key<Translation>(new Key<User>(User.class, user_id), Translation.class, t_id));
+		ModelAndView mav = new ModelAndView("partial/translation");
+		mav.addObject("translation", translation);
+		return mav;
+    }
+	
 }

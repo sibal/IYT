@@ -11,14 +11,27 @@ public class Article {
     @Parent Key<User> author;
 	@NotSaved User author_data;
 	String content;
+	@Indexed String sid;
     Vender vender;
     Category category;
     Date created_at;
     Date updated_at;
     
     
+    public Key<Article> getKey() {
+    	return new Key<Article>(Article.class, id);
+    }
     
-    public Article() {
+    
+    public String getSid() {
+		return sid;
+	}
+
+	public void setSid(String sid) {
+		this.sid = sid;
+	}
+
+	public Article() {
     	created_at = new Date();
     }
     

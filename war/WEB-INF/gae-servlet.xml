@@ -13,6 +13,7 @@
 	        <list>
 	            <value>iyt.models.User</value>
 	            <value>iyt.models.Article</value>
+	            <value>iyt.models.Translation</value>
 	        </list>
 	    </property>
 	</bean>

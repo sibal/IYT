@@ -67,6 +67,55 @@ function MM_swapImage() { //v3.0
 </head> 
  
 <body class="twoColFixRtHdr" onload="MM_preloadImages('img/hsm_login_on.gif')"> 
+ <!-- Facebook api -->
+	<div id="fb-root"></div>
+	<script type="text/javascript">
+		window.fbAsyncInit = function() {
+			FB.init({appId: '125733630772899', status: true, cookie: true, xfbml: true});
+
+			FB.Event.subscribe('auth.login', function(response) {
+				login();
+			});
+			FB.Event.subscribe('auth.logout', function(response) {
+				logout();
+			});
+
+			FB.getLoginStatus(function(response) {
+				var accessToken = response.authResponse.accessToken;
+				var userid = response.authResponse.userID;
+				document.forms["signupform"].signupAccess.value = accessToken;
+				document.forms["signupform"].signupUID.value = userid;
+				alert(document.forms["signupform"].signupAccess.value);
+				
+			});
+
+		};
+		(function() {
+			var e = document.createElement('script');
+			e.type = 'text/javascript';
+			e.src = document.location.protocol +
+				'//connect.facebook.net/en_US/all.js';
+			e.async = true;
+			document.getElementById('fb-root').appendChild(e);
+		}());
+
+		function login(){
+			FB.api('/me', function(response) {
+				alert('You have successfully logged in, '+response.name+"!");
+			});
+		}
+		function logout(){
+			alert('You have successfully logged out!');
+		}
+		function greet(){
+			FB.api('/me', function(response) {
+				alert('Welcome, '+response.name+"!");
+			});
+		}
+
+	</script>
+ 
+
  
 <div id="container"> 
 	<div id="header"> <a href="5.html"><img src="img/logo_top_e.jpg" width="228" height="93" alt="Twitlator" style="margin-left:15px; border:none; vertical-align:middle; font-family: Arial, Helvetica, verdana, sans-serif;" /></a><input type="text" name="searchbar_top" class="searchBar" /><span class="menuText">Already a member?</span><img src="img/menu_dv.gif" width="32" height="93" border="0" style="vertical-align:middle"/><span class="menuText"><a href="#" onclick="showHideDiv()" style="color:#99aa06">Log In ▾</a></span> 
@@ -78,7 +127,7 @@ function MM_swapImage() { //v3.0
 	
     <div id="mainContent"> 
 		<form:form id="signupform" name="signupform" action="/signup_chk" method="POST"> 
-		
+		<fb:login-button autologoutlink='true' perms='email,user_birthday,status_update,publish_stream,read_stream'></fb:login-button>
     	<div id="leftSide"><!-- 맨 왼쪽의 회원가입 항목 --> 
 			<p>Full Name</p> 
     		<p>Email</p> 
@@ -104,6 +153,8 @@ function MM_swapImage() { //v3.0
             <p><form:input name="signupPasswordForm" path="password" type="password" class="s_form" id="signupPassword" /><span id='c_password'/></p>
             <p><form:input type="password" path="password_c" name="signupPwvForm" id="signupPwv"  class="s_form" /><span id='c_password_c'/></p>
             <p><form:input type="text" path="nick" name="signupNicknameForm" id="signupNickname"  class="s_form" /><span id='c_nick'/></p>
+            <form:input type="hidden" path="face_access" name="face_accessForm" id="signupAccess" />
+            <form:input type="hidden" path="fid" name="face_uid" id="signupUID" />
             <p>&nbsp;</p> 
 			
 			<!-- 관심사 선택 부분 왼쪽 다단 --> 

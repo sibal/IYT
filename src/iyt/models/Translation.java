@@ -6,20 +6,36 @@ import javax.persistence.Id;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.*;
 
-@Unindexed
 public class Translation {
 	@Parent Key<User> author;
 	@NotSaved User author_data;
-	@Parent Key<Article> article;
-	@NotSaved Article article_data;
-	@Id Long id;
-    String content;
+	//@Parent Key<Article> article;
+	//@NotSaved Article article_data;
+	@Indexed @Id Long id;
+	@Indexed String sid;
+    String t_content;
+    String ori_content;
     @Indexed Date created_at;
     @Indexed Date updated_at;
     
-    
-    
-    public Translation() {
+        
+    public String getSid() {
+		return sid;
+	}
+
+	public void setSid(String sid) {
+		this.sid = sid;
+	}
+
+	public String getOri_content() {
+		return ori_content;
+	}
+
+	public void setOri_content(String ori_content) {
+		this.ori_content = ori_content;
+	}
+
+	public Translation() {
     	created_at = new Date();
     }
     
@@ -36,13 +52,6 @@ public class Translation {
 		this.author_data = author_data;
 	}
 
-	public Article getArticle_data() {
-		return article_data;
-	}
-
-	public void setArticle_data(Article article_data) {
-		this.article_data = article_data;
-	}
 
 	public Key<User> getAuthor() {
 		return author;
@@ -59,13 +68,12 @@ public class Translation {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	public String getContent() {
-		return content;
+	public String getT_content() {
+		return t_content;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setT_content(String t_content) {
+		this.t_content = t_content;
 	}
 
 	public Date getCreated_at() {

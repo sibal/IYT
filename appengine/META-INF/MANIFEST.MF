@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.8.2
+Created-By: 1.6.0_25-b06 (Sun Microsystems Inc.)
+Require-Bundle: com.google.appengine.eclipse.core;visibility:=reexport
+ ,org.eclipse.core.runtime
+Bundle-Vendor: Google, Inc.
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: appengine-sdk-plugin.jar
+Bundle-Version: 1.5.3.r37v201108301710
+Bundle-Name: Google App Engine SDK
+Bundle-Activator: com.google.appengine.eclipse.sdkbundle.Activator
+Bundle-ManifestVersion: 2
+Bundle-SymbolicName: com.google.appengine.eclipse.sdkbundle
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+

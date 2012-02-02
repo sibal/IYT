@@ -85,7 +85,7 @@ public class UserController {
     }
     
     @RequestMapping(value="/signup", method=RequestMethod.POST)
-    public MnodelAndView signup_adv(@ModelAttribute("command") User user, BindingResult result ) {
+    public ModelAndView signup_adv(@ModelAttribute("command") User user, BindingResult result ) {
     	if(user.getStep() == 1) return new ModelAndView("user/signup_adv", "user", user);
     	
     	userValidator.validate(user, result);

@@ -25,13 +25,33 @@ public class User implements UserDetails {
 	private String username;
     private String nick;
     private String name;
-    private String password;
+    private String fid;
+    
+    
+    public String getFid() {
+		return fid;
+	}
+
+	public void setFid(String fid) {
+		this.fid = fid;
+	}
+
+	private String password;
     @NotSaved
     private String password_c;
     @NotSaved
     private int step;
+    private String face_access;
     
-    private Set<AppRole> authorities;
+    public String getFace_access() {
+		return face_access;
+	}
+
+	public void setFace_access(String face_access) {
+		this.face_access = face_access;
+	}
+
+	private Set<AppRole> authorities;
 
     public Key<User> getKey() {
     	return new Key<User>(User.class, username);
