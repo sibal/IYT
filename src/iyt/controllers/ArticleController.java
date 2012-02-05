@@ -4,6 +4,8 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 import iyt.enums.AppRole;
 import iyt.models.*;
@@ -19,9 +21,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.PropertyFilter;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
@@ -141,6 +147,44 @@ public class ArticleController {
 		return mav;
     }
 	
+	
+	// For showing translations
+	@RequestMapping(value="/topfour/{sid}", method=RequestMethod.GET)
+	@ResponseBody
+    public String topFourT(@PathVariable String sid) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User)authentication.getPrincipal();
+		Objectify ofy = objectifyFactory.begin();
+		System.out.println(sid);
+		Query<Translation> q = ofy.query(Translation.class).filter("sid", sid).order("voting").limit(4);
+		//Query<Translation> q = ofy.query(Translation.class).ancestor(user.getKey());
+		
+		ArrayList<Translation> translations = new ArrayList<Translation>();
+		for(Translation a: q) {
+			if(a.getAuthor() != null) a.setAuthor_data((User) ofy.get(a.getAuthor()));
+			translations.add(a);
+		}
+		System.out.println(translations.size());
+		JsonConfig config = new JsonConfig();
+	     config.setJsonPropertyFilter(new PropertyFilter() {
+	        public boolean apply(Object source, String name, Object value) {
+	              if ("name".equals(name) || "username".equals(name) || "id".equals(name) || "t_content".equals(name) || "voting".equals(name) || "author_data".equals(name)) {
+	                  return false;
+	              }
+	              return true;
+	           }
+	       });
+
+		JSONArray jsonArray = JSONArray.fromObject(translations, config);
+		System.out.println("test:"+jsonArray.toString());
+		Map<String, Object> map = new HashMap<String, Object> ();
+		map.put("translations",jsonArray);
+		JSONObject jsonObject = JSONObject.fromObject(map);
+		
+		return jsonObject.toString();
+    }
+	
+	
 	// For showing a translation
 	@RequestMapping(value="/translation/{user_id}/{t_id}", method=RequestMethod.POST)
     public ModelAndView showT(@PathVariable String user_id, @PathVariable String t_id) {
@@ -152,4 +196,52 @@ public class ArticleController {
 		return mav;
     }
 	
+	
+	// vote
+	@RequestMapping(value="/dovote/{t_id}", method=RequestMethod.GET)
+	@ResponseBody
+    public String doVote(@PathVariable String t_id) {
+		Objectify ofy = objectifyFactory.begin();
+		//What the hell?
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User)authentication.getPrincipal();
+		Translation translation = ofy.get(Translation.class, t_id);
+		
+		Vote vote = new Vote(user, translation);
+		translation.setVoting(translation.getVoting()+1);
+		ofy.put(vote);
+		
+		return translation.getVoting()+"";
+	}
+	
+	// cancle vote
+	@RequestMapping(value="/canclevote/{t_id}", method=RequestMethod.GET)
+	@ResponseBody
+    public String cancleVote(@PathVariable String t_id) {
+		Objectify ofy = objectifyFactory.begin();
+		//What the hell?
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User)authentication.getPrincipal();
+		Translation translation = ofy.get(Translation.class, t_id);
+		
+		Vote vote = ofy.query(Vote.class).filter("voter", user).filter("target", translation).get();
+		ofy.delete(vote);
+		translation.setVoting(translation.getVoting()-1);
+
+		
+		return translation.getVoting()+"";
+	}
+	
+	// show vote
+	@RequestMapping(value="/vote/{t_id}", method=RequestMethod.GET)
+	@ResponseBody
+    public String showVote(@PathVariable String t_id) {
+		Objectify ofy = objectifyFactory.begin();
+		//What the hell?
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User)authentication.getPrincipal();
+		Translation translation = ofy.get(Translation.class, t_id);
+				
+		return translation.getVoting()+"";
+	}
 }

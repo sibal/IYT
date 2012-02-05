@@ -15,11 +15,26 @@ public class Translation {
 	@Indexed String sid;
     String t_content;
     String ori_content;
+    int voting;
     @Indexed Date created_at;
     @Indexed Date updated_at;
     
+    
+    public Key<Translation> getKey() {
+    	return new Key<Translation>(Translation.class, id);
+    }
+    
+    
         
-    public String getSid() {
+    public int getVoting() {
+		return voting;
+	}
+
+	public void setVoting(int voting) {
+		this.voting = voting;
+	}
+
+	public String getSid() {
 		return sid;
 	}
 

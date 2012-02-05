@@ -27,7 +27,7 @@
 	var curr_aid = '';
 	var transMode = 0;
 	
-	function translateClicked()
+	function translateClicked(aid)
 	{
 	
 		if (transMode == 0)
@@ -41,10 +41,10 @@
 				margin: '25px 0 5px 0'
 			});
 		
-		
+			// make the area of translation
 			$('<div id="bigContentAreaMenu1"><a href="8.html"><img src="img/btn_bigger_screen.gif" width="32" height="32" alt="big screen" /></a></div>').insertAfter('#bigContentArea');
 			$('<div id="bigContentTranslation">'+
-					'<div id="tboxtop"><a href="6.html"><img src="img/tboxmenu.gif" width="345" height="30" /></a></div>'+
+					'<div id="tboxtop"><a onClick="closeClicked();"><img src="img/tboxmenu.gif" width="345" height="30" /></a></div>'+
 					'<form id="form2" name="form2" method="post" action="/translate">'+
 					'<input type=hidden id="sid" name="sid" value="'+curr_aid+'" />'+
 					'<input type=hidden id="ori_content" name="ori_content" value="'+$('#bigContentArea').html()+'" />'+
@@ -52,7 +52,22 @@
 					'</form>'+'</div>').insertAfter('#bigContentArea');
 			
 			$('#bigContentAreaCmt').hide();
-			transMode = 1;
+			transMode = 1; // For translate button
+			
+			// make the top-4 translation
+			$.getJSON('/topfour/'+aid, function(data) {
+  			
+  				//alert(data.translations);
+  			  	 $.each(data.translations,function(i,fb){
+				
+					alert(fb.id);
+				
+		    	});
+
+  			
+			});
+			
+			
 
 		}
 		else
@@ -62,9 +77,23 @@
 		
 	}
 	
+	function closeClicked()
+	{
+		$('#bigContentAreaMenu').show();
+		$('#bigContentAreaMenu1').remove();
+		$('#bigContentTranslation').remove();
+		$('#bigContentAreaBtn').css({
+				width:'109px',
+				margin: '0 0 0 0'
+		});
+		$('#bigContentAreaCmt').show();
+		transMode = 0;
+	}
+	
 
 	function showDetail(aid)
 	{
+		transMode = 0;
 		curr_aid = aid;
 		// hide side bar
 		$('#statArea').hide();
@@ -96,7 +125,7 @@
 			'<div id="profileIdNameDiv" style="margin-top:20px"><span class="profile_id">'+json.from.name+'</span></div>'+
 			'<div id="bigContentArea">'+json.message+'</div>'+
   			'<div id="bigContentAreaMenu"> <span class="articleSubMenu_time">1 minute ago  </span><span class="articleSubMenu_facebook">&nbsp;<a onclick="fbLike(\''+json.id+'\');">Like</a>&nbsp;&nbsp;<a onclick="">Comment</a></span></div>'+
-			'<div id="bigContentAreaBtn"><a onClick="translateClicked()"><img src="img/btn_big_translate.gif" width="109" height="31" alt="translate" /></a></div>'+
+			'<div id="bigContentAreaBtn"><a onClick="translateClicked(\''+aid+'\')"><img src="img/btn_big_translate.gif" width="109" height="31" alt="translate" /></a></div>'+
 			'<br />'+
 			'<div id="bigContentAreaCmt"><img src="img/side_cmtopn.gif" width="394" height="8" />';
             
@@ -177,6 +206,30 @@
 
 			});
 	};
+	
+	
+	function vote(tid){
+	  $.ajax({	  	
+	  		url: '/dovote/'+tid,
+    		type: 'GET',
+    		timeout: 1000,
+    		error: function(){
+		        alert('error');
+	    	},
+	    	success: function(a){
+        		// do something with a
+        		if (a=="-1")
+        		{
+        		
+        		}
+        		else
+        		{
+        		
+        		}
+    		}
+		});		
+	};
+	
 
 
 

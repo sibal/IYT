@@ -14,6 +14,8 @@
 	            <value>iyt.models.User</value>
 	            <value>iyt.models.Article</value>
 	            <value>iyt.models.Translation</value>
+	            <value>iyt.models.Followship</value>
+	            <value>iyt.models.Vote</value>
 	        </list>
 	    </property>
 	</bean>

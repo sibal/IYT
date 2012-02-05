@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.NotSaved;
+import com.googlecode.objectify.annotation.Parent;
 
 
 /**
@@ -26,9 +27,13 @@ public class User implements UserDetails {
     private String nick;
     private String name;
     private String fid;
+    //private int rank; How can we count the rank?
     
+    @Parent Key<User> mayor;
+   	@NotSaved User mayor_data;
     
-    public String getFid() {
+
+	public String getFid() {
 		return fid;
 	}
 

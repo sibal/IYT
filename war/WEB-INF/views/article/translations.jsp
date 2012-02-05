@@ -53,6 +53,7 @@
 					<% for(Translation t : translations) { %>
 
 <div id="articleBox" onClick="" style="cursor:hand; cursor: pointer;">
+    <%= t == null %>
 	<div id="profilePic"><img src="http://graph.facebook.com/<%= t.getSid().split("_")[0] %>/picture" width="47" height="48" alt="profile" /></div>
 	<div id="profileText">
 		<span class="content_id">

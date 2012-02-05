@@ -1,8 +1,11 @@
 package iyt.controllers;
 
 import iyt.enums.AppRole;
+import iyt.models.Article;
+import iyt.models.Translation;
 import iyt.models.User;
 import iyt.models.UserValidator;
+import iyt.models.Followship;
 import iyt.security.UserAuthentication;
 
 import java.io.IOException;
@@ -22,8 +25,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.FieldError;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
+import com.googlecode.objectify.Query;
 
 
 import net.sf.json.JSONObject;
@@ -103,4 +108,61 @@ public class UserController {
 	return new ModelAndView("redirect:/");
 
     }
+    
+    // For fans
+	@RequestMapping(value="/befan/{target_id}", method=RequestMethod.GET)
+	@ResponseBody
+    public String beFan(@PathVariable String target_id) {
+		Objectify ofy = objectifyFactory.begin();
+		//What the hell?
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();				
+		User target = ofy.get(User.class, target_id);
+		User user = (User)authentication.getPrincipal();
+		
+		Followship f = new Followship(user, target);
+		ofy.put(f);
+		
+		return "success";
+    }
+	
+    // For fans
+	@RequestMapping(value="/cancelfan/{target_id}", method=RequestMethod.GET)
+	@ResponseBody
+    public String cancelFan(@PathVariable String target_id) {
+		Objectify ofy = objectifyFactory.begin();
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();				
+		User target = ofy.get(User.class, target_id);
+		User user = (User)authentication.getPrincipal();
+		
+		Followship f = ofy.query(Followship.class).filter("follower", user).filter("followee", target).get();
+		ofy.delete(f);
+		
+		return "success";
+    }
+	
+	@RequestMapping(value="/fans", method=RequestMethod.GET)
+    public ModelAndView showfans() {
+		Objectify ofy = objectifyFactory.begin();
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();				
+		User user = (User)authentication.getPrincipal();
+
+		Query<Followship> q = ofy.query(Followship.class).filter("follower", user);
+		List<User> fans = new ArrayList<User>();
+		
+		for(Followship a: q) {
+			fans.add(ofy.get(a.getFollower()));
+		}
+		
+		ModelAndView mav = new ModelAndView("article/fans");
+		mav.addObject("command", new User());
+		mav.addObject("user", user);
+		mav.addObject("fans", fans);
+		return mav;
+    }
+	
+		
+
+	
 }
