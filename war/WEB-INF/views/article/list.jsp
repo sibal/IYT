@@ -36,6 +36,7 @@
 		
 			//$('').append(function());
 			$('#bigContentAreaMenu').hide();
+			$('#bigContentAreaCmtR').hide();
 			$('#bigContentAreaBtn').css({
 				width:'109px',
 				margin: '25px 0 5px 0'
@@ -47,24 +48,45 @@
 					'<div id="tboxtop"><a onClick="closeClicked();"><img src="img/tboxmenu.gif" width="345" height="30" /></a></div>'+
 					'<form id="form2" name="form2" method="post" action="/translate">'+
 					'<input type=hidden id="sid" name="sid" value="'+curr_aid+'" />'+
+					'<input type=hidden id="voting" name="voting" value="0" />'+
 					'<input type=hidden id="ori_content" name="ori_content" value="'+$('#bigContentArea').html()+'" />'+
 					'<textarea class="translationArea" id="t_content" name="t_content" style="resize:none"></textarea>'+
 					'</form>'+'</div>').insertAfter('#bigContentArea');
 			
-			$('#bigContentAreaCmt').hide();
+			//$('#bigContentAreaCmt').hide();
 			transMode = 1; // For translate button
 			
 			// make the top-4 translation
+			var translation = '';
 			$.getJSON('/topfour/'+aid, function(data) {
   			
-  				//alert(data.translations);
   			  	 $.each(data.translations,function(i,fb){
 				
-					alert(fb.id);
-				
+					translation += '	<div class="bigContentAreaCmtR1" style="border-top:solid thin #e7e7e7"> ';
+					if (i == 0)
+						translation += '<div id="profilePic_33"><img src="img/profile_mayor.gif" width="49" height="55" alt="profile" /></div> ';
+					else if (i == 1)
+						translation += '<div id="profilePic_33"><img src="img/profile_1st.gif" width="49" height="55" alt="profile" /></div> ';
+					else if (i == 2)
+						translation += '<div id="profilePic_33"><img src="img/profile_2nd.gif" width="49" height="55" alt="profile" /></div> ';
+					else
+						translation += '<div id="profilePic_33"><img src="img/profile_3rd.gif" width="49" height="55" alt="profile" /></div> ';
+					
+					translation += '<div id="profileName_32">'+fb.author_data.name+'</div>'+
+					'<div id="userTranslation">'+fb.t_content+'</div>'+
+					'<div id="rankup_32"><a href="#" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage(\'Image55\',\'\',\'img/btn_rankup_on.gif\',1)"><img src="img/btn_rankup.gif" alt="rank-up" name="Image55" width="128" height="33" border="0" id="Image55" /></a>'+
+					'<div id="rankUpNumber" onselectstart="return false">'+fb.voting+'</div></div>'+
+					'<div id="addfan_32"><a href="#" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage(\'Image56\',\'\',\'img/btn_fans_on.gif\',1)"><img src="img/btn_fans.gif" alt="rank-up" name="Image56" width="103" height="33" border="0" id="Image56" /></a>'+
+					'<div id="fanNumber" onselectstart="return false">136</div></div>'+
+					'<div id="more_32"><a href="#" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage(\'Image57\',\'\',\'img/btn_more_32_on.gif\',1)"><img src="img/btn_more_32.gif" name="Image57" width="40" height="33" border="0" id="Image57" /></a></div>'+
+					'</div>';
 		    	});
+		    	
+		    	$(translation).insertAfter('#bigContentAreaCmt');
+				$('#bigContentAreaCmt').show();
+		    	
 
-  			
+
 			});
 			
 			
@@ -73,6 +95,7 @@
 		else
 		{
 			$('#form2').submit();
+			transMode = 0;
 		}
 		
 	}
@@ -86,7 +109,9 @@
 				width:'109px',
 				margin: '0 0 0 0'
 		});
+		$('.bigContentAreaCmtR1').remove();
 		$('#bigContentAreaCmt').show();
+		$('#bigContentAreaCmtR').show();
 		transMode = 0;
 	}
 	

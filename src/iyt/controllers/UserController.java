@@ -97,7 +97,7 @@ public class UserController {
     	if(result.hasErrors()) return new ModelAndView("user/signup_adv", "user", user);
 	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	user.setAuthorities(EnumSet.of(AppRole.USER));
-	
+	user.setNumFans(0);
 	System.out.println("REGISTER!");
 	Objectify ofy = objectifyFactory.begin();
 	ofy.put(user);

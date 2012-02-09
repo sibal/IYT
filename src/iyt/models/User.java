@@ -28,10 +28,35 @@ public class User implements UserDetails {
     private String name;
     private String fid;
     //private int rank; How can we count the rank?
+    private int numFans;
     
     @Parent Key<User> mayor;
    	@NotSaved User mayor_data;
     
+
+	public int getNumFans() {
+		return numFans;
+	}
+
+	public void setNumFans(int numFans) {
+		this.numFans = numFans;
+	}
+
+	public Key<User> getMayor() {
+		return mayor;
+	}
+
+	public void setMayor(Key<User> mayor) {
+		this.mayor = mayor;
+	}
+
+	public User getMayor_data() {
+		return mayor_data;
+	}
+
+	public void setMayor_data(User mayor_data) {
+		this.mayor_data = mayor_data;
+	}
 
 	public String getFid() {
 		return fid;

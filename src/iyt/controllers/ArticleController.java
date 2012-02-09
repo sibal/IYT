@@ -105,6 +105,7 @@ public class ArticleController {
 		// Translate!
 		translation.setAuthor(author.getKey());
 		ofy.put(translation);
+		System.out.println("Why?");
 		return list();
     }
 	/*

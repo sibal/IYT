@@ -1,8 +1,8 @@
-<!-- Indices written at Thu, 26 Jan 2012 20:21:47 UTC -->
+<!-- Indices written at Thu, 9 Feb 2012 11:32:49 UTC -->
 
 <datastore-indexes>
 
-    <!-- Used 9 times in query history -->
+    <!-- Used 53 times in query history -->
     <datastore-index kind="Translation" ancestor="false" source="auto">
         <property name="sid" direction="asc"/>
         <property name="voting" direction="asc"/>
