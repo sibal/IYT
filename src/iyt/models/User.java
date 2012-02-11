@@ -27,6 +27,7 @@ public class User implements UserDetails {
     private String nick;
     private String name;
     private String fid;
+
     //private int rank; How can we count the rank?
     private int numFans;
     
@@ -71,9 +72,28 @@ public class User implements UserDetails {
     private String password_c;
     @NotSaved
     private int step;
-    private String face_access;
     
-    public String getFace_access() {
+    private String face_access;
+    private String twit_authT="";
+    private String twit_authTS="";
+    
+    public String getTwit_authT() {
+		return twit_authT;
+	}
+
+	public void setTwit_authT(String twit_authT) {
+		this.twit_authT = twit_authT;
+	}
+
+	public String getTwit_authTS() {
+		return twit_authTS;
+	}
+
+	public void setTwit_authTS(String twit_authTS) {
+		this.twit_authTS = twit_authTS;
+	}
+
+	public String getFace_access() {
 		return face_access;
 	}
 

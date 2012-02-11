@@ -210,11 +210,21 @@
 		
       //Use jQuery getJSON method to fetch the data from the url and then create our unordered list with the relevant data.
 
+		  var container = new Array();
 	      $.ajaxSetup({ cache: false }); 
 	      $.getJSON(url, function(json){
 		    var html = "";
 		    //loop through and within data array's retrieve the message variable.
 
+			$.getJSON('/t_getTimeline', function(data){
+
+				alert(data.create_at);				
+			
+			});
+
+
+
+			/*
 		    $.each(json.data,function(i,fb){
 
 				//				html += "<li>"+"<img src='http://graph.facebook.com/"+fb.from.id+"/picture'> " + fb.from.name+" " +fb.message + "</li>"; 
@@ -227,7 +237,7 @@
 				$('#articles').html(html);
 			 });
 			$('#articles').animate({opacity:1}, 500);
-
+			*/
 
 			});
 	};
