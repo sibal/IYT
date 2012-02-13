@@ -18,6 +18,7 @@
 	<link rel="StyleSheet" href="/css/main.css" type="text/css"/>
 	<script language="javascript" src="/js/jquery17.js"></script>
 	<script language="javascript" src="/js/common.js"></script>
+	<script language="javascript" src="/js/jquery.form.js"></script>
 </head>
 	
 <script type="text/javascript">
@@ -25,9 +26,8 @@
 
 	var access = '<%= user.getFace_access() %>';
 	var curr_aid = '';
-	var transMode = 0;
 	
-	function translateClicked(aid)
+	function translateClicked(aid, transMode)
 	{
 	
 		if (transMode == 0)
@@ -37,13 +37,10 @@
 			//$('').append(function());
 			$('#bigContentAreaMenu').hide();
 			$('#bigContentAreaCmtR').hide();
-			$('#bigContentAreaBtn').css({
-				width:'109px',
-				margin: '25px 0 5px 0'
-			});
-		
+			$('#bigContentAreaBtn').remove();
 			// make the area of translation
 			$('<div id="bigContentAreaMenu1"><a href="8.html"><img src="img/btn_bigger_screen.gif" width="32" height="32" alt="big screen" /></a></div>').insertAfter('#bigContentArea');
+			
 			$('<div id="bigContentTranslation">'+
 					'<div id="tboxtop"><a onClick="closeClicked();"><img src="img/tboxmenu.gif" width="345" height="30" /></a></div>'+
 					'<form id="form2" name="form2" method="post" action="/translate">'+
@@ -54,7 +51,7 @@
 					'</form>'+'</div>').insertAfter('#bigContentArea');
 			
 			//$('#bigContentAreaCmt').hide();
-			transMode = 1; // For translate button
+			$('<div id="bigContentAreaBtn1"><a href="#" onClick="translateClicked(\''+aid+'\',1);"><img src="img/btn_big_translate.gif" width="109" height="31" alt="translate" /></a></div>').insertAfter('#bigContentAreaMenu1');
 			
 			// make the top-4 translation
 			var translation = '';
@@ -74,8 +71,8 @@
 					
 					translation += '<div id="profileName_32">'+fb.author_data.name+'</div>'+
 					'<div id="userTranslation">'+fb.t_content+'</div>'+
-					'<div id="rankup_32"><a href="#" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage(\'Image55\',\'\',\'img/btn_rankup_on.gif\',1)"><img src="img/btn_rankup.gif" alt="rank-up" name="Image55" width="128" height="33" border="0" id="Image55" /></a>'+
-					'<div id="rankUpNumber" onselectstart="return false">'+fb.voting+'</div></div>'+
+					'<div id="rankup_32"><a href="#" onclick="vote(\''+fb.id+'\','+i+');" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage(\'Image55\',\'\',\'img/btn_rankup_on.gif\',1)"><img src="img/btn_rankup.gif" alt="rank-up" name="Image55" width="128" height="33" border="0" id="Image55" /></a>'+
+					'<div class="rankUpNumber" id="rankUpNumber'+i+'" onselectstart="return false">'+fb.voting+'</div></div>'+
 					'<div id="addfan_32"><a href="#" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage(\'Image56\',\'\',\'img/btn_fans_on.gif\',1)"><img src="img/btn_fans.gif" alt="rank-up" name="Image56" width="103" height="33" border="0" id="Image56" /></a>'+
 					'<div id="fanNumber" onselectstart="return false">136</div></div>'+
 					'<div id="more_32"><a href="#" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage(\'Image57\',\'\',\'img/btn_more_32_on.gif\',1)"><img src="img/btn_more_32.gif" name="Image57" width="40" height="33" border="0" id="Image57" /></a></div>'+
@@ -89,13 +86,58 @@
 
 			});
 			
+			$('#form2').ajaxForm();			
 			
 
 		}
 		else
 		{
-			$('#form2').submit();
-			transMode = 0;
+			
+		
+			var queryString = $('#form2').formSerialize(); 
+		 
+			// the data could now be submitted using $.get, $.post, $.ajax, etc 
+			$.post('/translate', queryString, function(response){
+			    
+			    //location.href = "/translations";
+			    // alert(response);
+			    
+			    $.getJSON('/topfour/'+aid, function(data) {
+  			
+  					$('.bigContentAreaCmtR1').remove();
+  					
+ 
+  			  	 $.each(data.translations,function(i,fb){
+				
+					translation += '	<div class="bigContentAreaCmtR1" style="border-top:solid thin #e7e7e7"> ';
+					if (i == 0)
+						translation += '<div id="profilePic_33"><img src="img/profile_mayor.gif" width="49" height="55" alt="profile" /></div> ';
+					else if (i == 1)
+						translation += '<div id="profilePic_33"><img src="img/profile_1st.gif" width="49" height="55" alt="profile" /></div> ';
+					else if (i == 2)
+						translation += '<div id="profilePic_33"><img src="img/profile_2nd.gif" width="49" height="55" alt="profile" /></div> ';
+					else
+						translation += '<div id="profilePic_33"><img src="img/profile_3rd.gif" width="49" height="55" alt="profile" /></div> ';
+					
+					translation += '<div id="profileName_32">'+fb.author_data.name+'</div>'+
+					'<div id="userTranslation">'+fb.t_content+'</div>'+
+					'<div id="rankup_32"><a href="#" onclick="vote(\''+fb.id+'\', '+i+');" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage(\'Image55\',\'\',\'img/btn_rankup_on.gif\',1)"><img src="img/btn_rankup.gif" alt="rank-up" name="Image55" width="128" height="33" border="0" id="Image55" /></a>'+
+					'<div class="rankUpNumber" id="rankUpNumber'+i+'" onselectstart="return false">'+fb.voting+'</div></div>'+
+					'<div id="addfan_32"><a href="#" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage(\'Image56\',\'\',\'img/btn_fans_on.gif\',1)"><img src="img/btn_fans.gif" alt="rank-up" name="Image56" width="103" height="33" border="0" id="Image56" /></a>'+
+					'<div id="fanNumber" onselectstart="return false">136</div></div>'+
+					'<div id="more_32"><a href="#" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage(\'Image57\',\'\',\'img/btn_more_32_on.gif\',1)"><img src="img/btn_more_32.gif" name="Image57" width="40" height="33" border="0" id="Image57" /></a></div>'+
+					'</div>';
+		    	});
+		    	
+		    	$(translation).insertAfter('#bigContentAreaCmt');
+				$('#bigContentAreaCmt').show();
+		    	
+
+
+			}); 
+			
+			}); 
+	
 		}
 		
 	}
@@ -105,20 +147,17 @@
 		$('#bigContentAreaMenu').show();
 		$('#bigContentAreaMenu1').remove();
 		$('#bigContentTranslation').remove();
-		$('#bigContentAreaBtn').css({
-				width:'109px',
-				margin: '0 0 0 0'
-		});
 		$('.bigContentAreaCmtR1').remove();
 		$('#bigContentAreaCmt').show();
 		$('#bigContentAreaCmtR').show();
-		transMode = 0;
+		$('#bigContentAreaBtn1').remove();
+		$('#bigContentAreaBtn').show();
 	}
 	
 
-	function showDetail(aid)
+	function showDetail(aid, flag)
 	{
-		transMode = 0;
+	
 		curr_aid = aid;
 		// hide side bar
 		$('#statArea').hide();
@@ -129,6 +168,8 @@
 		$('#sidebar1').css("width","396px");
 		$('#sidebar1').css("padding","0");
 
+		if (flag == 0)
+		{
 		var url = "https://graph.facebook.com/"+aid+"?access_token="+access+"&callback=?";
 		$.getJSON(url, function(json) {
             var flag = 0;
@@ -150,7 +191,7 @@
 			'<div id="profileIdNameDiv" style="margin-top:20px"><span class="profile_id">'+json.from.name+'</span></div>'+
 			'<div id="bigContentArea">'+json.message+'</div>'+
   			'<div id="bigContentAreaMenu"> <span class="articleSubMenu_time">1 minute ago  </span><span class="articleSubMenu_facebook">&nbsp;<a onclick="fbLike(\''+json.id+'\');">Like</a>&nbsp;&nbsp;<a onclick="">Comment</a></span></div>'+
-			'<div id="bigContentAreaBtn"><a onClick="translateClicked(\''+aid+'\')"><img src="img/btn_big_translate.gif" width="109" height="31" alt="translate" /></a></div>'+
+			'<div id="bigContentAreaBtn"><a onClick="translateClicked(\''+aid+'\', 0)"><img src="img/btn_big_translate.gif" width="109" height="31" alt="translate" /></a></div>'+
 			'<br />'+
 			'<div id="bigContentAreaCmt"><img src="img/side_cmtopn.gif" width="394" height="8" />';
             
@@ -200,27 +241,104 @@
 			$('#sidebar1').animate({opacity:1},200);
 
 		});
+		
+		}
+		else
+		{
+			
+		var url = "/t_getTweet/"+aid;
+		$.getJSON(url, function(json) {
+
+			var html="";
+			html='<div id="profilePicLong"><img src="img/tw_ico_bw.gif" width="48" height="48" /><img src="'+json.user.profile_image_url+'" width="48" height="48" alt="profile" /></div>'+
+			'<div id="profileIdNameDiv" style="margin-top:20px"><span class="profile_id">'+json.user.name+'</span></div>'+
+			'<div id="bigContentArea">'+json.text+'</div>'+
+  			'<div id="bigContentAreaMenu"> <span class="articleSubMenu_time">1 minute ago  </span></div>'+
+			'<div id="bigContentAreaBtn"><a onClick="translateClicked(\''+aid+'\')"><img src="img/btn_big_translate.gif" width="109" height="31" alt="translate" /></a></div>'+
+			'<br />'+
+			'<div id="bigContentAreaCmt"><img src="img/side_cmtopn.gif" width="394" height="8" />';
+            
+			html += "</div>";
+
+			html += '<!-- hide/show -->'+
+				'<div id="hideShowMenu" class="hideShowMenuStyle" style="visibility:hidden">'+
+				'<div id="hsm_pic"><img src="img/profile_90_90.gif" width="20" height="20" /></div>'+
+				'<div id="hsm_id">johnniek7</div>'+
+				'<div id="hsm_menu" style="margin: 21px 0 0 23px"><a href="12.html">Account Settings</a></div>'+
+				'<div id="hsm_menu" style="margin: 13px 0 0 23px">Help Center</div>'+
+				'<div id="hsm_menu" style="margin: 13px 0 0 23px"><a href="1-edit.html">Log Out</a></div>'+
+				'</div>';
+			$('#sidebar1').html(html);
+			$('#sidebar1').animate({opacity:0}, 200, function() {
+				$('#sidebar1').show();
+			});
+			$('#sidebar1').animate({opacity:1},200);
+			
+			alert("complete");
+		});
+		
+		}
 
 	};
 
 		
 	function fbFetch(){
 	  //Set Url of JSON data from the facebook graph api. make sure callback is set with a '?' to overcome the cross domain problems with JSON
-      var url = "https://graph.facebook.com/me/home?limit=10&access_token="+access+"&fields=id,from,message,comments,likes&callback=?";
+      var url = "https://graph.facebook.com/me/home?limit=10&access_token="+access+"&date_format=U&fields=id,from,message,comments,likes&callback=?";
 		
       //Use jQuery getJSON method to fetch the data from the url and then create our unordered list with the relevant data.
 
-		  var container = new Array();
+		  var container1 = new Array();
+		  var container2 = new Array();
 	      $.ajaxSetup({ cache: false }); 
 	      $.getJSON(url, function(json){
 		    var html = "";
 		    //loop through and within data array's retrieve the message variable.
 
-			$.getJSON('/t_getTimeline', function(data){
+  				$.each(json.data,function(i,fb){
 
-				alert(data.create_at);				
+				//				html += "<li>"+"<img src='http://graph.facebook.com/"+fb.from.id+"/picture'> " + fb.from.name+" " +fb.message + "</li>"; 
+				//html+= "<div id='articleBox' onClick='showDetail(\""+fb.id+"\");' style='cursor:hand; cursor: pointer;'><div id='profilePic'><img src='http://graph.facebook.com/"+fb.from.id+"/picture' width='48' height='48' alt='profile' /></div><div id='profileText'><span class='content_id'><img src='img/fb_ico.gif' width='18' height='18' align='absmiddle' /> "+fb.from.name+"</span> </div><div id='timelineContent'><span class='timelineContent_normal'>"+fb.message+"</span></div><div id='articleSubMenu'><span class='articleSubMenu_time'>1 minute ago / </span><img src='img/fb_like.gif' width='17' height='15' align='absmiddle' class='textmiddle' /><span class='articleSubMenu_facebook'>Like&nbsp;<img src='img/fb_cmt.gif' width='17' height='15' align='absmiddle' class='textmiddle' />Comment</span>&nbsp;<img src='img/translate.gif' width='17' height='15' align='absmiddle' class='textmiddle' /><span class='articleSubMenu_iyoutranslate'>Translate!</span></div></div>";
+				
+				container1.push(fb);
+								
+		    	});
+
+			$.getJSON('/t_getTimeline.json',  function(data){
+			//alert('test');
+				$.each(data.statuses, function (i,tw){
+					container2.push(tw);
+				
+				});
+				
+				var count1 = 0;
+				var count2 = 0;
+				
+				for(j=0;j<20;j++)
+				{
+									
+					if (count1 < 10 && (count2 == 10 || new Date(container1[count1].created_time*1000) > new Date(Date.parse(container2[count2].created_at.replace(/(\+\S+) (.*)/, '$2 $1')))))
+					{
+						html+= "<div id='articleBox' onClick='showDetail(\""+container1[count1].id+"\", 0);' style='cursor:hand; cursor: pointer;'><div id='profilePic'><img src='http://graph.facebook.com/"+container1[count1].from.id+"/picture' width='48' height='48' alt='profile' /></div><div id='profileText'><span class='content_id'><img src='img/fb_ico.gif' width='18' height='18' align='absmiddle' /> "+container1[count1].from.name+"</span> </div><div id='timelineContent'><span class='timelineContent_normal'>"+container1[count1].message+"</span></div><div id='articleSubMenu'><span class='articleSubMenu_time'>"+container1[count1].created_time+" / </span><img src='img/fb_like.gif' width='17' height='15' align='absmiddle' class='textmiddle' /><span class='articleSubMenu_facebook'>Like&nbsp;<img src='img/tw_cmt.gif' width='17' height='15' align='absmiddle' class='textmiddle' />Comment</span>&nbsp;<img src='img/translate.gif' width='17' height='15' align='absmiddle' class='textmiddle' /><span class='articleSubMenu_iyoutranslate'>Translate!</span></div></div>";
+						count1++;
+					}
+					else
+					{
+				
+						html+= "<div id='articleBox' onClick='showDetail(\""+container2[count2].id_str+"\", 1);' style='cursor:hand; cursor: pointer;'><div id='profilePic'><img src='"+container2[count2].user.profile_image_url+"' width='48' height='48' alt='profile' /></div><div id='profileText'><span class='content_id'><img src='img/tw_ico.gif' width='18' height='18' align='absmiddle' /> "+container2[count2].user.name+"</span> </div><div id='timelineContent'><span class='timelineContent_normal'>"+container2[count2].text+"</span></div><div id='articleSubMenu'><span class='articleSubMenu_time'>"+container2[count2].created_at+" / </span><img src='img/fb_like.gif' width='17' height='15' align='absmiddle' class='textmiddle' /><span class='articleSubMenu_facebook'>Like&nbsp;<img src='img/fb_cmt.gif' width='17' height='15' align='absmiddle' class='textmiddle' />Comment</span>&nbsp;<img src='img/translate.gif' width='17' height='15' align='absmiddle' class='textmiddle' /><span class='articleSubMenu_iyoutranslate'>Translate!</span></div></div>";
+						count2++;
+					}
+				}	
+				
+				$('#articles').animate({opacity:0}, 500, function(){
+
+					$('#articles').html(html);
+			 	});
+				$('#articles').animate({opacity:1}, 500);							
 			
 			});
+			
+			
 
 
 
@@ -232,37 +350,29 @@
 		    	});
 
 			//A little animation once fetched
-			$('#articles').animate({opacity:0}, 500, function(){
 
-				$('#articles').html(html);
-			 });
-			$('#articles').animate({opacity:1}, 500);
 			*/
 
 			});
 	};
 	
 	
-	function vote(tid){
-	  $.ajax({	  	
-	  		url: '/dovote/'+tid,
-    		type: 'GET',
-    		timeout: 1000,
-    		error: function(){
-		        alert('error');
-	    	},
-	    	success: function(a){
-        		// do something with a
-        		if (a=="-1")
+	function vote(tid, order){
+	
+		$.getJSON('/dovote/'+tid, function(data){
+		
+		        		// do something with a
+        		if (data.success==0)
         		{
-        		
+        			alert("You were already vote this translation!");
         		}
         		else
         		{
-        		
+        			$('#rankUpNumber'+order).html(data.voting);
         		}
-    		}
-		});		
+		
+		});
+	
 	};
 	
 

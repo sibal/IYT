@@ -6,6 +6,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.io.*;
 
 import iyt.enums.AppRole;
 import iyt.models.*;
@@ -22,7 +23,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.http.HttpHeaders;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -39,12 +45,14 @@ import twitter4j.TwitterFactory;
 import twitter4j.TwitterException;
 import twitter4j.auth.RequestToken;
 import twitter4j.auth.AccessToken;
+import twitter4j.json.DataObjectFactory;
 import twitter4j.Paging;
 import twitter4j.Status;
+import twitter4j.conf.ConfigurationBuilder;
 
 @Controller
 public class ArticleController {
-	Twitter twitter = new TwitterFactory().getInstance();
+	Twitter twitter;
 	ArticleValidator articleValidator;
 	final String CONSUMER_KEY = "KbEdWRWMaVZenArbG13g";
 	final String CONSUMER_SECRET = "eXKS9NQwlLTwV1vgldsrcreGnYdLx0im5j7krgGAVY";
@@ -53,9 +61,20 @@ public class ArticleController {
 	@Autowired private ObjectifyFactory objectifyFactory;
 	@Autowired
 	public ArticleController(ArticleValidator articleValidator){
+
+		ConfigurationBuilder cb = new ConfigurationBuilder();
+		cb.setJSONStoreEnabled(true);
+		TwitterFactory tf = new TwitterFactory(cb.build());		
+		twitter = tf.getInstance();
+		
 		this.articleValidator = articleValidator;
 		twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET); 
 		System.out.println("Consumer_key is completed");
+		
+		OutputStreamWriter out = new OutputStreamWriter(new ByteArrayOutputStream()); 
+		String encoding = out.getEncoding();  
+		System.out.println(encoding);
+
 	}
 	
 	/*
@@ -128,31 +147,55 @@ public class ArticleController {
 		return new ModelAndView("redirect:/");
     }
 	
-	@RequestMapping(value="/t_getTimeline", method=RequestMethod.GET)
-	@ResponseBody
-    public String twitTimeline() {
+	@RequestMapping(value="/t_getTimeline.json", method=RequestMethod.GET)
+    public ResponseEntity<String> twitTimeline() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		Objectify ofy = objectifyFactory.begin();
 		User user = (User)authentication.getPrincipal();
-		System.out.println("go");
 		AccessToken accessToken = new AccessToken(user.getTwit_authT(), user.getTwit_authTS());
 		twitter.setOAuthAccessToken(accessToken);
-		System.out.println("go2");
 		List<Status> statuses = null; 
 		Paging page = new Paging();
-		page.count(20);
+		page.count(10);
 		page.setPage(1);
 		String result = "";
-		System.out.println("go3");
 		try {   
 			statuses = twitter.getHomeTimeline(page);
-			System.out.println("go4");
 		} catch (TwitterException e) {
 				System.out.println(e.getErrorMessage());
-		} 
+		}
 		
 		/*
+		JsonConfig config = new JsonConfig();
+	     config.setJsonPropertyFilter(new PropertyFilter() {
+	        public boolean apply(Object source, String name, Object value) {
+	              if ("createdAt".equals(name)) {
+	                  return false;
+	              }
+	              return true;
+	           }
+	       });
+		
+		*/
+		
+		String results = "{\"statuses\":[";
+		int count = 0;
+
 		for (Status status : statuses) {
+			count ++;
+			System.out.println(status.getCreatedAt());
+			/*
+			results += "{";
+			
+			results += "\"name\":\""+status.getUser().getName()+"\",";
+			results += "\"text\":\""+status.getText().replaceAll("\n", "\\n")+"\",";
+			results += "\"created_at\":\""+status.getCreatedAt()+"\",";
+			results += "\"profileImageUrl\":\""+status.getUser().getProfileImageURL()+"\"";
+			
+			results += "}";
+			*/
+			
+			results += DataObjectFactory.getRawJSON(status);
 			//status.getId()
 			//status.getUser().getName()
 			//status.getUser().getScreenName() 
@@ -161,29 +204,53 @@ public class ArticleController {
 			//status.getUser().getProfileImageURL()
 			//status.getSource()}
 			
-			result += status.getUser().getName();
+			if (count == statuses.size())
+				results += "]}";
+			else
+				results += ",";
 			
-		}*/
+		//result += status.getUser().getName();
+			System.out.println(DataObjectFactory.getRawJSON(status));
+			
+		}
 		
-		JsonConfig config = new JsonConfig();
-	     config.setJsonPropertyFilter(new PropertyFilter() {
-	        public boolean apply(Object source, String name, Object value) {
-	              if ("name".equals(name) || "screen_name".equals(name) || "createdAt".equals(name) || "text".equals(name) || "profile_image_url".equals(name)) {
-	                  return false;
-	              }
-	              return true;
-	           }
-	       });
+		System.out.println(results);
+	
 		
-		System.out.println(statuses.size());
-		JSONArray jsonArray = JSONArray.fromObject(statuses, config);
-		System.out.println("test:"+jsonArray.toString());
-		Map<String, Object> map = new HashMap<String, Object> ();
-		map.put("statuses",jsonArray);
-		JSONObject jsonObject = JSONObject.fromObject(map);
+		HttpHeaders responseHeaders = new HttpHeaders(); 
+		responseHeaders.add("Content-Type", "application/json; charset=ascii");
+		return new ResponseEntity<String>(results, responseHeaders, HttpStatus.CREATED); 
+
 		
-		return jsonObject.toString();
+		
+		//return results; 
     }
+	
+	@RequestMapping(value="/t_getTweet/{aid}", method=RequestMethod.GET)
+	@ResponseBody
+    public String twitTweet(@PathVariable String aid, HttpServletRequest request, HttpServletResponse response) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		Objectify ofy = objectifyFactory.begin();
+		User user = (User)authentication.getPrincipal();
+		AccessToken accessToken = new AccessToken(user.getTwit_authT(), user.getTwit_authTS());
+		twitter.setOAuthAccessToken(accessToken);
+		Status status = null; 
+		String result = "";
+		System.out.println(aid);
+		try {   
+			status = twitter.showStatus(Long.parseLong(aid));
+		} catch (TwitterException e) {
+				System.out.println(e.getErrorMessage());
+		}
+		System.out.println("what");
+		response.setContentType("text/plain; charset=UTF-8");
+		System.out.println(response.getCharacterEncoding());
+		System.out.println(status);
+		response.setCharacterEncoding("UTF-8");
+		System.out.println(DataObjectFactory.getRawJSON(status));
+		return DataObjectFactory.getRawJSON(status);
+    }
+	
 	
 	
 	@RequestMapping(value="/", method=RequestMethod.GET)
@@ -222,7 +289,8 @@ public class ArticleController {
 	
 	// For register translation
 	@RequestMapping(value="/translate", method=RequestMethod.POST)
-    public ModelAndView doTranslate(@ModelAttribute("command") Translation translation, BindingResult result ) {
+	
+    public @ResponseBody String doTranslate(@ModelAttribute("command") Translation translation, BindingResult result ) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		Objectify ofy = objectifyFactory.begin();
 		User author = (User)authentication.getPrincipal();
@@ -230,7 +298,8 @@ public class ArticleController {
 		translation.setAuthor(author.getKey());
 		ofy.put(translation);
 		System.out.println("Why?");
-		return list();
+		Translation t = ofy.get(translation.getKey());		
+		return "{\"success\":\""+t.getKey()+"\"}";
     }
 	/*
 	// For showing translations
@@ -257,7 +326,7 @@ public class ArticleController {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		User user = (User)authentication.getPrincipal();
 		Objectify ofy = objectifyFactory.begin();
-		Query<Translation> q = ofy.query(Translation.class).ancestor(user.getKey());
+		Query<Translation> q = ofy.query(Translation.class).filter("author", user.getKey());
 
 		List<Translation> translations = new ArrayList<Translation>();
 		for(Translation a: q) {
@@ -281,7 +350,7 @@ public class ArticleController {
 		User user = (User)authentication.getPrincipal();
 		Objectify ofy = objectifyFactory.begin();
 		System.out.println(sid);
-		Query<Translation> q = ofy.query(Translation.class).filter("sid", sid).order("voting").limit(4);
+		Query<Translation> q = ofy.query(Translation.class).filter("sid", sid).order("-voting").limit(4);
 		//Query<Translation> q = ofy.query(Translation.class).ancestor(user.getKey());
 		
 		ArrayList<Translation> translations = new ArrayList<Translation>();
@@ -330,13 +399,24 @@ public class ArticleController {
 		//What the hell?
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		User user = (User)authentication.getPrincipal();
-		Translation translation = ofy.get(Translation.class, t_id);
+		System.out.println(t_id);
+		Translation translation = ofy.get(Translation.class, Long.parseLong(t_id));
+		System.out.println("test2");
+		
+		if(ofy.query(Vote.class).filter("voter", user.getKey()).filter("target", translation.getKey()).count() > 0)
+		{
+			return "{\"success\":0}";
+		}
 		
 		Vote vote = new Vote(user, translation);
 		translation.setVoting(translation.getVoting()+1);
 		ofy.put(vote);
+		ofy.put(translation);
 		
-		return translation.getVoting()+"";
+		Translation t = ofy.get(translation.getKey());
+		
+		System.out.println("{\"voting\":"+t.getVoting()+", \"success\":1}");
+		return "{\"voting\":"+t.getVoting()+", \"success\":1}";
 	}
 	
 	// cancle vote

@@ -517,6 +517,18 @@ body {
 	line-height:130%;
 }
 
+.twoColFixRtHdr #bigContentAreaBtn1 {
+	float:left;
+	width:109px;
+	height:auto;
+	padding:0;
+	margin: 25px 0 5px 0;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "¸¼Àº °íµñ";
+	color:#888;
+	font-size:10px;
+	line-height:130%;
+}
+
 .twoColFixRtHdr #bigContentAreaCmt {
 	float:left;
 	width:395px;
@@ -719,7 +731,7 @@ body {
 	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "¸¼Àº °íµñ";
 }
 
-.twoColFixRtHdr #rankUpNumber {
+.twoColFixRtHdr .rankUpNumber {
 	/* ·©Å©¾÷ °³¼ö ÅØ½ºÆ® */
 	position:relative;
 	left:36px;

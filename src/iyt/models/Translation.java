@@ -7,7 +7,7 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.*;
 
 public class Translation {
-	@Parent Key<User> author;
+	@Indexed Key<User> author;
 	@NotSaved User author_data;
 	//@Parent Key<Article> article;
 	//@NotSaved Article article_data;
