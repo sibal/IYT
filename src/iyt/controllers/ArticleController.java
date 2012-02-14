@@ -147,7 +147,7 @@ public class ArticleController {
 		return new ModelAndView("redirect:/");
     }
 	
-	@RequestMapping(value="/t_getTimeline.json", method=RequestMethod.GET)
+	@RequestMapping(value="/t_getTimeline", method=RequestMethod.GET)
     public ResponseEntity<String> twitTimeline() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		Objectify ofy = objectifyFactory.begin();
@@ -188,7 +188,8 @@ public class ArticleController {
 			results += "{";
 			
 			results += "\"name\":\""+status.getUser().getName()+"\",";
-			results += "\"text\":\""+status.getText().replaceAll("\n", "\\n")+"\",";
+			results += "\"id\":\""+status.getId()+"\",";
+			results += "\"text\":\""+status.getText()+"\",";
 			results += "\"created_at\":\""+status.getCreatedAt()+"\",";
 			results += "\"profileImageUrl\":\""+status.getUser().getProfileImageURL()+"\"";
 			
@@ -205,7 +206,7 @@ public class ArticleController {
 			//status.getSource()}
 			
 			if (count == statuses.size())
-				results += "]}";
+				results += "]";
 			else
 				results += ",";
 			
@@ -214,12 +215,22 @@ public class ArticleController {
 			
 		}
 		
-		System.out.println(results);
+		results += "}}";
+		String real_result = "";
+		try {
+			real_result = new String(results.getBytes("utf-8"), "utf-8");
+			//real_result = real_result.replace( "\r\n", "\\r\\n" );
+		System.out.println(real_result);
+		}
+		catch(Exception e)
+		{
+			
+		}
 	
 		
 		HttpHeaders responseHeaders = new HttpHeaders(); 
-		responseHeaders.add("Content-Type", "application/json; charset=ascii");
-		return new ResponseEntity<String>(results, responseHeaders, HttpStatus.CREATED); 
+		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
+		return new ResponseEntity<String>(real_result, responseHeaders, HttpStatus.CREATED); 
 
 		
 		

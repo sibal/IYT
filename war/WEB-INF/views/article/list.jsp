@@ -17,6 +17,7 @@
 	<link rel="StyleSheet" href="/css/default.css" type="text/css"/>
 	<link rel="StyleSheet" href="/css/main.css" type="text/css"/>
 	<script language="javascript" src="/js/jquery17.js"></script>
+	<script language="javascript" src="/js/jquery.validate.js"></script>
 	<script language="javascript" src="/js/common.js"></script>
 	<script language="javascript" src="/js/jquery.form.js"></script>
 </head>
@@ -304,9 +305,49 @@
 								
 		    	});
 
-			$.getJSON('/t_getTimeline.json',  function(data){
-			//alert('test');
-				$.each(data.statuses, function (i,tw){
+		
+		$.ajaxSetup({
+ 
+            error:function(x,e, a){
+ 
+                  if(x.status==0){
+ 
+                  alert('You are offline!!\n Please Check Your Network.');
+ 
+                  }else if(x.status==404){
+ 
+                  alert('Requested URL not found.');
+ 
+                  }else if(x.status==500){
+ 
+                  alert('Internel Server Error.');
+ 
+                  }else if(e=='parsererror'){
+ 
+                  alert('Error.\nParsing JSON Request failed.' + a);
+ 
+                  }else if(e=='timeout'){
+ 
+                  alert('Request Time out.');
+ 
+                  }else {
+ 
+                  alert('Unknow Error.\n'+x.responseText);
+ 
+                  }
+ 
+            },
+            
+            dataType: "html",
+			contentType: "text/html; charset=utf-8"
+            
+ 
+      });
+		
+			
+			$.getJSON('/t_getTimeline',  function(oo){
+			alert('test');
+				$.each(oo.statuses, function (i,tw){
 					container2.push(tw);
 				
 				});
@@ -337,7 +378,6 @@
 				$('#articles').animate({opacity:1}, 500);							
 			
 			});
-			
 			
 
 
