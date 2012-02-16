@@ -14,13 +14,41 @@ public class Translation {
 	@Indexed @Id Long id;
 	@Indexed String sid;
     String t_content;
-    String ori_content;
+    String t_lan;
+	String ori_content;
+    String ori_lan;
     int voting;
     @Indexed Date created_at;
     @Indexed Date updated_at;
     
     
-    public Key<Translation> getKey() {
+    
+    
+    public String getT_lan() {
+		return t_lan;
+	}
+
+
+
+	public void setT_lan(String t_lan) {
+		this.t_lan = t_lan;
+	}
+
+
+
+	public String getOri_lan() {
+		return ori_lan;
+	}
+
+
+
+	public void setOri_lan(String ori_lan) {
+		this.ori_lan = ori_lan;
+	}
+
+
+
+	public Key<Translation> getKey() {
     	return new Key<Translation>(Translation.class, id);
     }
     

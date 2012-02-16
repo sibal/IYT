@@ -17,7 +17,6 @@
 	<link rel="StyleSheet" href="/css/default.css" type="text/css"/>
 	<link rel="StyleSheet" href="/css/main.css" type="text/css"/>
 	<script language="javascript" src="/js/jquery17.js"></script>
-	<script language="javascript" src="/js/jquery.validate.js"></script>
 	<script language="javascript" src="/js/common.js"></script>
 	<script language="javascript" src="/js/jquery.form.js"></script>
 </head>
@@ -26,7 +25,6 @@
 
 
 	var access = '<%= user.getFace_access() %>';
-	var curr_aid = '';
 	
 	function translateClicked(aid, transMode)
 	{
@@ -45,8 +43,10 @@
 			$('<div id="bigContentTranslation">'+
 					'<div id="tboxtop"><a onClick="closeClicked();"><img src="img/tboxmenu.gif" width="345" height="30" /></a></div>'+
 					'<form id="form2" name="form2" method="post" action="/translate">'+
-					'<input type=hidden id="sid" name="sid" value="'+curr_aid+'" />'+
+					'<input type=hidden id="sid" name="sid" value="'+aid+'" />'+
 					'<input type=hidden id="voting" name="voting" value="0" />'+
+					'<input type=hidden id="ori_lan" name="ori_lan" value="" />'+
+					'<input type=hidden id="t_lan" name="t_lan" value="" />'+
 					'<input type=hidden id="ori_content" name="ori_content" value="'+$('#bigContentArea').html()+'" />'+
 					'<textarea class="translationArea" id="t_content" name="t_content" style="resize:none"></textarea>'+
 					'</form>'+'</div>').insertAfter('#bigContentArea');
@@ -96,7 +96,6 @@
 			
 		
 			var queryString = $('#form2').formSerialize(); 
-		 
 			// the data could now be submitted using $.get, $.post, $.ajax, etc 
 			$.post('/translate', queryString, function(response){
 			    
@@ -159,7 +158,6 @@
 	function showDetail(aid, flag)
 	{
 	
-		curr_aid = aid;
 		// hide side bar
 		$('#statArea').hide();
 		$('#statArea2').hide();
@@ -285,7 +283,7 @@
 		
 	function fbFetch(){
 	  //Set Url of JSON data from the facebook graph api. make sure callback is set with a '?' to overcome the cross domain problems with JSON
-      var url = "https://graph.facebook.com/me/home?limit=10&access_token="+access+"&date_format=U&fields=id,from,message,comments,likes&callback=?";
+      var url = "https://graph.facebook.com/me/home?limit=5&access_token="+access+"&date_format=U&fields=id,from,message,comments,likes&callback=?";
 		
       //Use jQuery getJSON method to fetch the data from the url and then create our unordered list with the relevant data.
 
@@ -306,47 +304,7 @@
 		    	});
 
 		
-		$.ajaxSetup({
- 
-            error:function(x,e, a){
- 
-                  if(x.status==0){
- 
-                  alert('You are offline!!\n Please Check Your Network.');
- 
-                  }else if(x.status==404){
- 
-                  alert('Requested URL not found.');
- 
-                  }else if(x.status==500){
- 
-                  alert('Internel Server Error.');
- 
-                  }else if(e=='parsererror'){
- 
-                  alert('Error.\nParsing JSON Request failed.' + a);
- 
-                  }else if(e=='timeout'){
- 
-                  alert('Request Time out.');
- 
-                  }else {
- 
-                  alert('Unknow Error.\n'+x.responseText);
- 
-                  }
- 
-            },
-            
-            dataType: "html",
-			contentType: "text/html; charset=utf-8"
-            
- 
-      });
-		
-			
 			$.getJSON('/t_getTimeline',  function(oo){
-			alert('test');
 				$.each(oo.statuses, function (i,tw){
 					container2.push(tw);
 				
@@ -355,18 +313,18 @@
 				var count1 = 0;
 				var count2 = 0;
 				
-				for(j=0;j<20;j++)
+				for(j=0;j<10;j++)
 				{
-									
-					if (count1 < 10 && (count2 == 10 || new Date(container1[count1].created_time*1000) > new Date(Date.parse(container2[count2].created_at.replace(/(\+\S+) (.*)/, '$2 $1')))))
+													
+					if (count1 < 5 && (count2 == 5 || new Date(container1[count1].created_time*1000) > new Date(Date.parse(container2[count2].created_at.replace(/(\+\S+) (.*)/, '$2 $1')))))
 					{
-						html+= "<div id='articleBox' onClick='showDetail(\""+container1[count1].id+"\", 0);' style='cursor:hand; cursor: pointer;'><div id='profilePic'><img src='http://graph.facebook.com/"+container1[count1].from.id+"/picture' width='48' height='48' alt='profile' /></div><div id='profileText'><span class='content_id'><img src='img/fb_ico.gif' width='18' height='18' align='absmiddle' /> "+container1[count1].from.name+"</span> </div><div id='timelineContent'><span class='timelineContent_normal'>"+container1[count1].message+"</span></div><div id='articleSubMenu'><span class='articleSubMenu_time'>"+container1[count1].created_time+" / </span><img src='img/fb_like.gif' width='17' height='15' align='absmiddle' class='textmiddle' /><span class='articleSubMenu_facebook'>Like&nbsp;<img src='img/tw_cmt.gif' width='17' height='15' align='absmiddle' class='textmiddle' />Comment</span>&nbsp;<img src='img/translate.gif' width='17' height='15' align='absmiddle' class='textmiddle' /><span class='articleSubMenu_iyoutranslate'>Translate!</span></div></div>";
+						html+= "<div id='articleBox' onClick='showDetail(\""+container1[count1].id+"\", 0);' style='cursor:hand; cursor: pointer;'><div id='profilePic'><img src='http://graph.facebook.com/"+container1[count1].from.id+"/picture' width='48' height='48' alt='profile' /></div><div id='profileText'><span class='content_id'><img src='img/fb_ico.gif' width='18' height='18' align='absmiddle' /> "+container1[count1].from.name+"</span> </div><div id='timelineContent'><span class='timelineContent_normal'>"+container1[count1].message+"</span></div><div id='articleSubMenu'><span class='articleSubMenu_time'>"+container1[count1].created_time+" / </span><img src='img/fb_like.gif' width='17' height='15' align='absmiddle' class='textmiddle' /><span class='articleSubMenu_facebook'>Like&nbsp;<img src='img/fb_cmt.gif' width='17' height='15' align='absmiddle' class='textmiddle' />Comment</span>&nbsp;<img src='img/translate.gif' width='17' height='15' align='absmiddle' class='textmiddle' /><span class='articleSubMenu_iyoutranslate'>Translate!</span></div></div>";
 						count1++;
 					}
 					else
 					{
 				
-						html+= "<div id='articleBox' onClick='showDetail(\""+container2[count2].id_str+"\", 1);' style='cursor:hand; cursor: pointer;'><div id='profilePic'><img src='"+container2[count2].user.profile_image_url+"' width='48' height='48' alt='profile' /></div><div id='profileText'><span class='content_id'><img src='img/tw_ico.gif' width='18' height='18' align='absmiddle' /> "+container2[count2].user.name+"</span> </div><div id='timelineContent'><span class='timelineContent_normal'>"+container2[count2].text+"</span></div><div id='articleSubMenu'><span class='articleSubMenu_time'>"+container2[count2].created_at+" / </span><img src='img/fb_like.gif' width='17' height='15' align='absmiddle' class='textmiddle' /><span class='articleSubMenu_facebook'>Like&nbsp;<img src='img/fb_cmt.gif' width='17' height='15' align='absmiddle' class='textmiddle' />Comment</span>&nbsp;<img src='img/translate.gif' width='17' height='15' align='absmiddle' class='textmiddle' /><span class='articleSubMenu_iyoutranslate'>Translate!</span></div></div>";
+						html+= "<div id='articleBox' onClick='showDetail(\""+container2[count2].id_str+"\", 1);' style='cursor:hand; cursor: pointer;'><div id='profilePic'><img src='"+container2[count2].user.profile_image_url+"' width='48' height='48' alt='profile' /></div><div id='profileText'><span class='content_id'><img src='img/tw_ico.gif' width='18' height='18' align='absmiddle' /> "+container2[count2].user.name+"</span> </div><div id='timelineContent'><span class='timelineContent_normal'>"+container2[count2].text+"</span></div><div id='articleSubMenu'><span class='articleSubMenu_time'>"+container2[count2].created_at+" / </span><img src='img/tw_fav.gif' width='17' height='15' align='absmiddle' class='textmiddle' /><span class='articleSubMenu_twitter' onClick='getLanguage(\"hh\")'>Favorite&nbsp;<img src='img/tw_ret.gif' width='17' height='15' align='absmiddle' class='textmiddle' />Retweet&nbsp;<img src='img/tw_rep.gif' width='17' height='15' align='absmiddle' class='textmiddle' />Reply</span>&nbsp;<img src='img/translate.gif' width='17' height='15' align='absmiddle' class='textmiddle' /><span class='articleSubMenu_iyoutranslate'>Translate!</span></div></div>";
 						count2++;
 					}
 				}	
@@ -378,7 +336,6 @@
 				$('#articles').animate({opacity:1}, 500);							
 			
 			});
-			
 
 
 
@@ -415,7 +372,6 @@
 	
 	};
 	
-
 
 
 </script>

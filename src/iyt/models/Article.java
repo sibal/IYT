@@ -17,7 +17,6 @@ public class Article {
     Date created_at;
     Date updated_at;
     
-    
     public Key<Article> getKey() {
     	return new Key<Article>(Article.class, id);
     }

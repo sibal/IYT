@@ -1,6 +1,9 @@
 package iyt.controllers;
 
 import java.lang.reflect.Array;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -32,7 +35,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JSONSerializer;
 import net.sf.json.JsonConfig;
+import net.sf.json.JSONString;
 import net.sf.json.util.PropertyFilter;
 
 import com.googlecode.objectify.Key;
@@ -71,30 +76,8 @@ public class ArticleController {
 		twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET); 
 		System.out.println("Consumer_key is completed");
 		
-		OutputStreamWriter out = new OutputStreamWriter(new ByteArrayOutputStream()); 
-		String encoding = out.getEncoding();  
-		System.out.println(encoding);
-
 	}
 	
-	/*
-	//this mehtod should be edited, because the root url shows the timeline and the information for the time line will be given through ajax call.
-	@RequestMapping(value="/", method=RequestMethod.GET)
-    public ModelAndView list() {
-		Objectify ofy = objectifyFactory.begin();
-		Query<Article> q = ofy.query(Article.class).limit(10);
-		List<Article> articles = new ArrayList<Article>();
-		for(Article a: q) {
-			if(a.getAuthor() != null) a.setAuthor_data((User) ofy.get(a.getAuthor()));
-			articles.add(a);
-		}
-		
-		ModelAndView mav = new ModelAndView("article/list");
-		mav.addObject("command", new Article());
-		mav.addObject("articles", articles);
-		return mav;
-    }
-    */
 	
 	
 	@RequestMapping(value="/getTwitterAuth", method=RequestMethod.GET)
@@ -156,7 +139,7 @@ public class ArticleController {
 		twitter.setOAuthAccessToken(accessToken);
 		List<Status> statuses = null; 
 		Paging page = new Paging();
-		page.count(10);
+		page.count(5);
 		page.setPage(1);
 		String result = "";
 		try {   
@@ -215,7 +198,7 @@ public class ArticleController {
 			
 		}
 		
-		results += "}}";
+		results += "}";
 		String real_result = "";
 		try {
 			real_result = new String(results.getBytes("utf-8"), "utf-8");
@@ -230,6 +213,7 @@ public class ArticleController {
 		
 		HttpHeaders responseHeaders = new HttpHeaders(); 
 		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
+		responseHeaders.add("Content-Length", ""+real_result.getBytes().length);
 		return new ResponseEntity<String>(real_result, responseHeaders, HttpStatus.CREATED); 
 
 		
@@ -300,16 +284,73 @@ public class ArticleController {
 	
 	// For register translation
 	@RequestMapping(value="/translate", method=RequestMethod.POST)
-	
-    public @ResponseBody String doTranslate(@ModelAttribute("command") Translation translation, BindingResult result ) {
+	@ResponseBody
+    public String doTranslate(@ModelAttribute("command") Translation translation, BindingResult result ) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		Objectify ofy = objectifyFactory.begin();
 		User author = (User)authentication.getPrincipal();
 		// Translate!
 		translation.setAuthor(author.getKey());
+				
+		System.out.println(translation.getOri_content());
+		System.out.println(result.toString());
+		
+		try {
+			String s = URLEncoder.encode(translation.getOri_content(), "UTF-8");
+			URL url = new URL(
+					"http://ws.detectlanguage.com/0.2/detect?key=309c147273b57d16f43ed794646e7fb8&q="
+							+ s + "");
+			BufferedReader in = new BufferedReader(new InputStreamReader(
+					url.openStream()));
+			String str;
+			StringBuilder buffer = new StringBuilder();
+			while ((str = in.readLine()) != null) {
+				buffer.append(str);
+			}
+			in.close();
+			System.out.println(buffer.toString());
+			JSONObject obj = (JSONObject) JSONSerializer.toJSON(buffer
+					.toString());
+			System.out.println(obj.getJSONObject("data")
+					.getJSONArray("detections").getJSONObject(0)
+					.get("language"));
+			translation.setOri_lan(obj.getJSONObject("data")
+					.getJSONArray("detections").getJSONObject(0)
+					.get("language").toString());
+
+			
+			s = URLEncoder.encode(translation.getT_content(), "UTF-8");
+			url = new URL(
+					"http://ws.detectlanguage.com/0.2/detect?key=309c147273b57d16f43ed794646e7fb8&q="
+							+ s + "");
+			in = new BufferedReader(new InputStreamReader(url.openStream()));
+			buffer = new StringBuilder();
+			while ((str = in.readLine()) != null) {
+				buffer.append(str);
+			}
+			in.close();
+			System.out.println(buffer.toString());
+			obj = (JSONObject) JSONSerializer.toJSON(buffer.toString());
+			System.out.println(obj.getJSONObject("data").getJSONArray("detections").getJSONObject(0).get("language"));
+			translation.setT_lan(obj.getJSONObject("data").getJSONArray("detections").getJSONObject(0).get("language").toString());
+
+		        //System.out.println(obj.get("confidence")); 
+		    } catch (UnsupportedEncodingException e) { 
+		        e.printStackTrace(); 
+		    } catch (MalformedURLException e) { 
+		        e.printStackTrace(); 
+		    } catch (IOException e) { 
+		        e.printStackTrace(); 
+		    } 
+
+		
+		//translation.setOri_lan("test");
+		//translation.setT_lan("bbb");
+		
 		ofy.put(translation);
 		System.out.println("Why?");
 		Translation t = ofy.get(translation.getKey());		
+		System.out.println("{\"success\":\""+t.getOri_content()+"\"}");
 		return "{\"success\":\""+t.getKey()+"\"}";
     }
 	/*
@@ -355,8 +396,7 @@ public class ArticleController {
 	
 	// For showing translations
 	@RequestMapping(value="/topfour/{sid}", method=RequestMethod.GET)
-	@ResponseBody
-    public String topFourT(@PathVariable String sid) {
+    public ResponseEntity<String> topFourT(@PathVariable String sid) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		User user = (User)authentication.getPrincipal();
 		Objectify ofy = objectifyFactory.begin();
@@ -386,7 +426,12 @@ public class ArticleController {
 		map.put("translations",jsonArray);
 		JSONObject jsonObject = JSONObject.fromObject(map);
 		
-		return jsonObject.toString();
+		HttpHeaders responseHeaders = new HttpHeaders(); 
+		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
+		responseHeaders.add("Content-Length", ""+jsonObject.toString().getBytes().length);
+		return new ResponseEntity<String>(jsonObject.toString(), responseHeaders, HttpStatus.CREATED); 
+		
+		//return jsonObject.toString();
     }
 	
 	

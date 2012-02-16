@@ -109,6 +109,13 @@ public class UserController {
 
     }
     
+    
+    
+    
+    
+    
+    
+    
     // For fans
 	@RequestMapping(value="/befan/{target_id}", method=RequestMethod.GET)
 	@ResponseBody
