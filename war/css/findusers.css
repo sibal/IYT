@@ -1,0 +1,447 @@
+a:link {color:#ababab; text-decoration:none;}    /* unvisited link */
+a:visited {color:#ababab; text-decoration:none;}    /* unvisited link */
+a:hover {color:#ffffff; text-decoration:none;}    /* unvisited link */
+a:active {
+	color:#ababab;
+	text-decoration:none;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "¸¼Àº °íµñ";
+}    /* unvisited link */
+
+textarea:focus, input:focus, select:focus{
+	/* firefox, chrome µî ÅØ½ºÆ® »óÀÚ, µå·Ó´Ù¿î¸Þ´º µî ¼±ÅÃ ½Ã Å×µÎ¸® »ý±â´Â °Í ¾ø¾Ú */
+	outline:none
+}
+img{
+	/* ¸ðµç ÀÌ¹ÌÁöÀÇ Å×µÎ¸® ¾ø¾Ú (IE µî¿¡¼­ ¹Ì¼³Á¤½Ã ±âº»À¸·Î Å×µÎ¸®°¡ »ý±è) */
+	border:none
+}
+
+body  {
+	font: 100% Verdana, Tahoma, Arial, Helvetica, sans-serif, "¸¼Àº °íµñ";
+	background: #e7e7e7;
+	background-image:url(img/bg.gif);
+	background-repeat:repeat-x;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	color: #000000;
+}
+
+.twoColFixRtHdr #container {
+	/* ÀüÃ¼ ÄÜÅÙÃ÷¸¦ ´ã´Â ÄÁÅ×ÀÌ³Ê */
+	width: 979px;
+	background: #e7e7e7;
+	margin: 0 auto;
+	border: 0px;
+	text-align: left;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "¸¼Àº °íµñ";
+}
+
+/* ---------------------------------------- »ó´Ü ÄÜÅÙÃ÷ ---------------------------------------- */
+
+.twoColFixRtHdr #header {
+	height: 93px;
+	background: #808080;
+	background-image:url(img/bg.gif); repeat-x;
+	padding: 0 10px 0 0; 
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "¸¼Àº °íµñ";
+} 
+
+.searchBar {
+	/* ÃÖ»ó´Ü °Ë»öÃ¢ ÅØ½ºÆ® ÇÊµå ½ºÅ¸ÀÏ */
+	width: 183px;
+	background: transparent url('img/search_top.gif') no-repeat;
+	color : #747862;
+	height:28px;
+	border:0;
+	padding:0 0 0 12px;
+	margin: 0px 55px 8px 15px;
+	text-align:left;
+	vertical-align:middle;
+	font-size:14px;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "¸¼Àº °íµñ"
+}
+
+.menuText {
+	/* ÃÖ»ó´Ü ¸Þ´º ÅØ½ºÆ® ½ºÅ¸ÀÏ */
+	color: #8AAC00;
+	font-size: 12px;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "¸¼Àº °íµñ";
+	letter-spacing:-20;
+	text-align: center;
+}
+
+
+/* ---------------------------------------- ¿ÞÂÊ ¸ÞÀÎÄÜÅÙÃ÷ ---------------------------------------- */
+
+.twoColFixRtHdr #mainContent {
+	/* ¿ÞÂÊ ¸ÞÀÎ ÄÜÅÙÃ÷ ÀüÃ¼ ÄÁÅ×ÀÌ³Ê */
+	float:left;
+	width:562px;
+	height:80px;
+	margin: 30px 0 0 0;
+	padding: 5px 0 20px 20px;
+	background:#f9f9f9;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+} 
+
+.subMenuText {
+	color: #d5d5d5;
+	font-size: 12px;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "¸¼Àº °íµñ";
+	letter-spacing:-20;
+}
+
+.twoColFixRtHdr #timelineSubMenu {
+	position: relative;
+	left: 0;
+	top: 4px;
+	background-image:url(img/ptmenu_bg_2.gif);
+	background-repeat:no-repeat;
+	z-index : 3;
+	float:left;
+	width:91px;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+	background-color:#f9f9f9;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "¸¼Àº °íµñ";
+	z-index:2;
+	height: 37px;
+}
+
+.twoColFixRtHdr #timelineSubMenu_nonselect {
+	position: relative;
+	left: 0;
+	top: 3px;
+	z-index : 3;
+	float:left;
+	text-align:left;
+	height: 35px;
+	margin: 0 15px 0 0;
+	padding: 0 0 0 0;
+	background-color:#f9f9f9;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "¸¼Àº °íµñ";
+}
+
+.twoColFixRtHdr #findTwitlatorBar{
+	position: relative;
+	left: 138px;
+	top: -76px;
+	z-index : 3;
+	float:left;
+	text-align:left;
+	width:173px;
+	height: 27px;
+	margin: 0 5px 0 0;
+	padding: 0 0 0 0;
+	background-color:#f9f9f9;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "¸¼Àº °íµñ";
+}
+
+.findTwitlator_Bar {
+	width: 169px;
+	background-image:url(img/find_twitlator_bar.gif);
+	background-repeat:no-repeat;
+	color : #747862;
+	height:27px;
+	border:0;
+	margin:0; padding:0 0 0 4px;
+	text-align:left;
+	vertical-align:middle;
+	font-size:14px;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "¸¼Àº °íµñ"
+}
+
+.twoColFixRtHdr #findTwitlatorSend{
+	position: relative;
+	left: 138px; top: -76px; z-index : 3;
+	background-image:url(img/find_twitlator_send.gif); background-repeat:no-repeat;
+	float:left;
+	text-align:center; vertical-align:middle;
+	width:58px; height: 21px;
+	margin: 0 5px 0 0; padding: 6px 0 0 0;
+	background-color:#f9f9f9;
+	font-size:10px; color:#AAA;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "¸¼Àº °íµñ";
+}
+
+.twoColFixRtHdr #userCardBox{
+	float:left;
+	background-color:#fff;
+	background-image:url(img/table_line.gif);
+	background-repeat:repeat-x;
+	width:542px;
+	margin: -5px 0px 0px 0px;
+	padding: 20px 20px 0px 20px;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "¸¼Àº °íµñ";
+	z-index:1;
+}
+
+.twoColFixRtHdr #profilePic {
+	float:left;
+	width:60px;
+	margin: 0;
+	background:#fff;
+}
+
+.twoColFixRtHdr #profileText {
+	float:left;
+	width:400px;
+	margin: 0 10px 4px 0;
+	background:#fff;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "¸¼Àº °íµñ";
+}
+
+
+.content_id {
+	font-size: 10pt;
+	font-family:Verdana, Tahoma, Arial, Helvetica, sans-serif, "¸¼Àº °íµñ";
+	color:#444;
+}
+
+.content_name {
+	font-size: 9pt;
+	font-family:Verdana, Tahoma, Arial, Helvetica, sans-serif, "¸¼Àº °íµñ";
+	color:#666;
+}
+
+.twoColFixRtHdr #profileDetail_translation {
+	float:left;
+	width:300px;
+	margin: 0 10px 2px 0;
+	background:#fff;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "¸¼Àº °íµñ";
+}
+
+.twoColFixRtHdr #profileDetail_interest {
+	float:left;
+	width:300px;
+	margin: 0 10px 0 0;
+	background:#fff;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "¸¼Àº °íµñ";
+}
+
+.content_detail1 {
+	font-size: 7pt;
+	font-family:Verdana, Tahoma, Arial, Helvetica, sans-serif, "¸¼Àº °íµñ";
+	color:#8aac00;
+}
+
+.content_detail2 {
+	font-size: 7pt;
+	font-family:Verdana, Tahoma, Arial, Helvetica, sans-serif, "¸¼Àº °íµñ";
+	color:#888;
+}
+
+.content_detail3 {
+	font-size: 7pt;
+	font-weight:bold;
+	font-family:Verdana, Tahoma, Arial, Helvetica, sans-serif, "¸¼Àº °íµñ";
+	color:#666;
+}
+
+.fanButtonArea {
+	position: relative;
+	left: 60px;
+	top: -15px;
+	float:left;
+	font-size:10px;
+	font-weight: bold;
+	color:#fff;
+	margin-right:0px;
+	font-family: Verdana, Tahoma, Arial, Helvetica, "¸¼Àº °íµñ";
+	text-align:center;
+	height: 27px;
+}
+
+.hideX {
+	/* ÃßÃµ ÆÒ ¹Ú½º ²ô´Â ¹öÆ° */
+	position: relative;
+	left: 48px;
+	top: -35px;
+	float:left;
+	font-size:10px;
+	font-weight: bold;
+	color:#fff;
+	margin-right:0px;
+	font-family: Verdana, Tahoma, Arial, Helvetica, "¸¼Àº °íµñ";
+	text-align:center;
+}
+
+/* ---------------------------------------- ¿À¸¥ÂÊ »çÀÌµå ÄÜÅÙÃ÷ ---------------------------------------- */
+
+.twoColFixRtHdr #sidebar1 {
+	/* ¿À¸¥ÂÊ ´Ù´Ü ÀüÃ¼ ÄÁÅ×ÀÌ³Ê */
+	float: right;
+	width: 356px;
+	background: #fff;
+	padding: 5px 20px 20px;
+	margin-top:30px;
+}
+
+.side_title {
+	font-size: 12pt;
+	font-family:Verdana, Tahoma, Arial, Helvetica, sans-serif, "¸¼Àº °íµñ";
+	font-weight:bold;
+	color:#676767;
+	margin-top:20px;
+}
+
+.side_detail {
+	margin:4px 0;
+	font-size: 12px;
+	color:#868686;
+	line-height:150%;
+}
+
+.side_detail2 {
+	font-size: 9pt;
+	font-family:Verdana, Tahoma, Arial, Helvetica, sans-serif, "¸¼Àº °íµñ";
+	color:#BBB;
+}
+
+.fanOf {
+	/* ¿À¸¥ÂÊ »çÀÌµå ÆÒ ¸®½ºÆ® */
+	float:left;
+	width:360px;
+	height:22px;
+	padding:0;
+	margin: 0;
+}
+
+.twoColFixRtHdr #popularMayors_profilePic {
+	/* mayor ÃßÃµ ÇÁ·ÎÇÊ »çÁø */
+	float:left;
+	width:30px;
+	margin: 0;
+	padding: 2px 0 0 0;
+	background:#fff;
+}
+
+.twoColFixRtHdr #popularMayors_info{
+	/* mayor ÃßÃµ Á¤º¸ ÄÁÅ×ÀÌ³Ê */
+	float:left;
+	width:140px;
+	margin: 0;
+	padding: 2px 0 0 0;
+	background:#fff;
+}
+
+.twoColFixRtHdr #popularMayors_idName {
+	/* mayor ÃßÃµ ¾ÆÀÌµð ÀÌ¸§ */
+	float:left;
+	width:140px;
+	margin: 0;
+	background:#fff;
+	font-size:10px;
+	color:#888;
+	font-weight:bold;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "¸¼Àº °íµñ";
+}
+
+.twoColFixRtHdr #popularMayors_details {
+	/* mayor ÃßÃµ »ó¼¼ Á¤º¸ */
+	float:left;
+	width:140px;
+	margin: 0;
+	background:#fff;
+	font-size:9px;
+	color:#AAA;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "¸¼Àº °íµñ";
+}
+
+.twoColFixRtHdr #inviteFriendsBar{
+	/* Ä£±¸ ÃÊ´ëÇÏ±â ¿µ¿ª */
+	position: relative;
+	left:0px;
+	top:0pxpx;
+	z-index : 3;
+	float:left;
+	text-align:left;
+	width:266px;
+	height: 27px;
+	margin: 0 5px 0 0;
+	padding: 0 0 0 0;
+	background-color:#f9f9f9;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "¸¼Àº °íµñ";
+}
+
+.inviteFriends_Bar {
+	/* Ä£±¸ ÃÊ´ëÇÏ±â ÀÌ¸ÞÀÏ ÀÔ·Â Æû */
+	width: 262px;
+	background-image:url(img/intive_friends_bar.gif);
+	background-repeat:no-repeat;
+	color : #AAA;
+	height:27px;
+	border:0;
+	margin:0; padding:0 0 0 4px;
+	text-align:left;
+	vertical-align:middle;
+	font-size:12px;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "¸¼Àº °íµñ"
+}
+
+.twoColFixRtHdr #inviteFriendsSend{
+	/* Ä£±¸ ÃÊ´ëÇÏ±â ¹öÆ° */
+	position: relative;
+	left: 0px; top: 0px; z-index : 3;
+	background-image:url(img/find_twitlator_send.gif); background-repeat:no-repeat;
+	float:left;
+	text-align:center; vertical-align:middle;
+	width:58px; height: 21px;
+	margin: 0 5px 0 0; padding: 6px 0 0 0;
+	background-color:#f9f9f9;
+	font-size:10px; color:#AAA;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "¸¼Àº °íµñ";
+}
+
+/* ---------------------------------------- hide/show ¸Þ´º ---------------------------------------- */
+
+.hideShowMenuStyle {
+	/* hide/show ¸Þ´º ÀüÃ¼ Æ² ½ºÅ¸ÀÏ */
+	float:right;
+	position:relative;
+	top:-590px;
+	left: 20px;
+	z-index:3;
+	background-image:url(img/hs_menu_bg.png);
+	background-repeat:no-repeat;
+    width:178px;
+    height:155px;
+    margin:0 auto;
+}
+
+.twoColFixRtHdr #hsm_pic {
+	/* hide/show ¸Þ´º ÇÁ·ÎÇÊ »çÁø */
+	float:left;
+	width:20px;
+	height:20px;
+	padding:0;
+	margin: 22px 8px 0 22px;
+}
+
+.twoColFixRtHdr #hsm_id {
+	/* hide/show ¸Þ´º ¾ÆÀÌµð */
+	float:left;
+	width:90px;
+	height:auto;
+	padding:0;
+	margin: 22px 0 0 0;
+	text-align:left;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "¸¼Àº °íµñ";
+	color:#fff;
+	font-size:12px;
+}
+
+.twoColFixRtHdr #hsm_menu {
+	/* hide/show ¸Þ´º ÅØ½ºÆ® ½ºÅ¸ÀÏ */
+	float:left;
+	width:120px;
+	height:auto;
+	padding:0;
+	margin: 21px 0 0 23px;
+	text-align:left;
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "¸¼Àº °íµñ";
+	color:#AAA;
+	font-size:12px;
+}

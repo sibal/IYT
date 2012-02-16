@@ -27,6 +27,7 @@ public class User implements UserDetails {
     private String nick;
     private String name;
     private String fid;
+    private String profile_image_url; 
 
     //private int rank; How can we count the rank?
     private int numFans;
@@ -34,6 +35,14 @@ public class User implements UserDetails {
     @Parent Key<User> mayor;
    	@NotSaved User mayor_data;
     
+
+	public String getProfile_image_url() {
+		return profile_image_url;
+	}
+
+	public void setProfile_image_url(String profile_image_url) {
+		this.profile_image_url = profile_image_url;
+	}
 
 	public int getNumFans() {
 		return numFans;

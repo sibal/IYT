@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -31,7 +34,10 @@ import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.Query;
 
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.PropertyFilter;
 
 /**
  * @author Inkyu lee
@@ -109,9 +115,46 @@ public class UserController {
 
     }
     
+    @RequestMapping(value = "/findUsers", method= RequestMethod.GET)
+    public String findUsers() {
+    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();    	
+        return "user/find";
+    }
     
     
-    
+    // For searching friends
+	@RequestMapping(value="/search.name", method=RequestMethod.GET)
+	@ResponseBody
+    public ResponseEntity<String> searchByName(@RequestParam("name") String name) {
+		Objectify ofy = objectifyFactory.begin();
+		//What the hell?
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();				
+		User user = (User)authentication.getPrincipal();
+		
+		List<User> users = ofy.query(User.class).filter("name", name).list();
+		
+		JsonConfig config = new JsonConfig();
+	     config.setJsonPropertyFilter(new PropertyFilter() {
+	        public boolean apply(Object source, String name, Object value) {
+	              if ("name".equals(name) || "username".equals(name) || "profile_image_url".equals(name)) {
+	                  return false;
+	              }
+	              return true;
+	           }
+	       });
+
+		JSONArray jsonArray = JSONArray.fromObject(users, config);
+		
+		Map<String, Object> map = new HashMap<String, Object> ();
+		map.put("users",jsonArray);
+		JSONObject jsonObject = JSONObject.fromObject(map);
+		
+		HttpHeaders responseHeaders = new HttpHeaders(); 
+		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
+		responseHeaders.add("Content-Length", ""+jsonObject.toString().getBytes().length);
+		return new ResponseEntity<String>(jsonObject.toString(), responseHeaders, HttpStatus.CREATED); 
+    }
+	
     
     
     
