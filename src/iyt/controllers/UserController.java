@@ -14,6 +14,7 @@ import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -38,6 +39,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.PropertyFilter;
+
 
 /**
  * @author Inkyu lee
@@ -124,30 +126,47 @@ public class UserController {
     
     // For searching friends
 	@RequestMapping(value="/search.name", method=RequestMethod.GET)
-	@ResponseBody
     public ResponseEntity<String> searchByName(@RequestParam("name") String name) {
 		Objectify ofy = objectifyFactory.begin();
 		//What the hell?
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();				
 		User user = (User)authentication.getPrincipal();
-		
 		List<User> users = ofy.query(User.class).filter("name", name).list();
 		
 		JsonConfig config = new JsonConfig();
 	     config.setJsonPropertyFilter(new PropertyFilter() {
 	        public boolean apply(Object source, String name, Object value) {
-	              if ("name".equals(name) || "username".equals(name) || "profile_image_url".equals(name)) {
+	              if ("name".equals(name) || "username".equals(name) || "profile_image_url".equals(name) || "fid".equals(name) || "isMyFriend".equals(name)) {
 	                  return false;
 	              }
 	              return true;
 	           }
 	       });
 
+	     for(User u:users)
+	     {
+	    	 if(u.getProfile_image_url() == null)
+	    	 {
+	    		 u.setProfile_image_url("http://graph.facebook.com/"+u.getFid()+"/picture");
+	    		 ofy.put(u);
+	    	 }
+	    	 
+	    	 if(ofy.query(Followship.class).filter("followee", user.getKey()).filter("follower", u.getKey()).count() == 1)
+	    	 {
+	    		 u.setIsMyFriend(1);
+	    	 }
+	    	 else
+	    	 {
+	    		 u.setIsMyFriend(0);
+	    	 }
+	     }
+	     
 		JSONArray jsonArray = JSONArray.fromObject(users, config);
 		
 		Map<String, Object> map = new HashMap<String, Object> ();
 		map.put("users",jsonArray);
 		JSONObject jsonObject = JSONObject.fromObject(map);
+		System.out.println(jsonObject.toString());
 		
 		HttpHeaders responseHeaders = new HttpHeaders(); 
 		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
@@ -155,8 +174,7 @@ public class UserController {
 		return new ResponseEntity<String>(jsonObject.toString(), responseHeaders, HttpStatus.CREATED); 
     }
 	
-    
-    
+        
     
     
     // For fans
@@ -165,14 +183,16 @@ public class UserController {
     public String beFan(@PathVariable String target_id) {
 		Objectify ofy = objectifyFactory.begin();
 		//What the hell?
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();				
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		target_id = new String(Base64.decodeBase64(target_id));
+		System.out.println(target_id);
 		User target = ofy.get(User.class, target_id);
 		User user = (User)authentication.getPrincipal();
-		
+				
 		Followship f = new Followship(user, target);
 		ofy.put(f);
 		
-		return "success";
+		return "{\"success\":1}";
     }
 	
     // For fans

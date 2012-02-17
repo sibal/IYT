@@ -35,6 +35,17 @@ public class User implements UserDetails {
     @Parent Key<User> mayor;
    	@NotSaved User mayor_data;
     
+   	@NotSaved int isMyFriend;
+   	
+   	
+
+	public int getIsMyFriend() {
+		return isMyFriend;
+	}
+
+	public void setIsMyFriend(int isMyFriend) {
+		this.isMyFriend = isMyFriend;
+	}
 
 	public String getProfile_image_url() {
 		return profile_image_url;

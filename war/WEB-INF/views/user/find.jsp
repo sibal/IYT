@@ -14,7 +14,6 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>IYOU Translate: Live Feed</title>
-	<link rel="StyleSheet" href="/css/default.css" type="text/css"/>
 	<link rel="StyleSheet" href="/css/findusers.css" type="text/css"/>
 	<script language="javascript" src="/js/jquery17.js"></script>
 	<script language="javascript" src="/js/common.js"></script>
@@ -29,16 +28,21 @@ function findbyname(name)
 	var results = "";
 
 	$.getJSON('/search.name?name='+name, function(data) {
-  		
+  	 		
   		 $.each(data.users,function(i,user){
 				
 			results += '<div id="userCardBox">'+
-			'<div id="profilePic"><img src="img/profile_90_90.gif" width="48" height="48" alt="profile" /></div>'+
-			'<div id="profileText"><span class="content_id">johnniek7</span> <span class="content_name"> 조형욱</span></div>'+
+			'<div id="profilePic"><img src="'+user.profile_image_url+'" width="48" height="48" alt="profile" /></div>'+
+			'<div id="profileText"><span class="content_id">'+user.username+'</span> <span class="content_name">'+user.name+'</span></div>'+
 			'<div id="profileDetail_translation"><span class="content_detail1">Translations </span><span class="content_detail2">KOR/ENG </span><span class="content_detail3">326 </span><span class="content_detail2">ENG/JPN </span><span class="content_detail3">14 </span></div>'+
-			'<div id="profileDetail_interest"><span class="content_detail1">Interests </span><span class="content_detail2">books, family, funny, movie </span><span class="content_detail1">Total Rank-ups </span><span class="content_detail3">327 </span></div>'+
-			'<div class="fanButtonArea" style="width:62px; background-image:url(img/btn_add_fan.gif); background-repeat:no-repeat; padding:7px 0 0 4px">&nbsp;&nbsp;Add</div>'+
-			'<div class="fanButtonArea"><img src="img/btn_more_menu.gif" width="40" height="27" alt="more" /></div>'+
+			'<div id="profileDetail_interest"><span class="content_detail1">Interests </span><span class="content_detail2">books, family, funny, movie </span><span class="content_detail1">Total Rank-ups </span><span class="content_detail3">327 </span></div>';
+			
+			if (user.isMyFriend == 1)
+				results += '<div class="fanButtonArea" id="befanbutton" style="width:62px; background-image:url(img/btn_already_fan.gif); background-repeat:no-repeat; padding:7px 0 0 4px">&nbsp;&nbsp;</div>';
+			else
+				results += '<div class="fanButtonArea" id="befanbutton" style="width:62px; background-image:url(img/btn_add_fan.gif); background-repeat:no-repeat; padding:7px 0 0 4px" >&nbsp;&nbsp;<a href="#" onclick="befan(\''+user.username+'\')">Add</a></div>';
+			
+			results += '<div class="fanButtonArea"><img src="img/btn_more_menu.gif" width="40" height="27" alt="more" /></div>'+
 			'<div class="hideX"><img src="img/hide_x.gif" width="12" height="12" alt="hide" /></div>'+
 		'</div>';							
 																
@@ -49,6 +53,51 @@ function findbyname(name)
 	});
 
 }
+
+
+function befan(id)
+{
+	id=Base64.encode(id);
+	
+	$.ajaxSetup({
+		cache:false
+	});
+	
+	$.get('/befan/'+id, function(data) {
+  	 		 	 		
+  	 	if (data.success == 0)
+  	 	 	alert("Being a fan is failed");
+  	 	else
+  	 	{
+  	 		$('#befanbutton').html("");
+  	 		$('#befanbutton').css('background-image', 'url(/img/btn_already_fan.gif)');	
+  	 	}
+
+	});
+}
+
+
+function cancelFan(id)
+{
+	id=Base64.encode(id);
+	
+	$.ajaxSetup({
+		cache:false
+	});
+	
+	$.get('/befan/'+id, function(data) {
+  	 		 	 		
+  	 	if (data.success == 0)
+  	 	 	alert("Being a fan is failed");
+  	 	else
+  	 	{
+  	 		$('#befanbutton').html("");
+  	 		$('#befanbutton').css('background-image', 'url(/img/btn_already_fan.gif)');	
+  	 	}
+
+	});
+}
+
 </script>
 
 
@@ -153,8 +202,8 @@ function findbyname(name)
 			<div id="timelineSubMenu_nonselect" style="width:90"><p class="menuText"><a href="#">Interests</a></p></div>
 			<div id="timelineSubMenu_nonselect" style="width:80"><p class="menuText"><a href="#">Rank-ups</a></p></div>
 			<div id="timelineSubMenu_nonselect" style="width:130"><p class="menuText"><a href="#">Smart Suggestion</a></p></div>
-			<div id="findTwitlatorBar"><input type="text" name="find_twitlator_bar" class="findTwitlator_Bar" /></div>
-			<div id="findTwitlatorSend"><a href="#">search</a></div>
+			<div id="findTwitlatorBar"><input type="text" id="findbyname1" name="find_twitlator_bar" class="findTwitlator_Bar" /></div>
+			<div id="findTwitlatorSend"><a href="#" onclick="findbyname($('#findbyname1').val());">search</a></div>
 		</div><!-- end #mainContent -->
 
 
