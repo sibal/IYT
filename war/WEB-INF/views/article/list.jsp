@@ -286,7 +286,7 @@
       var url = "https://graph.facebook.com/me/home?limit=5&access_token="+access+"&date_format=U&fields=id,from,message,comments,likes&callback=?";
 		
       //Use jQuery getJSON method to fetch the data from the url and then create our unordered list with the relevant data.
-
+		<% if (!user.getTwit_authT().equals("") && !user.getFace_access().equals("")) {%>
 		  var container1 = new Array();
 		  var container2 = new Array();
 	      $.ajaxSetup({ cache: false }); 
@@ -336,21 +336,63 @@
 				$('#articles').animate({opacity:1}, 500);							
 			
 			});
+		});
 
+		<%} else if (!user.getFace_access().equals("")) {%>
+		  url = "https://graph.facebook.com/me/home?limit=10&access_token="+access+"&date_format=U&fields=id,from,message,comments,likes&callback=?";
+		  var container1 = new Array();
+	      $.ajaxSetup({ cache: false }); 
+	      $.getJSON(url, function(json){
+		    var html = "";
+		    //loop through and within data array's retrieve the message variable.
 
-
-			/*
-		    $.each(json.data,function(i,fb){
-
-				//				html += "<li>"+"<img src='http://graph.facebook.com/"+fb.from.id+"/picture'> " + fb.from.name+" " +fb.message + "</li>"; 
-				html+= "<div id='articleBox' onClick='showDetail(\""+fb.id+"\");' style='cursor:hand; cursor: pointer;'><div id='profilePic'><img src='http://graph.facebook.com/"+fb.from.id+"/picture' width='48' height='48' alt='profile' /></div><div id='profileText'><span class='content_id'><img src='img/fb_ico.gif' width='18' height='18' align='absmiddle' /> "+fb.from.name+"</span> </div><div id='timelineContent'><span class='timelineContent_normal'>"+fb.message+"</span></div><div id='articleSubMenu'><span class='articleSubMenu_time'>1 minute ago / </span><img src='img/fb_like.gif' width='17' height='15' align='absmiddle' class='textmiddle' /><span class='articleSubMenu_facebook'>Like&nbsp;<img src='img/fb_cmt.gif' width='17' height='15' align='absmiddle' class='textmiddle' />Comment</span>&nbsp;<img src='img/translate.gif' width='17' height='15' align='absmiddle' class='textmiddle' /><span class='articleSubMenu_iyoutranslate'>Translate!</span></div></div>";
+  				$.each(json.data,function(i,fb){				
+				container1.push(fb);
 		    	});
 
-			//A little animation once fetched
+		
+				var count1 = 0;
+				
+				for(j=0;j<10;j++)
+				{
+						html+= "<div id='articleBox' onClick='showDetail(\""+container1[count1].id+"\", 0);' style='cursor:hand; cursor: pointer;'><div id='profilePic'><img src='http://graph.facebook.com/"+container1[count1].from.id+"/picture' width='48' height='48' alt='profile' /></div><div id='profileText'><span class='content_id'><img src='img/fb_ico.gif' width='18' height='18' align='absmiddle' /> "+container1[count1].from.name+"</span> </div><div id='timelineContent'><span class='timelineContent_normal'>"+container1[count1].message+"</span></div><div id='articleSubMenu'><span class='articleSubMenu_time'>"+container1[count1].created_time+" / </span><img src='img/fb_like.gif' width='17' height='15' align='absmiddle' class='textmiddle' /><span class='articleSubMenu_facebook'>Like&nbsp;<img src='img/fb_cmt.gif' width='17' height='15' align='absmiddle' class='textmiddle' />Comment</span>&nbsp;<img src='img/translate.gif' width='17' height='15' align='absmiddle' class='textmiddle' /><span class='articleSubMenu_iyoutranslate'>Translate!</span></div></div>";
+						count1++;
+				}	
+				
+				$('#articles').animate({opacity:0}, 500, function(){
 
-			*/
-
+					$('#articles').html(html);
+			 	});
+				$('#articles').animate({opacity:1}, 500);							
+			
 			});
+			
+		
+		<%} else if (!user.getTwit_authT().equals("")) {%>
+		 $.getJSON('/t_getTimeline',  function(oo){
+				$.each(oo.statuses, function (i,tw){
+					container2.push(tw);
+				
+				});
+				
+				var count2 = 0;
+				
+				for(j=0;j<5;j++)
+				{
+												
+					html+= "<div id='articleBox' onClick='showDetail(\""+container2[count2].id_str+"\", 1);' style='cursor:hand; cursor: pointer;'><div id='profilePic'><img src='"+container2[count2].user.profile_image_url+"' width='48' height='48' alt='profile' /></div><div id='profileText'><span class='content_id'><img src='img/tw_ico.gif' width='18' height='18' align='absmiddle' /> "+container2[count2].user.name+"</span> </div><div id='timelineContent'><span class='timelineContent_normal'>"+container2[count2].text+"</span></div><div id='articleSubMenu'><span class='articleSubMenu_time'>"+container2[count2].created_at+" / </span><img src='img/tw_fav.gif' width='17' height='15' align='absmiddle' class='textmiddle' /><span class='articleSubMenu_twitter' onClick='getLanguage(\"hh\")'>Favorite&nbsp;<img src='img/tw_ret.gif' width='17' height='15' align='absmiddle' class='textmiddle' />Retweet&nbsp;<img src='img/tw_rep.gif' width='17' height='15' align='absmiddle' class='textmiddle' />Reply</span>&nbsp;<img src='img/translate.gif' width='17' height='15' align='absmiddle' class='textmiddle' /><span class='articleSubMenu_iyoutranslate'>Translate!</span></div></div>";
+					count2++;
+				}	
+				
+				$('#articles').animate({opacity:0}, 500, function(){
+
+					$('#articles').html(html);
+			 	});
+				$('#articles').animate({opacity:1}, 500);							
+			
+			});
+		
+		<% } %>
 	};
 	
 	
@@ -381,7 +423,7 @@
 	<div id="container">
 		<div id="header"> <a href="5.html"><img src="img/logo_top_e.jpg" width="228" height="93" alt="Twitlator" style="margin-left:15px; border:none; vertical-align:middle; font-family: Arial, Helvetica, verdana, sans-serif;" /></a>
 		<input type="text" name="searchbar_top" class="searchBar" />
-		<span class="menuText"><a href="5.html">Live Feed</a></span><img src="img/menu_dv.gif" width="32" height="93" border="0" style="vertical-align:middle"/><span class="menuText"><a href="9.html">Contribute as Twitlator</a></span><img src="img/menu_dv.gif" width="32" height="93" border="0" style="vertical-align:middle"/><span class="menuText"><a href="10.html">Find Twitlator</a></span><img src="img/menu_dv.gif" width="32" height="93" border="0" style="vertical-align:middle"/><span class="menuText"><a href="#" onclick="showHideDiv()">Account ▾</a></span>
+		<span class="menuText"><a href="/">Live Feed</a></span><img src="img/menu_dv.gif" width="32" height="93" border="0" style="vertical-align:middle"/><span class="menuText"><a href="9.html">Contribute as Twitlator</a></span><img src="img/menu_dv.gif" width="32" height="93" border="0" style="vertical-align:middle"/><span class="menuText"><a href="/findUsers">Find Twitlator</a></span><img src="img/menu_dv.gif" width="32" height="93" border="0" style="vertical-align:middle"/><span class="menuText"><a href="#" onclick="showHideDiv()">Account ▾</a></span>
 		</div><!-- end #header -->
 
 		<div id="sidebar1">

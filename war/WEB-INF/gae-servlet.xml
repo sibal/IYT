@@ -16,11 +16,12 @@
 	            <value>iyt.models.Translation</value>
 	            <value>iyt.models.Followship</value>
 	            <value>iyt.models.Vote</value>
+	            <value>iyt.models.TransInformation</value>
 	        </list>
 	    </property>
 	</bean>
 
-    <bean class="iyt.models.UserValidator" />
+    <bean class="iyt.models.UserValidator" ></bean>
     <bean class="iyt.models.ArticleValidator" />
 
     <context:component-scan base-package="iyt"/>

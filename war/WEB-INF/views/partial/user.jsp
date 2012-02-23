@@ -1,19 +1,24 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<div id="profilePic"><img src="img/profile_90_90.gif" width="48" height="48" alt="profile" /></div>
+<% @SuppressWarnings("unchecked") 
+	List<Followship> followees = (List<Followship>)request.getAttribute("followees");
+%>
+
+
+<div id="profilePic"><img src="img/default_profile.jpg" width="48" height="48" alt="profile" /></div>
 <div id="profileIdNameDiv">
 	<span class="profile_id"><sec:authentication property="principal.nick"/></span> 
 	<span class="profile_name"><sec:authentication property="principal.name"/></span>
 </div>
 <div id="editProfileDiv"><span class="edit_profile"><a href="#">edit profile</a></span></div><p><br /><br /></p>
 <div id="statArea">
-   <div id="statDetail_number">365</div>
-   <div id="statDetail_number">189</div>
-   <div id="statDetail_number">16</div>
-   <div id="statDetail_number">264</div>
-   <div id="statDetail_text">in Korean</div>
-   <div id="statDetail_text">in English</div>
+   <div id="statDetail_number"><sec:authentication property="principal.numFirstLan"/></div>
+   <div id="statDetail_number"><sec:authentication property="principal.numSecondLan"/></div>
+   <div id="statDetail_number"><sec:authentication property="principal.numOtherLan"/></div>
+   <div id="statDetail_number"><sec:authentication property="principal.numFans"/></div>
+   <div id="statDetail_text">in <sec:authentication property="principal.firstLanguage"/></div>
+   <div id="statDetail_text">in <sec:authentication property="principal.secondLanguage"/></div>
    <div id="statDetail_text">others</div>
    <div id="statDetail_text">Fans</div>
 </div>
@@ -21,9 +26,18 @@
 <br /><p><br /><br /></p>
 <p><img src="img/table_line_f.gif" width="350" height="2" /></p>
 
+<% if (followees.size() != 0) {%>
 <p class="side_title">You are a Fan of</p>
-	<div class="fanOf"><img src="img/profile_90_90.gif" width="24" height="24" style="margin-right:3px" /><img src="img/profile_48_1.gif" width="24" height="24" style="margin-right:3px" /><img src="img/profile_48_2.gif" width="24" height="24" style="margin-right:3px" /><img src="img/profile_48_4.gif" width="24" height="24" style="margin-right:3px" /><img src="img/profile_48_5.gif" width="24" height="24" style="margin-right:3px" /><img src="img/profile_48_6.gif" width="24" height="24" style="margin-right:3px" /><img src="img/profile_48_7.gif" width="24" height="24" style="margin-right:3px" /><img src="img/profile_48_8.gif" width="24" height="24" style="margin-right:3px" /><img src="img/profile_48_9.gif" width="24" height="24" style="margin-right:3px" /><img src="img/profile_48_3.gif" width="24" height="24" style="margin-right:3px" /><img src="img/ten_thumb_7.gif" width="24" height="24" style="margin-right:3px" /><img src="img/ten_thumb_1.gif" width="24" height="24" alt="profile" /></div>
+	<div class="fanOf">
+		
+		<% for(Followship f : followees) { %>
+
+			<img src="img/default_profile.jpg" width="24" height="24" style="margin-right:3px" />
+
+		<% } %>
+	</div>
 <br /><br />
+<% } %>
 
 <p class="side_title">Recent Translations</p>
 	<p class="side_content"><span class="side_content_smaller" style="color:#8aac00">Just now:</span> 메르세데스-벤츠코리아는 신형 C클래스를 오늘 공개..<br />

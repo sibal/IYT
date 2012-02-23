@@ -1,6 +1,8 @@
 package iyt.controllers;
 
 import java.lang.reflect.Array;
+import java.util.Vector;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -13,6 +15,7 @@ import java.io.*;
 
 import iyt.enums.AppRole;
 import iyt.models.*;
+import iyt.enums.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -254,8 +257,55 @@ public class ArticleController {
 		Objectify ofy = objectifyFactory.begin();
 		User user = (User)authentication.getPrincipal();
 		ModelAndView mav = new ModelAndView("article/list");
+		
+		// add additional information for the user
+		// find the first and second languages of the user.
+		// find the numbers of translations for each language.
+		
+		Language[] languages = Language.values();
+		int[] counts = new int[languages.length];
+		
+		int total=0;
+		for (TransInformation t: user.getTransinfo())
+		{
+			counts[t.getDest().num]+=t.getNum();
+			total+=t.getNum();
+		}
+		
+		int max=-1;
+		int maxid=-1;
+		for (int i=0;i<counts.length;i++)
+		{
+			if (max < counts[i])
+			{
+				max = counts[i];
+				maxid = i;
+			}
+		}
+		int secmax = -1;
+		int secmaxid = -1;
+		for (int i=0;i<counts.length;i++)
+		{
+			if (i == maxid)
+				continue;
+			if (secmax < counts[i])
+			{
+				secmax = counts[i];
+				secmaxid = i;
+			}
+		}		
+		
+		user.setNumFirstLan(max);
+		user.setNumSecondLan(secmax);
+		user.setFirstLanguage(Language.findByNum(maxid).name);
+		user.setSecondLanguage(Language.findByNum(secmaxid).name);
+		user.setNumOtherLan(total-max-secmax);
+		
+		//user.setFollowees();
+		//System.out.println(user.getFollowees().size());
 		mav.addObject("command", new Article());
 		mav.addObject("user", user);
+		mav.addObject("followees",(ofy.query(Followship.class).filter("follower", user.getKey()).list()));
 		return mav;
     }
 	
@@ -314,9 +364,25 @@ public class ArticleController {
 			System.out.println(obj.getJSONObject("data")
 					.getJSONArray("detections").getJSONObject(0)
 					.get("language"));
-			translation.setOri_lan(obj.getJSONObject("data")
-					.getJSONArray("detections").getJSONObject(0)
-					.get("language").toString());
+			/*
+			Language r=null;
+			for (Language i: Language.values())
+			{
+				
+				if (i.abb_name.equals(abb))
+				{
+					result = i;
+					break;
+				}
+				
+			}
+			
+			if (result == null)
+				return UNDEFINED;
+			return KOREAN;
+			*/
+			
+			translation.setOri_lan(Language.findByAbb(obj.getJSONObject("data").getJSONArray("detections").getJSONObject(0).get("language").toString()));
 
 			
 			s = URLEncoder.encode(translation.getT_content(), "UTF-8");
@@ -332,7 +398,8 @@ public class ArticleController {
 			System.out.println(buffer.toString());
 			obj = (JSONObject) JSONSerializer.toJSON(buffer.toString());
 			System.out.println(obj.getJSONObject("data").getJSONArray("detections").getJSONObject(0).get("language"));
-			translation.setT_lan(obj.getJSONObject("data").getJSONArray("detections").getJSONObject(0).get("language").toString());
+			
+			translation.setT_lan(Language.findByAbb(obj.getJSONObject("data").getJSONArray("detections").getJSONObject(0).get("language").toString()));
 
 		        //System.out.println(obj.get("confidence")); 
 		    } catch (UnsupportedEncodingException e) { 
@@ -347,6 +414,37 @@ public class ArticleController {
 		//translation.setOri_lan("test");
 		//translation.setT_lan("bbb");
 		
+		System.out.println("test1");
+		boolean isHere=false;
+		if (author.getTransinfo() != null)
+			for(TransInformation i : author.getTransinfo() )
+			{
+				if (i.getSource().equals(translation.getOri_lan()))
+					if(i.getDest().equals(translation.getT_lan()))
+					{
+						isHere=true;
+						i.setNum(i.getNum()+1);
+						//ofy.put(author);
+					}
+			}
+		else
+		{
+			System.out.println("null");
+		}
+		System.out.println("test2");
+		if (!isHere)
+		{
+
+			TransInformation t = new TransInformation(translation.getOri_lan(), translation.getT_lan(), 1);
+			System.out.println("test3 " + t.getNum() + " " + t.getDest() + " " +t.getSource() + " " + t.getId() );
+			//ofy.put(t);
+			System.out.println("test4");
+			author.getTransinfo().add(t);
+
+		}
+		
+		System.out.println("test5");
+		ofy.put(author);
 		ofy.put(translation);
 		System.out.println("Why?");
 		Translation t = ofy.get(translation.getKey());		
@@ -385,8 +483,55 @@ public class ArticleController {
 			if(a.getAuthor() != null) a.setAuthor_data((User) ofy.get(a.getAuthor()));
 			translations.add(a);
 		}
-
+		
 		ModelAndView mav = new ModelAndView("article/translations");
+		
+		
+		Language[] languages = Language.values();
+		int[] counts = new int[languages.length];
+		
+		int total=0;
+		for (TransInformation t: user.getTransinfo())
+		{
+			counts[t.getDest().num]+=t.getNum();
+			total+=t.getNum();
+		}
+		
+		int max=-1;
+		int maxid=-1;
+		for (int i=0;i<counts.length;i++)
+		{
+			if (max < counts[i])
+			{
+				max = counts[i];
+				maxid = i;
+			}
+		}
+		int secmax = -1;
+		int secmaxid = -1;
+		for (int i=0;i<counts.length;i++)
+		{
+			if (i == maxid)
+				continue;
+			if (secmax < counts[i])
+			{
+				secmax = counts[i];
+				secmaxid = i;
+			}
+		}		
+		
+		user.setNumFirstLan(max);
+		user.setNumSecondLan(secmax);
+		user.setFirstLanguage(Language.findByNum(maxid).name);
+		user.setSecondLanguage(Language.findByNum(secmaxid).name);
+		user.setNumOtherLan(total-max-secmax);		
+		
+		
+		
+		
+		
+		mav.addObject("followees",(ofy.query(Followship.class).filter("follower", user.getKey()).list()));
+
 		mav.addObject("command", new Translation());
 		mav.addObject("user", user);
 		mav.addObject("translations", translations);

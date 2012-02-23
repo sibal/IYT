@@ -3,6 +3,9 @@ package iyt.models;
 
 
 import iyt.enums.AppRole;
+import iyt.enums.Language;
+import java.util.List;
+import java.util.ArrayList;
 
 import java.util.EnumSet;
 import java.util.Set;
@@ -12,13 +15,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.NotSaved;
 import com.googlecode.objectify.annotation.Parent;
-
+import javax.persistence.Embedded;
 
 /**
  * Custom user object for the application.
  *
  * @author Inkyu Lee
  */
+
 public class User implements UserDetails {
 	private static final long serialVersionUID = 2239467071084743509L;
 	
@@ -35,9 +39,71 @@ public class User implements UserDetails {
     @Parent Key<User> mayor;
    	@NotSaved User mayor_data;
     
-   	@NotSaved int isMyFriend;
+   	@NotSaved int isMyFriend; // For being a fan
    	
+   	// for displaying profile
+   	@NotSaved String firstLanguage;
+   	@NotSaved String secondLanguage;
+   	@NotSaved int numFirstLan;
+   	@NotSaved int numSecondLan;
+   	@NotSaved int numOtherLan;
    	
+   	//JR's codes
+   	@Embedded List<TransInformation> transinfo= new ArrayList<TransInformation>();
+   	   	
+	public List<TransInformation> getTransinfo() {
+		return transinfo;
+	}
+
+	public void setTransinfo(List<TransInformation> transinfo) {
+		this.transinfo = transinfo;
+	}
+	
+	// For profile ///////////
+	
+	
+	
+	public String getFirstLanguage() {
+		return firstLanguage;
+	}
+
+	public void setFirstLanguage(String firstLanguage) {
+		this.firstLanguage = firstLanguage;
+	}
+
+	public String getSecondLanguage() {
+		return secondLanguage;
+	}
+
+	public void setSecondLanguage(String secondLanguage) {
+		this.secondLanguage = secondLanguage;
+	}
+
+	public int getNumFirstLan() {
+		return numFirstLan;
+	}
+
+	public void setNumFirstLan(int numFirstLan) {
+		this.numFirstLan = numFirstLan;
+	}
+
+	public int getNumSecondLan() {
+		return numSecondLan;
+	}
+
+	public void setNumSecondLan(int numSecondLan) {
+		this.numSecondLan = numSecondLan;
+	}
+	
+	public int getNumOtherLan() {
+		return numOtherLan;
+	}
+
+	public void setNumOtherLan(int numOtherLan) {
+		this.numOtherLan = numOtherLan;
+	}
+	
+	//////////////////////////////
 
 	public int getIsMyFriend() {
 		return isMyFriend;
@@ -138,8 +204,7 @@ public class User implements UserDetails {
         this.name = "kkk";
         this.password = password;
         this.password_c = null;
-        this.authorities = EnumSet.of(AppRole.USER);
-        
+        this.authorities = EnumSet.of(AppRole.USER);        
     }
 
     public User(String userid, String password, String password_c, String nick, String name, Set<AppRole> authorities, boolean enabled) {

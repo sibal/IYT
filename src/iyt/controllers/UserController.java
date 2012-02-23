@@ -190,6 +190,8 @@ public class UserController {
 		User user = (User)authentication.getPrincipal();
 				
 		Followship f = new Followship(user, target);
+		target.setNumFans(target.getNumFans()+1);
+		ofy.put(target);
 		ofy.put(f);
 		
 		return "{\"success\":1}";

@@ -14,9 +14,9 @@ public class Translation {
 	@Indexed @Id Long id;
 	@Indexed String sid;
     String t_content;
-    String t_lan;
+    Language t_lan;
 	String ori_content;
-    String ori_lan;
+	Language ori_lan;
     int voting;
     @Indexed Date created_at;
     @Indexed Date updated_at;
@@ -24,25 +24,25 @@ public class Translation {
     
     
     
-    public String getT_lan() {
+    public Language getT_lan() {
 		return t_lan;
 	}
 
 
 
-	public void setT_lan(String t_lan) {
+	public void setT_lan(Language t_lan) {
 		this.t_lan = t_lan;
 	}
 
 
 
-	public String getOri_lan() {
+	public Language getOri_lan() {
 		return ori_lan;
 	}
 
 
 
-	public void setOri_lan(String ori_lan) {
+	public void setOri_lan(Language ori_lan) {
 		this.ori_lan = ori_lan;
 	}
 
