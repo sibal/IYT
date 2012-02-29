@@ -9,7 +9,7 @@ import javax.persistence.Id;
 
 public class TransInformation {
 		
-		@Indexed @Id long id;
+		@Indexed @Id Long id;
 		Language source;
 		Language dest;
 		int num;

@@ -1,8 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <% @SuppressWarnings("unchecked") 
 	List<Followship> followees = (List<Followship>)request.getAttribute("followees");
+	List<Translation> recent = (List<Translation>)request.getAttribute("recent");
+	List<TransRequest> requests = (List<TransRequest>)request.getAttribute("requests");
 %>
 
 
@@ -39,21 +42,29 @@
 <br /><br />
 <% } %>
 
+<% if (recent.size() != 0) { %>
 <p class="side_title">Recent Translations</p>
-	<p class="side_content"><span class="side_content_smaller" style="color:#8aac00">Just now:</span> 메르세데스-벤츠코리아는 신형 C클래스를 오늘 공개..<br />
-	<span class="side_content_smaller" style="color:#8aac00">17 mins ago:</span> 매각 절차를 밟고 있는 7개 저축은행 인수전에..<br />
-	<span class="side_content_smaller" style="color:#8aac00">29 JUN:</span> The M Festival is going to take place from 23-26..<br />
-	<span class="side_content_smaller" style="color:#8aac00">25 JUN:</span> Class is almost in session: The New York office..</p>
+	<p class="side_content" id="recentContent">
+		<script>
+	var a = "";
+	var b = "";
+	<% for(Translation t : recent) { %>
+	a=jQuery.timeago(new Date(<%= t.getCreated_at().getTime() %>));
+	b += '<span class="side_content_smaller" style="color:#8aac00" >'+a+'</span> <%= StringEscapeUtils.escapeJavaScript(t.getT_content()) %><br />';
+	<% } %>
+	$('#recentContent').html(b);
+	</script>
 
 	<div style="height:10px"></div>
-
+<% } %>
+<% if (requests.size() != 0) { %>
 <p class="side_title">Your Translation Requests</p>
-	<p class="side_content"><span class="side_content_smaller" style="color:#888">Waiting</span> President Obama, during a week's traveling..<br />
-	<span class="side_content_smaller" style="color:#8aac00">Done</span> Class is almost in session: The New York office..<br />
-	<span class="side_content_smaller" style="color:#8aac00">Done </span> 벨기에 앤트워프예술학교에서 새롭게 제시하는 패션..</p>
-
+	<p class="side_content">
+	<% for(TransRequest r : requests) { %>
+	<span class="side_content_smaller" style="color:#888">Waiting</span> <%= r.getText() %> <br />
+	<% } %>
 <br />
-
+<% } %>
 <div style="height:20px"><img src="img/table_line_f.gif" width="350" height="2" /></div>
 
 <p class="side_content"><a href="#">About</a> <a href="#">News</a> <a href="#">Help</a> <a href="#">Blog</a> <a href="#">Contact</a> <a href="#">Terms</a> <a href="#">Privacy</a><br />

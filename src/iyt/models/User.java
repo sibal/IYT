@@ -3,6 +3,7 @@ package iyt.models;
 
 
 import iyt.enums.AppRole;
+import iyt.enums.Interest;
 import iyt.enums.Language;
 import java.util.List;
 import java.util.ArrayList;
@@ -32,12 +33,10 @@ public class User implements UserDetails {
     private String name;
     private String fid;
     private String profile_image_url; 
-
+  
     //private int rank; How can we count the rank?
     private int numFans;
-    
-    @Parent Key<User> mayor;
-   	@NotSaved User mayor_data;
+    private int voting;
     
    	@NotSaved int isMyFriend; // For being a fan
    	
@@ -47,9 +46,19 @@ public class User implements UserDetails {
    	@NotSaved int numFirstLan;
    	@NotSaved int numSecondLan;
    	@NotSaved int numOtherLan;
+   	@NotSaved String interests_str;
+   	@NotSaved String language1;
+   	@NotSaved String language2;
+   	@NotSaved String language3;
+   	@NotSaved String language4;
+   	@NotSaved String language5;
+
    	
-   	//JR's codes
+   	
    	@Embedded List<TransInformation> transinfo= new ArrayList<TransInformation>();
+   	List<Key<TransRequest>> requestInfo= new ArrayList<Key<TransRequest>>(); // For translation Request
+   	List<Interest> interests = new ArrayList<Interest>();
+   	List<Language> languages = new ArrayList<Language>();
    	   	
 	public List<TransInformation> getTransinfo() {
 		return transinfo;
@@ -59,10 +68,50 @@ public class User implements UserDetails {
 		this.transinfo = transinfo;
 	}
 	
+	public List<Key<TransRequest>> getRequestInfo() {
+		return requestInfo;
+	}
+
+	public void setRequestInfo(List<Key<TransRequest>> requestInfo) {
+		this.requestInfo = requestInfo;
+	}
+	
+	
 	// For profile ///////////
 	
-	
-	
+		
+	public List<Language> getLanguages() {
+		return languages;
+	}
+
+	public void setLanguages(List<Language> languages) {
+		this.languages = languages;
+	}
+
+	public List<Interest> getInterests() {
+		return interests;
+	}
+
+	public void setInterests(List<Interest> interests) {
+		this.interests = interests;
+	}
+
+	public int getVoting() {
+		return voting;
+	}
+
+	public String getInterests_str() {
+		return interests_str;
+	}
+
+	public void setInterests_str(String interests_str) {
+		this.interests_str = interests_str;
+	}
+
+	public void setVoting(int voting) {
+		this.voting = voting;
+	}
+
 	public String getFirstLanguage() {
 		return firstLanguage;
 	}
@@ -104,9 +153,57 @@ public class User implements UserDetails {
 	}
 	
 	//////////////////////////////
+	
+	
+	
+	
+	
+	
 
 	public int getIsMyFriend() {
 		return isMyFriend;
+	}
+
+
+
+	public String getLanguage1() {
+		return language1;
+	}
+
+	public void setLanguage1(String language1) {
+		this.language1 = language1;
+	}
+
+	public String getLanguage2() {
+		return language2;
+	}
+
+	public void setLanguage2(String language2) {
+		this.language2 = language2;
+	}
+
+	public String getLanguage3() {
+		return language3;
+	}
+
+	public void setLanguage3(String language3) {
+		this.language3 = language3;
+	}
+
+	public String getLanguage4() {
+		return language4;
+	}
+
+	public void setLanguage4(String language4) {
+		this.language4 = language4;
+	}
+
+	public String getLanguage5() {
+		return language5;
+	}
+
+	public void setLanguage5(String language5) {
+		this.language5 = language5;
 	}
 
 	public void setIsMyFriend(int isMyFriend) {
@@ -129,21 +226,7 @@ public class User implements UserDetails {
 		this.numFans = numFans;
 	}
 
-	public Key<User> getMayor() {
-		return mayor;
-	}
 
-	public void setMayor(Key<User> mayor) {
-		this.mayor = mayor;
-	}
-
-	public User getMayor_data() {
-		return mayor_data;
-	}
-
-	public void setMayor_data(User mayor_data) {
-		this.mayor_data = mayor_data;
-	}
 
 	public String getFid() {
 		return fid;

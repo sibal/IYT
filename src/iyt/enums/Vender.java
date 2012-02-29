@@ -9,4 +9,12 @@ public enum Vender {
     Vender(int bit) {
         this.bit = bit;
     }
+    
+    public static Vender getByInteger(int input)
+    {
+    	if (input == 0)
+    		return FACEBOOK;
+    	else
+    		return TWITTER;
+    }
 }

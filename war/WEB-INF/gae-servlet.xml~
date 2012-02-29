@@ -16,9 +16,8 @@
 	            <value>iyt.models.Translation</value>
 	            <value>iyt.models.Followship</value>
 	            <value>iyt.models.Vote</value>
-	            <value>iyt.models.TransRequest</value>
-	            <value>iyt.models.Mayors</value>
 	            <value>iyt.models.TransInformation</value>
+	            <value>iyt.models.Mayors</value>
 	        </list>
 	    </property>
 	</bean>
@@ -52,17 +51,5 @@
             </list>   
         </property>
     </bean>
-
-<bean id="connectionFactoryLocator" class="org.springframework.social.connect.support.ConnectionFactoryRegistry">
-    <property name="connectionFactories">
-        <list>
-            <bean class="org.springframework.social.facebook.connect.FacebookConnectionFactory">
-                <constructor-arg value="125733630772899" />
-                <constructor-arg value="dd5c6753b0cbab6bc96d0a09b6d312fd" />				
-            </bean>
-        </list>
-    </property>
-</bean>
-    
 
 </beans>

@@ -20,8 +20,8 @@
         <intercept-url pattern="/login" access="permitAll" />
         <intercept-url pattern="/logout" access="permitAll" />
 	<intercept-url pattern="/signup*" access="permitAll" />
-        <intercept-url pattern="/getTwitterAuth" access="permitAll" />
-        <intercept-url pattern="/callbackTwit" access="permitAll" />
+        <intercept-url pattern="/" access="permitAll" />
+        <intercept-url pattern="/" access="permitAll" />
         <intercept-url pattern="/**" access="hasRole('USER')" />
         <form-login login-processing-url="/login_p" login-page="/login" authentication-failure-url="/login_error" />
     </http>

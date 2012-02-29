@@ -1,6 +1,9 @@
 package iyt.controllers;
 
 import iyt.enums.AppRole;
+import iyt.enums.Interest;
+import iyt.enums.Language;
+
 import iyt.models.Article;
 import iyt.models.Translation;
 import iyt.models.User;
@@ -16,6 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -98,7 +103,7 @@ public class UserController {
     }
     
     @RequestMapping(value="/signup", method=RequestMethod.POST)
-    public ModelAndView signup_adv(@ModelAttribute("command") User user, BindingResult result ) {
+    public ModelAndView signup_adv(@ModelAttribute("command") User user, BindingResult result) {
     	if(user.getStep() == 1) return new ModelAndView("user/signup_adv", "user", user);
     	
     	userValidator.validate(user, result);
@@ -108,6 +113,30 @@ public class UserController {
 	user.setNumFans(0);
 	System.out.println("REGISTER!");
 	Objectify ofy = objectifyFactory.begin();
+	String interests = (String)result.getRawFieldValue("interests_str");
+	StringTokenizer stk = new StringTokenizer(interests+"x", "/");
+	System.out.println(interests);
+	for(String s=stk.nextToken();stk.hasMoreTokens();s=stk.nextToken())
+	{
+		System.out.println(s);
+		user.getInterests().add(Interest.findByNum(Integer.parseInt(s)));
+	}
+		
+	if (!result.getRawFieldValue("language1").equals("-1"))
+		user.getLanguages().add(Language.findByNum(Integer.parseInt((String)result.getRawFieldValue("language1"))));
+	
+	if (!result.getRawFieldValue("language2").equals("-1"))
+		user.getLanguages().add(Language.findByNum(Integer.parseInt((String)result.getRawFieldValue("language2"))));
+	
+	if (!result.getRawFieldValue("language3").equals("-1"))
+		user.getLanguages().add(Language.findByNum(Integer.parseInt((String)result.getRawFieldValue("language3"))));
+	
+	if (!result.getRawFieldValue("language4").equals("-1"))
+		user.getLanguages().add(Language.findByNum(Integer.parseInt((String)result.getRawFieldValue("language4"))));
+	
+	if (!result.getRawFieldValue("language5").equals("-1"))
+		user.getLanguages().add(Language.findByNum(Integer.parseInt((String)result.getRawFieldValue("language5"))));
+
 	ofy.put(user);
 	
 	// Update the context with the full authentication

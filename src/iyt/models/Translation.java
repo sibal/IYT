@@ -17,14 +17,64 @@ public class Translation {
     Language t_lan;
 	String ori_content;
 	Language ori_lan;
+	String userid;     // the userid of author of original text
+	String username; // the username of original text
+	String profile_image_url;
+	int vender;
     int voting;
     @Indexed Date created_at;
     @Indexed Date updated_at;
+           
     
-    
-    
-    
-    public Language getT_lan() {
+    public String getProfile_image_url() {
+		return profile_image_url;
+	}
+
+
+
+	public void setProfile_image_url(String profile_image_url) {
+		this.profile_image_url = profile_image_url;
+	}
+
+
+
+	public String getUsername() {
+		return username;
+	}
+
+
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+
+
+	public String getUserid() {
+		return userid;
+	}
+
+
+
+	public int getVender() {
+		return vender;
+	}
+
+
+
+	public void setVender(int vender) {
+		this.vender = vender;
+	}
+
+
+
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+
+
+
+	public Language getT_lan() {
 		return t_lan;
 	}
 

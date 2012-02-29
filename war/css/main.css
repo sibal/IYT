@@ -182,7 +182,7 @@ body {
 	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif, "맑은 고딕";
 }
 
-.twoColFixRtHdr #articleBox{
+.twoColFixRtHdr .articleBox{
 	/* 가운데 개개의 게시물 영역 */
 	float:left;
 	background-color:#fff;
@@ -541,7 +541,7 @@ body {
 	line-height:130%;
 }
 
-.twoColFixRtHdr #bigContentAreaCmtR {
+.twoColFixRtHdr .bigContentAreaCmtR {
 	float:left;
 	width:356px;
 	height:auto;

@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="iyt.enums.*" %>
 
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
@@ -60,6 +61,18 @@ function MM_swapImage() { //v3.0
 }
 
 
+function updateInterest()
+{
+	var interests = "";
+	$.each($('.i'), function() {
+		if(this.checked)
+		{
+			interests += ""+this.value+"/";
+		}
+	});
+	alert(interests);
+	document.forms["signupform"].interests_str.value=interests;
+}
  
 </script> 
 
@@ -101,11 +114,19 @@ function MM_swapImage() { //v3.0
 
 		function login(){
 			FB.api('/me', function(response) {
-				alert('You have successfully logged in, '+response.name+"!");
+			
+				FB.getLoginStatus(function(response) {
+				var accessToken = response.authResponse.accessToken;
+				var userid = response.authResponse.userID;
+				document.forms["signupform"].signupAccess.value = accessToken;
+				document.forms["signupform"].signupUID.value = userid;
+				alert("Successfully registered!");
+				
+			});
 			});
 		}
 		function logout(){
-			alert('You have successfully logged out!');
+
 		}
 		function greet(){
 			FB.api('/me', function(response) {
@@ -116,7 +137,7 @@ function MM_swapImage() { //v3.0
 	</script>
  
 
- 
+<a href="/getTwitterAuth" target="_blank">Twitter Auth </a> 
 <div id="container"> 
 	<div id="header"> <a href="5.html"><img src="img/logo_top_e.jpg" width="228" height="93" alt="Twitlator" style="margin-left:15px; border:none; vertical-align:middle; font-family: Arial, Helvetica, verdana, sans-serif;" /></a><input type="text" name="searchbar_top" class="searchBar" /><span class="menuText">Already a member?</span><img src="img/menu_dv.gif" width="32" height="93" border="0" style="vertical-align:middle"/><span class="menuText"><a href="#" onclick="showHideDiv()" style="color:#99aa06">Log In ▾</a></span> 
 	</div><!-- end #header --> 
@@ -151,6 +172,10 @@ function MM_swapImage() { //v3.0
             <p><form:input type="text" path="name" name="signupFullNameForm" id="signupFullName"  class="s_form" /><span id='c_name'/></p> 
             <p><form:input type="text" path="username" name="signupEmailForm" id="signupEmail"  class="s_form" /><span id='c_username'/></p>
             <p><form:input name="signupPasswordForm" path="password" type="password" class="s_form" id="signupPassword" /><span id='c_password'/></p>
+            <input type="hidden" name="interests_str" id="interests_str" value="" />
+            <input type="hidden" name="twit_authT" id="twit_authT" value="" />
+            <input type="hidden" name="twit_authTS" id="twit_authTS" value="" />
+            
             <p><form:input type="password" path="password_c" name="signupPwvForm" id="signupPwv"  class="s_form" /><span id='c_password_c'/></p>
             <p><form:input type="text" path="nick" name="signupNicknameForm" id="signupNickname"  class="s_form" /><span id='c_nick'/></p>
             <form:input type="hidden" path="face_access" name="face_accessForm" id="signupAccess" />
@@ -158,29 +183,21 @@ function MM_swapImage() { //v3.0
             <p>&nbsp;</p> 
 			
 			<!-- 관심사 선택 부분 왼쪽 다단 --> 
-			<div id="centerMainLeft"> 
-				<p><input type="checkbox" name="checkForm" id="interest1" /> Art & Design</p> 
-				<p><input type="checkbox" name="checkForm" id="interest3" /> Business</p> 
-				<p><input type="checkbox" name="checkForm" id="interest5" /> Deals</p> 
-				<p><input type="checkbox" name="checkForm" id="interest7" /> Family</p> 
-				<p><input type="checkbox" name="checkForm" id="interest9" /> Food & Drink</p> 
-				<p><input type="checkbox" name="checkForm" id="interest11" /> Health</p> 
-				<p><input type="checkbox" name="checkForm" id="interest13" /> News</p> 
-				<p><input type="checkbox" name="checkForm" id="interest15" /> Sci &amp; Tech</p> 
-				<p><input type="checkbox" name="checkForm" id="interest17" /> Travel</p> 
+			<div id="centerMainLeft">
+				<% for(Interest i: Interest.values()) { %> 
+					<% if(i.num % 2 ==1){ %>
+				<p><input type="checkbox" class="i" id="interest<%= i.num %>" value="<%= i.num %>" name="interest<%= i.num %>" onClick="updateInterest()" /><%= i.name %></p>
+					<% } %>
+				<% } %> 
             </div> 
             
 			<!-- 관심사 선택 부분 오른쪽 다단 --> 
 			<div id="centerMainRight"> 
-				<p><input type="checkbox" name="checkForm" id="interest2" /> Books</p> 
-				<p><input type="checkbox" name="checkForm" id="interest4" /> Charity</p> 
-				<p><input type="checkbox" name="checkForm" id="interest6" /> Entertainment</p> 
-				<p><input type="checkbox" name="checkForm" id="interest8" /> Fashion</p> 
-				<p><input type="checkbox" name="checkForm" id="interest10" /> Funny</p> 
-				<p><input type="checkbox" name="checkForm" id="interest12" /> Music</p> 
-				<p><input type="checkbox" name="checkForm" id="interest14" /> Politics</p> 
-				<p><input type="checkbox" name="checkForm" id="interest16" /> Sports</p> 
-				<p><input type="checkbox" name="checkForm" id="interest18" /> Vehicle</p> 
+				<% for(Interest i: Interest.values()) { %> 
+					<% if(i.num % 2 ==0){ %>
+				<p><input type="checkbox" class="i" id="interest<%= i.num %>" value="<%= i.num %>" name="interest<%= i.num %>" onClick="updateInterest()" /><%= i.name %></p>
+					<% } %>
+				<% } %> 
             </div> 
 			
 			
@@ -189,55 +206,39 @@ function MM_swapImage() { //v3.0
 			
 				<!-- Native Language Selection --> 
 				<p> 
-				<select class="s_select" name="selectLanguage1" size="1"> 
-					<option value="selectOne">-- Select Language --</option> 
-					<option value="portuguese">Portuguese - Português</option> 
-					<option value="italian">Italian - Italiano</option> 
-					<option value="spanish">Spanish - Español</option> 
-					<option value="turkish">Turkish - Türkçe</option> 
-					<option value="english">English</option> 
-					<option value="korean">Korean - 한국어</option> 
-					<option value="french">French - Française</option> 
-					<option value="russian">Russian - Русский</option> 
-					<option value="german">German - Deutsch</option> 
-					<option value="chinese">Chinese - 中文</option> 
-					<option value="japanese">Japanese - 日本語</option> 
+				<select class="s_select" name="language1" id="language1" size="1"> 
+				<option value="-1">-- Select Language --</option> 
+				<% for(Language i: Language.values()) { %> 
+					
+				<option value="<%= i.num %>"><%= i.name_en %> - <%= i.name %></option> 
+
+				<% } %> 
+				
 				</select> 
 				</p> 
 				
 				<!-- First Possible Language Selection --> 
 				<p> 
-				<select class="s_select" name="selectLanguage2" size="1"> 
-					<option value="selectOne">-- Select Language --</option> 
-					<option value="portuguese">Portuguese - Português</option> 
-					<option value="italian">Italian - Italiano</option> 
-					<option value="spanish">Spanish - Español</option> 
-					<option value="turkish">Turkish - Türkçe</option> 
-					<option value="english">English</option> 
-					<option value="korean">Korean - 한국어</option> 
-					<option value="french">French - Française</option> 
-					<option value="russian">Russian - Русский</option> 
-					<option value="german">German - Deutsch</option> 
-					<option value="chinese">Chinese - 中文</option> 
-					<option value="japanese">Japanese - 日本語</option> 
+				<select class="s_select" name="language2" id="language2" size="1"> 
+					<option value="-1">-- Select Language --</option> 
+				<% for(Language i: Language.values()) { %> 
+					
+				<option value="<%= i.num %>"><%= i.name_en %> - <%= i.name %></option> 
+
+				<% } %> 
+				
 				</select> 
 				</p> 
 				
 				<!-- Third Possible Language Selection --> 
 				<p> 
-				<select class="s_select" name="selectLanguage4" size="1"> 
-					<option value="selectOne">-- Select Language --</option> 
-					<option value="portuguese">Portuguese - Português</option> 
-					<option value="italian">Italian - Italiano</option> 
-					<option value="spanish">Spanish - Español</option> 
-					<option value="turkish">Turkish - Türkçe</option> 
-					<option value="english">English</option> 
-					<option value="korean">Korean - 한국어</option> 
-					<option value="french">French - Française</option> 
-					<option value="russian">Russian - Русский</option> 
-					<option value="german">German - Deutsch</option> 
-					<option value="chinese">Chinese - 中文</option> 
-					<option value="japanese">Japanese - 日本語</option> 
+				<select class="s_select" name="language3" id="language3" size="1"> 
+					<option value="-1">-- Select Language --</option> 
+					<% for(Language i: Language.values()) { %> 
+					
+				<option value="<%= i.num %>"><%= i.name_en %> - <%= i.name %></option> 
+
+				<% } %> 
 				</select> 
 				</p> 
 			</div> 
@@ -248,37 +249,25 @@ function MM_swapImage() { //v3.0
 			
 				<!-- Second Possible Language Selection --> 
 				<p> 
-				<select class="s_select" name="selectLanguage3" size="1"> 
-					<option value="selectOne">-- Select Language --</option> 
-					<option value="portuguese">Portuguese - Português</option> 
-					<option value="italian">Italian - Italiano</option> 
-					<option value="spanish">Spanish - Español</option> 
-					<option value="turkish">Turkish - Türkçe</option> 
-					<option value="english">English</option> 
-					<option value="korean">Korean - 한국어</option> 
-					<option value="french">French - Française</option> 
-					<option value="russian">Russian - Русский</option> 
-					<option value="german">German - Deutsch</option> 
-					<option value="chinese">Chinese - 中文</option> 
-					<option value="japanese">Japanese - 日本語</option> 
+				<select class="s_select" name="language4" id="language5" size="1"> 
+					<option value="-1">-- Select Language --</option> 
+					<% for(Language i: Language.values()) { %> 
+					
+				<option value="<%= i.num %>"><%= i.name_en %> - <%= i.name %></option> 
+
+				<% } %> 
 				</select> 
 				</p> 
 				
 				<!-- Forth Possible Language Selection --> 
 				<p> 
-				<select class="s_select" name="selectLanguage5" size="1"> 
-					<option value="selectOne">-- Select Language --</option> 
-					<option value="portuguese">Portuguese - Português</option> 
-					<option value="italian">Italian - Italiano</option> 
-					<option value="spanish">Spanish - Español</option> 
-					<option value="turkish">Turkish - Türkçe</option> 
-					<option value="english">English</option> 
-					<option value="korean">Korean - 한국어</option> 
-					<option value="french">French - Française</option> 
-					<option value="russian">Russian - Русский</option> 
-					<option value="german">German - Deutsch</option> 
-					<option value="chinese">Chinese - 中文</option> 
-					<option value="japanese">Japanese - 日本語</option> 
+				<select class="s_select" name="language5" id="language6" size="1"> 
+					<option value="-1">-- Select Language --</option> 
+					<% for(Language i: Language.values()) { %> 
+					
+				<option value="<%= i.num %>"><%= i.name_en %> - <%= i.name %></option> 
+
+				<% } %> 
 				</select> 
 				</p> 
 			</div> 
