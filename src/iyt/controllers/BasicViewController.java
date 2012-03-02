@@ -46,6 +46,13 @@ import com.googlecode.objectify.Query;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
+/**
+ * 
+ * 기본적인 View에 관한 controller
+ * 
+ * @author hellcodes
+ *
+ */
 
 @Controller
 public class BasicViewController {

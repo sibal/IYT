@@ -46,6 +46,11 @@ import com.googlecode.objectify.Query;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
+/**
+ * Translation request에 대한 controller
+ * @author hellcodes
+ *
+ */
 
 @Controller
 public class RequestTranslateController {

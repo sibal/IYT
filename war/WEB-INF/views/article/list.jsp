@@ -26,6 +26,7 @@
 
 	var access = '<%= user.getFace_access() %>';
 	
+	// when the translation button is clicked!
 	function translateClicked(aid, transMode, flag)
 	{
 		
@@ -161,6 +162,7 @@
 		
 	}
 	
+	// for request translation
 	function doRequest(aid)
 	{
 		// do request
@@ -196,6 +198,7 @@
 		$('#bigContentAreaBtn').show();
 	}
 	
+	// for showing a detail of one article
 	function showDetail(aid, flag)
 	{
 		// hide side bar
@@ -332,7 +335,7 @@
 
 	};
 
-		
+	// for showing timeline
 	function fbFetch(mode, url, url2){
 
 	  //Set Url of JSON data from the facebook graph api. make sure callback is set with a '?' to overcome the cross domain problems with JSON

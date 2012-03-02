@@ -59,14 +59,20 @@ import org.springframework.social.facebook.api.*;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.social.oauth2.AbstractOAuth2ApiBinding;
 
+/**
+ * Twitter 관련 Controller
+ * @author hellcodes
+ *
+ */
+
 @Controller
 public class SocialController {
 	TwitterFactory tf;
 	Twitter twitter;
 	ArticleValidator articleValidator;
-	final String F_API_KEY = "125733630772899";
-	final String CONSUMER_KEY = "KbEdWRWMaVZenArbG13g";
-	final String CONSUMER_SECRET = "eXKS9NQwlLTwV1vgldsrcreGnYdLx0im5j7krgGAVY";
+	final String F_API_KEY = "125733630772899";   // set your facebook api key
+	final String CONSUMER_KEY = "KbEdWRWMaVZenArbG13g";   // set your twitter consumer key
+	final String CONSUMER_SECRET = "eXKS9NQwlLTwV1vgldsrcreGnYdLx0im5j7krgGAVY";   // set your twitter consumer secret
 	final int NUMBEROFMAYORS = 3;
 	String reqToken="";
 	String reqTokenSecret="";

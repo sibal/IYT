@@ -21,7 +21,7 @@ import javax.persistence.Embedded;
 /**
  * Custom user object for the application.
  *
- * @author Inkyu Lee
+ * 
  */
 
 public class User implements UserDetails {

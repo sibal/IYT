@@ -50,7 +50,7 @@ import net.sf.json.util.PropertyFilter;
 import java.util.Random;
 
 /**
- * @author Inkyu lee
+ * 
  */
 @Controller
 public class UserController {
