@@ -99,7 +99,6 @@ function updateInterest()
 				document.forms["signupform"].signupAccess.value = accessToken;
 				document.forms["signupform"].signupUID.value = userid;
 				//alert(document.forms["signupform"].signupAccess.value);
-				alert("Successfully registered!");
 				
 			});
 
@@ -121,7 +120,6 @@ function updateInterest()
 				var userid = response.authResponse.userID;
 				document.forms["signupform"].signupAccess.value = accessToken;
 				document.forms["signupform"].signupUID.value = userid;
-				alert("Successfully registered!");
 				
 			});
 			});
