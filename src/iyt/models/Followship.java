@@ -12,6 +12,14 @@ import com.googlecode.objectify.annotation.Indexed;
 import com.googlecode.objectify.annotation.NotSaved;
 import com.googlecode.objectify.annotation.Parent;
 
+/**
+ * Fan 관계를 나타내기 위한 클래스입니다.
+ * follower는 fan 되고,
+ * followee는 target이 됩니다.
+ * 
+ * @author hellcodes
+ *
+ */
 public class Followship {
 
 	@Indexed @Id Long id;

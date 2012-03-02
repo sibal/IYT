@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.ArrayList;
 
 public enum Language {
-	ENGLISH(0, "English", "English", "en"),
-	KOREAN(1, "Korean", "Korean", "ko"),
-	CHINESE(2, "Chinese", "Chinese", "ch"),
-	JAPANESE(3, "Japanese", "Japanese", "ja"),
-	UNDEFINED(4, "Undefiend", "Undefiend", "undefiend");
+	ENGLISH(0, "English", "English", "ENG"),
+	KOREAN(1, "Korean", "Korean", "KOR"),
+	CHINESE(2, "Chinese", "Chinese", "CHA"),
+	JAPANESE(3, "Japanese", "Japanese", "JAP"),
+	UNDEFINED(4, "Undefiend", "Undefiend", "UDF");
 	
 	public int num;
 	public String name_en, name, abb_name;

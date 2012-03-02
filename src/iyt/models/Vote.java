@@ -11,9 +11,9 @@ public class Vote {
 
 
 	@Indexed @Id Long id;
-	Key<User> voter;
-	Key<Translation> target;
-	Date created_at;
+	Key<User> voter;      //투표한 사람
+	Key<Translation> target;  // 투표한 번역
+	Date created_at; 
     Date updated_at;
     
     

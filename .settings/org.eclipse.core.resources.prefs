@@ -1,6 +1,10 @@
-#Sun Feb 12 03:53:33 KST 2012
+#Fri Mar 02 00:55:49 KST 2012
 eclipse.preferences.version=1
-encoding//src/iyt/controllers/ArticleController.java=UTF-8
+encoding//src/iyt/controllers/BasicViewController.java=UTF-8
+encoding//src/iyt/controllers/RequestTranslateController.java=UTF-8
+encoding//src/iyt/controllers/SocialController.java=UTF-8
+encoding//src/iyt/controllers/TranslateController.java=UTF-8
+encoding//src/iyt/controllers/VoteController.java=UTF-8
 encoding//war/WEB-INF/views/article/list.jsp=UTF-8
 encoding//war/WEB-INF/views/article/translations.jsp=UTF-8
 encoding//war/WEB-INF/views/partial/articles.jsp=UTF-8

@@ -28,38 +28,103 @@ public class User implements UserDetails {
 	private static final long serialVersionUID = 2239467071084743509L;
 	
 	@Id 
-	private String username;
-    private String nick;
-    private String name;
-    private String fid;
-    private String profile_image_url; 
-  
-    //private int rank; How can we count the rank?
-    private int numFans;
-    private int voting;
+	private String username;   // 이메일 (아이디)
+    private String nick;       // 닉네임
+    private String name;       // 네임
+    private String fid;        // 페이스북 아이디(키값)
+    private String profile_image_url;    // 프로필 이미지의 url
+
+	private String password;   //비번
+    @NotSaved
+    private String password_c;  // 일시 정보
+    @NotSaved
+    private int step;           // 일시적인 정보
     
-   	@NotSaved int isMyFriend; // For being a fan
+    private String face_access;    //페북 엑세스토큰
+    private String twit_authT="";  //트위터 authToken
+    private String twit_authTS=""; //트위터 authTokenSecret
+    
+    
+    //private int rank; How can we count the rank?
+    private int numFans;    // 팬수
+    private int voting;     // voting 합
+    
    	
-   	// for displaying profile
-   	@NotSaved String firstLanguage;
-   	@NotSaved String secondLanguage;
-   	@NotSaved int numFirstLan;
-   	@NotSaved int numSecondLan;
-   	@NotSaved int numOtherLan;
-   	@NotSaved String interests_str;
-   	@NotSaved String language1;
+   	// 임시적으로 저장하는 정보들.
+   	@NotSaved String firstLanguage;   // 첫번째 언어
+   	@NotSaved String secondLanguage;  // 두번째 언어
+   	@NotSaved int numFirstLan;        // 첫번째 언어로 번역한 수
+   	@NotSaved int numSecondLan;       // 두번째 언어로 번역한 수
+   	@NotSaved int numOtherLan;        // 그밖에 다른 언어로 번역한 수
+   	@NotSaved String interests_str;   // 흥미 정보 전달을 위해
+   	@NotSaved String language1;       // 가입시 언어 선택, 어래로 쭉.
    	@NotSaved String language2;
    	@NotSaved String language3;
    	@NotSaved String language4;
    	@NotSaved String language5;
-
+   	@NotSaved String firstTran;       // 가장 많이 번역한 종류
+   	@NotSaved String secondTran;      // 둘째로 많이 번역한 종류
+   	@NotSaved int firstTranNum;       // 위의 각 숫자, 아래도.
+   	@NotSaved int secondTranNum;
+   	@NotSaved String opassword;       // 비번 확인을 위한 임시 정보
+   	@NotSaved int isMyFriend; // For being a fan
    	
-   	
+   	// 번역 정보를 저장하기 위한 list
    	@Embedded List<TransInformation> transinfo= new ArrayList<TransInformation>();
+   	
+   	// 본인이 만든 request를 저장
    	List<Key<TransRequest>> requestInfo= new ArrayList<Key<TransRequest>>(); // For translation Request
+   	
+   	// 관심 정보 저장
    	List<Interest> interests = new ArrayList<Interest>();
+   	
+   	// 언어 정보 저장
    	List<Language> languages = new ArrayList<Language>();
    	   	
+   	
+   	
+   	
+   	
+	public String getOpassword() {
+		return opassword;
+	}
+
+	public void setOpassword(String opassword) {
+		this.opassword = opassword;
+	}
+
+	public String getFirstTran() {
+		return firstTran;
+	}
+
+	public void setFirstTran(String firstTran) {
+		this.firstTran = firstTran;
+	}
+
+	public String getSecondTran() {
+		return secondTran;
+	}
+
+	public void setSecondTran(String secondTran) {
+		this.secondTran = secondTran;
+	}
+
+	public int getFirstTranNum() {
+		return firstTranNum;
+	}
+
+	public void setFirstTranNum(int firstTranNum) {
+		this.firstTranNum = firstTranNum;
+	}
+
+	public int getSecondTranNum() {
+		return secondTranNum;
+	}
+
+	public void setSecondTranNum(int secondTranNum) {
+		this.secondTranNum = secondTranNum;
+	}
+
 	public List<TransInformation> getTransinfo() {
 		return transinfo;
 	}
@@ -236,15 +301,6 @@ public class User implements UserDetails {
 		this.fid = fid;
 	}
 
-	private String password;
-    @NotSaved
-    private String password_c;
-    @NotSaved
-    private int step;
-    
-    private String face_access;
-    private String twit_authT="";
-    private String twit_authTS="";
     
     public String getTwit_authT() {
 		return twit_authT;

@@ -6,22 +6,30 @@ import javax.persistence.Id;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.*;
 
+/**
+ *
+ *	번역 정보를 저장하는 클래스입니다.
+ * 
+ * @author hellcodes
+ *
+ */
+
 public class Translation {
-	@Indexed Key<User> author;
+	@Indexed Key<User> author;     // 번역한 사람
 	@NotSaved User author_data;
 	//@Parent Key<Article> article;
 	//@NotSaved Article article_data;
-	@Indexed @Id Long id;
-	@Indexed String sid;
-    String t_content;
-    Language t_lan;
-	String ori_content;
-	Language ori_lan;
+	@Indexed @Id Long id;  
+	@Indexed String sid;         // 번역한 원글의 ID (트위터, 페북에서의 고유 아이디)
+    String t_content;            // 번역한 내용
+    Language t_lan;              // 무엇으로 번역했는가
+	String ori_content;          // 원래 내용
+	Language ori_lan;            // 원래 내용의 언어
 	String userid;     // the userid of author of original text
 	String username; // the username of original text
-	String profile_image_url;
-	int vender;
-    int voting;
+	String profile_image_url;    // 원래 글을 작성한 사람의 프로필 이미지 URL
+	int vender;                  // 트위터 OR 페북
+    int voting;                  // 이 번역의 voting 값
     @Indexed Date created_at;
     @Indexed Date updated_at;
            

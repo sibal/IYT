@@ -11,8 +11,12 @@
    User user = (User)request.getAttribute("user");
    List<TransRequest> requests = (List<TransRequest>)request.getAttribute("requests");
      List<TransRequest> mrequests = (List<TransRequest>)request.getAttribute("mrequests");
-   
+   	String interests = (String)request.getAttribute("interests");
+      TransInformation maxTrans = (TransInformation)request.getAttribute("maxTrans");
+   TransInformation secTrans = (TransInformation)request.getAttribute("secTrans");
       List<Translation> recent = (List<Translation>)request.getAttribute("recent");
+      List<User> fusers = (List<User>)request.getAttribute("fusers");
+	int rank = (Integer)request.getAttribute("rank");
    PrettyTime p = new PrettyTime();
 %>
 
@@ -45,8 +49,7 @@
 		// the data could now be submitted using $.get, $.post, $.ajax, etc 
 		$.post('/translate', queryString, function(response){
 			    
-			//location.href = "/translations";
-			alert("Successfully submitted!");
+			location.reload(); 
 			
 		});
 			    
@@ -67,46 +70,53 @@
 
 		<!-- 오른쪽 사이드바 -->
 		<div id="sidebar1">
-			<p class="side_title">TOP 10 of</p>
-			<div class="topTen_row1" style="background-color:#f9f9f9">254 <span class="topTen_row1g">(-)</span></div>
-			<div class="topTen_rowp" style="background-color:#f9f9f9"><img src="/img/ten_thumb_0.gif" width="18" height="18" align="absmiddle" /></div>
-			<div class="topTen_row2" style="background-color:#f9f9f9">johnniek7</div>
-			<div class="topTen_row3" style="background-color:#f9f9f9"><span class="topTen_row3g">356</span> <span class="topTen_row1g">Rank-ups</span></div>
+		<p class="side_title">TOP 10 of</p>
+			<div class="topTen_row1" style="background-color:#f9f9f9"> <%= rank %></div>
+			<div class="topTen_rowp" style="background-color:#f9f9f9"><img src="/img/default_profile.jpg" width="18" height="18" align="absmiddle" /></div>
+			<div class="topTen_row2" style="background-color:#f9f9f9"><%= user.getName() %></div>
+			<div class="topTen_row3" style="background-color:#f9f9f9"><span class="topTen_row3g"></span> <span class="topTen_row1g"></span></div>
 
-			<div class="topTen_row1" >1 <span class="topTen_row1g">(+2)</span></div>
-			<div class="topTen_rowp" ><img src="/img/ten_thumb_10.gif" width="18" height="18" align="absmiddle" /></div>
-			<div class="topTen_row2" >YBM Sisa</div>
-			<div class="topTen_row3" ><span class="topTen_row3g">11,034</span> <span class="topTen_row1g">Rank-ups</span></div>
 
+			<% int count = 0; %>
+			<% for(User u: fusers) { %>
+			<% if (u==null) continue; %>
+			<div class="topTen_row1" ><%= count+1 %> <span class="topTen_row1g"></span></div>
+			<div class="topTen_rowp" ><img src="/img/default_profile.jpg" width="18" height="18" align="absmiddle" /></div>
+			<div class="topTen_row2" ><%= u.getName() %></div>
+			<div class="topTen_row3" ><span class="topTen_row3g"></span> <span class="topTen_row1g"></span></div>
+			
+			<% count++; %>
+			
+			<% } %>
 			<br />
 
 			<p class="side_title">&nbsp;</p>
 			<p class="side_title"><img src="/img/table_line_f.gif" width="290" height="2" /></p>
 			
-
-<% if (recent.size() != 0) { %>
-<p class="side_title">Recent Translations</p>
-	<p class="side_content" id="recentContent">
-		<script>
-	var a = "";
-	var b = "";
-	<% for(Translation t : recent) { %>
-	a=jQuery.timeago(new Date(<%= t.getCreated_at().getTime() %>));
-	b += '<span class="side_content_smaller" style="color:#8aac00" >'+a+'</span> <%= StringEscapeUtils.escapeJavaScript(t.getT_content()) %><br />';
-	<% } %>
-	$('#recentContent').html(b);
-	</script>
-
-	<div style="height:10px"></div>
-<% } %>
-<% if (requests.size() != 0) { %>
-<p class="side_title">Your Translation Requests</p>
-	<p class="side_content">
-	<% for(TransRequest r : requests) { %>
-	<span class="side_content_smaller" style="color:#888">Waiting</span> <%= r.getText() %> <br />
-	<% } %>
-<br />
-<% } %>			
+			
+			<% if (recent.size() != 0) { %>
+			<p class="side_title">Recent Translations</p>
+				<p class="side_content" id="recentContent">
+					<script>
+				var a = "";
+				var b = "";
+				<% for(Translation t : recent) { %>
+				a=jQuery.timeago(new Date(<%= t.getCreated_at().getTime() %>));
+				b += '<span class="side_content_smaller" style="color:#8aac00" >'+a+'</span> <%= StringEscapeUtils.escapeJavaScript(t.getT_content()) %><br />';
+				<% } %>
+				$('#recentContent').html(b);
+				</script>
+			
+				<div style="height:10px"></div>
+			<% } %>
+			<% if (requests.size() != 0) { %>
+			<p class="side_title">Your Translation Requests</p>
+				<p class="side_content">
+				<% for(TransRequest r : requests) { %>
+				<span class="side_content_smaller" style="color:#888">Waiting</span> <%= r.getText() %> <br />
+				<% } %>
+			<br />
+			<% } %>			
 
 			<div style="height:20px"><img src="/img/table_line_f.gif" width="290" height="2" /></div>
 			<p class="side_content"><a href="#">About</a> <a href="#">News</a> <a href="#">Help</a> <a href="#">Blog</a> <a href="#">Contact</a> <a href="#">Terms</a> <a href="#">Privacy</a> <a href="#">Developers</a> (c) 2011 I&amp;YOU Translate</p>
@@ -115,7 +125,7 @@
 			<div id="hideShowMenu" class="hideShowMenuStyle" style="visibility:hidden">
 				<div id="hsm_pic"><img src="/img/profile_90_90.gif" width="20" height="20" /></div>
 				<div id="hsm_id">johnniek7</div>
-				<div id="hsm_menu" style="margin: 21px 0 0 23px"><a href="12.html">Account Settings</a></div>
+				<div id="hsm_menu" style="margin: 21px 0 0 23px"><a href="/account_view">Account Settings</a></div>
 				<div id="hsm_menu" style="margin: 13px 0 0 23px">Help Center</div>
 				<div id="hsm_menu" style="margin: 13px 0 0 23px"><a href="1-edit.html">Log Out</a></div>
 			</div><!-- end #hideShowMenu -->
@@ -124,13 +134,22 @@
  
 		<!-- 왼쪽 메인 콘텐츠 -->  
 		<div id="mainContent">
-			<div id="profilePic"><img src="/img/profile_90_90.gif" width="75" height="75" alt="profile" /></div>
-			<div id="profileText"><span class="content_id">johnniek7</span> <span class="content_name"> 조형욱</span></div>
-			<div id="profileDetail_translation"><span class="side_content_smaller" style="color:#8aac00">Translations </span><span class="content_detail1">KOR/ENG </span><span class="content_detail2">326 </span><span class="content_detail1">ENG/JPN </span><span class="content_detail2">14 </span></div>
-			<div id="profileDetail_interest"><span class="side_content_smaller" style="color:#8aac00">Interests </span><span class="content_detail1">books, family, funny, movie </span><span class="side_content_smaller" style="color:#8aac00">Total Rank-ups </span><span class="content_detail2">327 </span></div>
-			<div id="timelineSubMenu_nonselect" style="width:123px"><p class="menuText"><a href="/contributelive">Live Feed: All ▾</a></p></div>
-			<div id="timelineSubMenu" style="width:75px"><p class="menuText"><a href="#">Mayors</a></p></div>
-			<div id="timelineSubMenu_nonselect" style="width:60px"><p class="menuText"><a href="#">Fans</a></p></div>
+			<div id="profilePic"><img src="/img/default_profile.jpg" width="75" height="75" alt="profile" /></div>
+			<div id="profileText"><span class="content_id"><%= user.getName() %></span> <span class="content_name"> <%= user.getNick() %></span></div>
+			<div id="profileDetail_translation"><span class="side_content_smaller" style="color:#8aac00">Translations </span>
+			<% if (maxTrans != null) { %>
+			<span class="content_detail1"><%= maxTrans.getSource().name %>/<%= maxTrans.getDest().name%> </span>
+			<span class="content_detail2"><%= maxTrans.getNum() %> </span>
+			<% } %>
+			<% if (secTrans != null) { %>
+			<span class="content_detail1"><%= secTrans.getSource().name %>/<%= secTrans.getSource().name %> 
+			</span><span class="content_detail2"><%= secTrans.getNum() %> </span>
+			<% } %>
+			</div>
+			<div id="profileDetail_interest"><span class="side_content_smaller" style="color:#8aac00">Interests </span><span class="content_detail1"><%= interests %> </span></div>
+			<div id="timelineSubMenu_nonselect" style="width:123px"><p class="menuText"><a href="/contributelive">Live Feed</a></p></div>
+			<div id="timelineSubMenu" style="width:75px"><p class="menuText"><a href="/contributelive/mayor">Mayors</a></p></div>
+			<!-- <div id="timelineSubMenu_nonselect" style="width:60px"><p class="menuText"><a href="#">Fans</a></p></div> -->
 		</div><!-- end #mainContent -->
   
 		<!-- 모아보기 1 -->

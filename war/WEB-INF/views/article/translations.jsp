@@ -75,28 +75,28 @@
 			
 			<p>&nbsp;</p>
 			
-					<% for(Translation t : translations) { %>
+			<% for(Translation t : translations) { %>
+			
+			<div class="articleBox" onClick="" style="cursor:hand; cursor: pointer;">
+				<div id="profilePic"><img src="<%= t.getProfile_image_url() %>" width="47" height="48" alt="profile" /></div>
+				<div id="profileText">
+					<span class="content_id">
+					<% if (t.getVender() == 1) {%>
+					<img src="img/tw_ico.gif" alt="" width="18" height="18" align="absmiddle" /><%= t.getUsername() %>
+					<% }  else { %>
+					<img src="img/fb_ico.gif" alt="" width="18" height="18" align="absmiddle" /><%= t.getUsername() %>
+					<% } %> 
+					</span> 
+				</div>
+				<div id="timelineContent">
+					<span class="timelineContent_normal"><%=t.getOri_content() %></span>
+					<p/>
+				<div id="timelineContent" style="background:#dddddd;">
+					<span class="timelineContent_normal"><%=t.getT_content() %></span>
+				</div>
+			</div>
 
-<div class="articleBox" onClick="" style="cursor:hand; cursor: pointer;">
-	<div id="profilePic"><img src="<%= t.getProfile_image_url() %>" width="47" height="48" alt="profile" /></div>
-	<div id="profileText">
-		<span class="content_id">
-		<% if (t.getVender() == 1) {%>
-		<img src="img/tw_ico.gif" alt="" width="18" height="18" align="absmiddle" /><%= t.getUsername() %>
-		<% }  else { %>
-		<img src="img/fb_ico.gif" alt="" width="18" height="18" align="absmiddle" /><%= t.getUsername() %>
-		<% } %> 
-		</span> 
-	</div>
-	<div id="timelineContent">
-		<span class="timelineContent_normal"><%=t.getOri_content() %></span>
-		<p/>
-	<div id="timelineContent" style="background:#dddddd;">
-		<span class="timelineContent_normal"><%=t.getT_content() %></span>
-	</div>
-</div>
-
-<% } %>
+			<% } %>
 		
   		</div>			
 		</div><!-- end #mainContent -->

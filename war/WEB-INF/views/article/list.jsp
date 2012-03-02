@@ -37,7 +37,7 @@
 			$('.bigContentAreaCmtR').hide();
 			$('#bigContentAreaBtn').hide();
 			// make the area of translation
-			$('<div id="bigContentAreaMenu1"><a href="8.html"><img src="img/btn_bigger_screen.gif" width="32" height="32" alt="big screen" /></a></div>').insertAfter('#bigContentArea');
+			$('<div id="bigContentAreaMenu1"></div>').insertAfter('#bigContentArea');
 			
 			$('<div id="bigContentTranslation">'+
 					'<div id="tboxtop"><a onClick="closeClicked();"><img src="img/tboxmenu.gif" width="345" height="30" /></a></div>'+
@@ -223,7 +223,6 @@
 						likeflag = 2;
 					}
     			}); 
-//                    '<div id="bigContentAreaCmtR"><span class="articleSubMenu_facebook"><img src="img/fb_cmt.gif" width="17" height="15" align="absmiddle" /> View all 6 comments ??</span></div>';
             }
 			
 			var html="";
@@ -285,7 +284,7 @@
 				'<div id="hideShowMenu" class="hideShowMenuStyle" style="visibility:hidden">'+
 				'<div id="hsm_pic"><img src="img/profile_90_90.gif" width="20" height="20" /></div>'+
 				'<div id="hsm_id">johnniek7</div>'+
-				'<div id="hsm_menu" style="margin: 21px 0 0 23px"><a href="12.html">Account Settings</a></div>'+
+				'<div id="hsm_menu" style="margin: 21px 0 0 23px"><a href="/account_view">Account Settings</a></div>'+
 				'<div id="hsm_menu" style="margin: 13px 0 0 23px">Help Center</div>'+
 				'<div id="hsm_menu" style="margin: 13px 0 0 23px"><a href="1-edit.html">Log Out</a></div>'+
 				'</div>';
@@ -300,34 +299,34 @@
 		else
 		{
 			
-		var url = "/t_getTweet/"+aid;
-		$.getJSON(url, function(json) {
-
-			var html="";
-			html='<div id="profilePicLong"><img src="img/tw_ico_bw.gif" width="48" height="48" /><img src="'+json.user.profile_image_url+'" id="image_url" width="48" height="48" alt="profile" /></div>'+
-			'<div id="profileIdNameDiv" style="margin-top:20px"><span class="profile_id" id="profile_name">'+json.user.name+'</span><div id="user_id" style="visibility:hidden">'+json.user.id+'</div></div>'+
-			'<div id="bigContentArea">'+json.text+'</div>'+
-  			'<div id="bigContentAreaMenu"> <span class="articleSubMenu_time">'+jQuery.timeago(new Date(json.created_at.replace(/(\+\S+) (.*)/, '$2 $1')))+'</span></div>'+
-			'<div id="bigContentAreaBtn"><a onClick="translateClicked(\''+aid+'\', 0, 1)"><img src="img/btn_big_translate.gif" width="109" height="31" alt="translate" /></a></div>'+
-			'<br />'+
-			'<div id="bigContentAreaCmt"><img src="img/side_cmtopn.gif" width="394" height="8" />';
-            
-			html += "</div>";
-
-			html += '<!-- hide/show -->'+
-				'<div id="hideShowMenu" class="hideShowMenuStyle" style="visibility:hidden">'+
-				'<div id="hsm_pic"><img src="img/profile_90_90.gif" width="20" height="20" /></div>'+
-				'<div id="hsm_id">johnniek7</div>'+
-				'<div id="hsm_menu" style="margin: 21px 0 0 23px"><a href="12.html">Account Settings</a></div>'+
-				'<div id="hsm_menu" style="margin: 13px 0 0 23px">Help Center</div>'+
-				'<div id="hsm_menu" style="margin: 13px 0 0 23px"><a href="1-edit.html">Log Out</a></div>'+
-				'</div>';
-			$('#sidebar1').animate({opacity:0}, 200, function() {
-				$('#sidebar1').html(html);
+			var url = "/t_getTweet/"+aid;
+			$.getJSON(url, function(json) {
+	
+				var html="";
+				html='<div id="profilePicLong"><img src="img/tw_ico_bw.gif" width="48" height="48" /><img src="'+json.user.profile_image_url+'" id="image_url" width="48" height="48" alt="profile" /></div>'+
+				'<div id="profileIdNameDiv" style="margin-top:20px"><span class="profile_id" id="profile_name">'+json.user.name+'</span><div id="user_id" style="visibility:hidden">'+json.user.id+'</div></div>'+
+				'<div id="bigContentArea">'+json.text+'</div>'+
+	  			'<div id="bigContentAreaMenu"> <span class="articleSubMenu_time">'+jQuery.timeago(new Date(json.created_at.replace(/(\+\S+) (.*)/, '$2 $1')))+'</span></div>'+
+				'<div id="bigContentAreaBtn"><a onClick="translateClicked(\''+aid+'\', 0, 1)"><img src="img/btn_big_translate.gif" width="109" height="31" alt="translate" /></a></div>'+
+				'<br />'+
+				'<div id="bigContentAreaCmt"><img src="img/side_cmtopn.gif" width="394" height="8" />';
+	            
+				html += "</div>";
+	
+				html += '<!-- hide/show -->'+
+					'<div id="hideShowMenu" class="hideShowMenuStyle" style="visibility:hidden">'+
+					'<div id="hsm_pic"><img src="img/profile_90_90.gif" width="20" height="20" /></div>'+
+					'<div id="hsm_id">johnniek7</div>'+
+					'<div id="hsm_menu" style="margin: 21px 0 0 23px"><a href="12.html">Account Settings</a></div>'+
+					'<div id="hsm_menu" style="margin: 13px 0 0 23px">Help Center</div>'+
+					'<div id="hsm_menu" style="margin: 13px 0 0 23px"><a href="1-edit.html">Log Out</a></div>'+
+					'</div>';
+				$('#sidebar1').animate({opacity:0}, 200, function() {
+					$('#sidebar1').html(html);
+				});
+				$('#sidebar1').animate({opacity:1},200);
+				
 			});
-			$('#sidebar1').animate({opacity:1},200);
-			
-		});
 		
 		}
 
@@ -362,70 +361,112 @@
 				container1.push(fb);
 								
 		    	});
+	
+			
+				$.getJSON(url2,  function(oo){
+					$.each(oo.statuses, function (i,tw){
+						container2.push(tw);
+					
+					});
+					
+					var count1 = 0;
+					var count2 = 0;
+					
+					for(j=0;j<10;j++)
+					{
+														
+						if (count1 < 5 && (count2 == 5 || new Date(container1[count1].created_time*1000) > new Date(Date.parse(container2[count2].created_at.replace(/(\+\S+) (.*)/, '$2 $1')))))
+						{
+							html+= "<div class='articleBox' style='cursor:hand; cursor: pointer;'><div id='profilePic'>"+
+							"<img src='http://graph.facebook.com/"+container1[count1].from.id+"/picture' width='48' height='48' alt='profile' /></div><div id='profileText'>"+
+							"<span class='content_id'><img src='img/fb_ico.gif' width='18' height='18' align='absmiddle' /> "+container1[count1].from.name+"</span> </div>"+
+							"<div id='timelineContent' onClick='showDetail(\""+container1[count1].id+"\", 0);'><span class='timelineContent_normal'>"+container1[count1].message+"</span></div><div id='articleSubMenu'>"+
+							"<span class='articleSubMenu_time'>"+jQuery.timeago(new Date(container1[count1].created_time*1000))+" / </span>";
+							//"<img src='img/fb_like.gif' width='17' height='15' align='absmiddle' class='textmiddle' /><span class='articleSubMenu_facebook'>Like&nbsp;"+
+							//"<img src='img/fb_cmt.gif' width='17' height='15' align='absmiddle' class='textmiddle' />Comment</span>&nbsp;"+
+							html += "<img src='img/translate.gif' width='17' height='15' align='absmiddle' class='textmiddle' /><span class='articleSubMenu_iyoutranslate'><a onClick='$(\"#trans_bar_"+container1[count1].id+"\").css(\"display\", \"block\")'>Translate!</a></span>";
+							html += "<div id='trans_bar_"+container1[count1].id+"' style='display:none' >"+
+							
+									'<form id=\"'+container1[count1].id+'\" name=\"'+container1[count1].id+'\" method=POST>'+
+									'<input type=hidden class="sid" id="sid" name="sid" value="'+container1[count1].id+'" />'+
+									'<input type=hidden id="voting" name="voting" value="0" />'+
+									'<input type=hidden id="ori_lan" name="ori_lan" value="" />'+
+									'<input type=hidden id="username" name="username" value="'+container1[count1].from.name+'" />'+
+									'<input type=hidden id="userid" name="userid" value="'+container1[count1].from.id+'" />'+
+									'<input type=hidden id="t_lan" name="t_lan" value="" />'+
+									'<input type=hidden id="vender" name="vender" value=0 />'+
+									'<input type=hidden id="profile_image_url" name="profile_image_url" value="http://graph.facebook.com/'+container1[count1].from.id+'/picture" />'+
+									'<input type=hidden id="ori_content" name="ori_content" value="'+container1[count1].message+'" />'+
+							
+									"<input type='text' name='t_content' id='t_content' class='qtranslateBar' style='width:400px' />"+
+								    "<a onClick='translate(\""+container1[count1].id+"\")'><img src='img/translate_small_send.gif'  alt='send' width='63' height='24' align='middle' style='border:none;vertical-algin:top'/></a> </p></form></div>";
+							html += "</div></div>";
 
+							count1++;
+						}
+						else
+						{
+					
+							html+= "<div class='articleBox'  style='cursor:hand; cursor: pointer;'>"+
+							"<div id='profilePic'><img src='"+container2[count2].user.profile_image_url+"' width='48' height='48' alt='profile' /></div>"+
+							"<div id='profileText'><span class='content_id'><img src='img/tw_ico.gif' width='18' height='18' align='absmiddle' /> "+container2[count2].user.name+"</span> </div>"+
+							"<div id='timelineContent' onClick='showDetail(\""+container2[count2].id_str+"\", 1);'><span class='timelineContent_normal'>"+container2[count2].text+"</span></div><div id='articleSubMenu'>"+
+							"<span class='articleSubMenu_time'>"+ jQuery.timeago(new Date(Date.parse(container2[count2].created_at.replace(/(\+\S+) (.*)/, '$2 $1'))))+" / </span>"+
+							"<img src='img/tw_fav.gif' width='17' height='15' align='absmiddle' class='textmiddle' /><span class='articleSubMenu_twitter'>";
+							
+							if (container2[count2].favorited == false)						
+								html+="<span id='favorite_"+container2[count2].id_str+"' style='width:50px'><a href='#' class='articleSubMenu_twitter' id='a_"+container2[count2].id_str+"' onClick='t_favorite(\""+container2[count2].id_str+"\");'>Favorite&nbsp;</a></span>";
+							else
+								html+="<span id='favorite_"+container2[count2].id_str+"' style='width:50px'><a href='#' class='articleSubMenu_twitter' id='a_"+container2[count2].id_str+"' onClick='t_cancelfavorite(\""+container2[count2].id_str+"\");'>Favorited&nbsp;</a></span>";
+								
+							if (container2[count2].retweeted == false)		
+								html+= "<span id='retweet_"+container2[count2].id_str+"'><a onClick='t_retweet(\""+container2[count2].id_str+"\")'><img src='img/tw_ret.gif' width='17' height='15' align='absmiddle' class='textmiddle' />Retweet&nbsp;</a></span>";
+							else
+								html+= "<span id='retweet_"+container2[count2].id_str+"'><img src='img/tw_ret.gif' width='17' height='15' align='absmiddle' class='textmiddle' />Retweetd&nbsp;</span>";
+								
+							
+							html += "<img src='img/translate.gif' width='17' height='15' align='absmiddle' class='textmiddle' /><span class='articleSubMenu_iyoutranslate'><a onClick='$(\"#trans_bar_"+container2[count2].id_str+"\").css(\"display\", \"block\")'>Translate!</a></span>";
+							html += "<div id='trans_bar_"+container2[count2].id_str+"' style='display:none' >"+
+							
+									'<form id=\"'+container2[count2].id_str+'\" method=POST>'+
+									'<input type=hidden class="sid" id="sid" name="sid" value="'+container2[count2].id_str+'" />'+
+									'<input type=hidden id="voting" name="voting" value="0" />'+
+									'<input type=hidden id="ori_lan" name="ori_lan" value="" />'+
+									'<input type=hidden id="username" name="username" value="'+container2[count2].user.name+'" />'+
+									'<input type=hidden id="userid" name="userid" value="'+container2[count2].user.id_str+'" />'+
+									'<input type=hidden id="t_lan" name="t_lan" value="" />'+
+									'<input type=hidden id="vender" name="vender" value=1 />'+
+									'<input type=hidden id="profile_image_url" name="profile_image_url" value="'+container2[count2].user.profile_image_url+'" />'+
+									'<input type=hidden id="ori_content" name="ori_content" value="'+container2[count2].text+'" />'+
+							
+									"<input type='text' name='t_content' id='t_content' class='qtranslateBar' style='width:400px' />"+
+								    "<a onClick='translate(\""+container2[count2].id_str+"\")'><img src='img/translate_small_send.gif'  alt='send' width='63' height='24' align='middle' style='border:none;vertical-algin:top'/></a> </p></form></div>";
+							html += "</div></div>";
+							count2++;
+						}
+					}	
+					
 		
-			$.getJSON(url2,  function(oo){
-				$.each(oo.statuses, function (i,tw){
-					container2.push(tw);
+					$('#articles').animate({opacity:0}, 500, function(){
+						$('#nextButton').remove();
+						$('#loading').remove();
+					
+						$('#articles').html($('#articles').html()+html);
+						$('#articles').html($('#articles').html()+"<div id='nextButton'><a onClick=\"fbFetch(1, '"+json.paging.next.replace(/&callback=[a-z|A-Z|0-9|_|=]+/g,"")+"&callback=?"+"', '/t_getTimeline/"+container2[count2-1].id_str+"')\">next!</a></div>");
+				 	});
+					$('#articles').animate({opacity:1}, 500);							
 				
 				});
-				
-				var count1 = 0;
-				var count2 = 0;
-				
-				for(j=0;j<10;j++)
-				{
-													
-					if (count1 < 5 && (count2 == 5 || new Date(container1[count1].created_time*1000) > new Date(Date.parse(container2[count2].created_at.replace(/(\+\S+) (.*)/, '$2 $1')))))
-					{
-						html+= "<div class='articleBox' onClick='showDetail(\""+container1[count1].id+"\", 0);' style='cursor:hand; cursor: pointer;'><div id='profilePic'>"+
-						"<img src='http://graph.facebook.com/"+container1[count1].from.id+"/picture' width='48' height='48' alt='profile' /></div><div id='profileText'>"+
-						"<span class='content_id'><img src='img/fb_ico.gif' width='18' height='18' align='absmiddle' /> "+container1[count1].from.name+"</span> </div>"+
-						"<div id='timelineContent'><span class='timelineContent_normal'>"+container1[count1].message+"</span></div><div id='articleSubMenu'>"+
-						"<span class='articleSubMenu_time'>"+jQuery.timeago(new Date(container1[count1].created_time*1000))+" / </span>"+
-						//"<img src='img/fb_like.gif' width='17' height='15' align='absmiddle' class='textmiddle' /><span class='articleSubMenu_facebook'>Like&nbsp;"+
-						//"<img src='img/fb_cmt.gif' width='17' height='15' align='absmiddle' class='textmiddle' />Comment</span>&nbsp;"+
-						"<img src='img/translate.gif' width='17' height='15' align='absmiddle' class='textmiddle' /><span class='articleSubMenu_iyoutranslate'>Translate!</span></div></div>";
-						count1++;
-					}
-					else
-					{
-				
-						html+= "<div class='articleBox'  style='cursor:hand; cursor: pointer;'>"+
-						"<div id='profilePic'><img src='"+container2[count2].user.profile_image_url+"' width='48' height='48' alt='profile' /></div>"+
-						"<div id='profileText'><span class='content_id'><img src='img/tw_ico.gif' width='18' height='18' align='absmiddle' /> "+container2[count2].user.name+"</span> </div>"+
-						"<div id='timelineContent' onClick='showDetail(\""+container2[count2].id_str+"\", 1);'><span class='timelineContent_normal'>"+container2[count2].text+"</span></div><div id='articleSubMenu'>"+
-						"<span class='articleSubMenu_time'>"+ jQuery.timeago(new Date(Date.parse(container2[count2].created_at.replace(/(\+\S+) (.*)/, '$2 $1'))))+" / </span>"+
-						"<img src='img/tw_fav.gif' width='17' height='15' align='absmiddle' class='textmiddle' /><span class='articleSubMenu_twitter'>"+
-						"<a href='#' class='articleSubMenu_twitter' onClick='t_favorite(\""+container2[count2].id_str+"\");'>Favorite</a>&nbsp;"+
-						"<img src='img/tw_ret.gif' width='17' height='15' align='absmiddle' class='textmiddle' />Retweet&nbsp;"+
-						//"<img src='img/tw_rep.gif' width='17' height='15' align='absmiddle' class='textmiddle' />Reply</span>&nbsp;"+
-						"<img src='img/translate.gif' width='17' height='15' align='absmiddle' class='textmiddle' /><span class='articleSubMenu_iyoutranslate'>Translate!</span></div></div>";
-						count2++;
-					}
-				}	
-				
-	
-				$('#articles').animate({opacity:0}, 500, function(){
-										$('#nextButton').remove();
-					$('#loading').remove();
-				
-					$('#articles').html($('#articles').html()+html);
-					$('#articles').html($('#articles').html()+"<div id='nextButton'><a onClick=\"fbFetch(1, '"+json.paging.next.replace(/&callback=[a-z|A-Z|0-9|_|=]+/g,"")+"&callback=?"+"', '/t_getTimeline/"+container2[count2-1].id_str+"')\">next!</a></div>");
-			 	});
-				$('#articles').animate({opacity:1}, 500);							
-			
 			});
-		});
 
 		<%} else if (!user.getFace_access().equals("")) {%>
 		
 			
-		if (mode==0)
-		{
-			url= "https://graph.facebook.com/me/home?limit=10&access_token="+access+"&date_format=U&fields=id,from,message,comments,likes&callback=?";
-		}
-		
+			if (mode==0)
+			{
+				url= "https://graph.facebook.com/me/home?limit=10&access_token="+access+"&date_format=U&fields=id,from,message,comments,likes&callback=?";
+			}
+			
 		
 		  var container1 = new Array();
 	      $.ajaxSetup({ cache: false }); 
@@ -442,15 +483,32 @@
 				
 				for(j=0;j<10;j++)
 				{
-						html+= "<div class='articleBox' onClick='showDetail(\""+container1[count1].id+"\", 0);' style='cursor:hand; cursor: pointer;'><div id='profilePic'>"+
-						"<img src='http://graph.facebook.com/"+container1[count1].from.id+"/picture' width='48' height='48' alt='profile' /></div><div id='profileText'>"+
-						"<span class='content_id'><img src='img/fb_ico.gif' width='18' height='18' align='absmiddle' /> "+container1[count1].from.name+"</span> </div>"+
-						"<div id='timelineContent'><span class='timelineContent_normal'>"+container1[count1].message+"</span></div><div id='articleSubMenu'>"+
-						"<span class='articleSubMenu_time'>"+jQuery.timeago(new Date(container1[count1].created_time*1000))+" / </span>"+
-						//"<img src='img/fb_like.gif' width='17' height='15' align='absmiddle' class='textmiddle' /><span class='articleSubMenu_facebook'>Like&nbsp;"+
-						//"<img src='img/fb_cmt.gif' width='17' height='15' align='absmiddle' class='textmiddle' />Comment</span>&nbsp;"+
-						"<img src='img/translate.gif' width='17' height='15' align='absmiddle' class='textmiddle' /><span class='articleSubMenu_iyoutranslate'>Translate!</span></div></div>";
-						count1++;
+				html+= "<div class='articleBox' style='cursor:hand; cursor: pointer;'><div id='profilePic'>"+
+							"<img src='http://graph.facebook.com/"+container1[count1].from.id+"/picture' width='48' height='48' alt='profile' /></div><div id='profileText'>"+
+							"<span class='content_id'><img src='img/fb_ico.gif' width='18' height='18' align='absmiddle' /> "+container1[count1].from.name+"</span> </div>"+
+							"<div id='timelineContent' onClick='showDetail(\""+container1[count1].id+"\", 0);'><span class='timelineContent_normal'>"+container1[count1].message+"</span></div><div id='articleSubMenu'>"+
+							"<span class='articleSubMenu_time'>"+jQuery.timeago(new Date(container1[count1].created_time*1000))+" / </span>";
+							//"<img src='img/fb_like.gif' width='17' height='15' align='absmiddle' class='textmiddle' /><span class='articleSubMenu_facebook'>Like&nbsp;"+
+							//"<img src='img/fb_cmt.gif' width='17' height='15' align='absmiddle' class='textmiddle' />Comment</span>&nbsp;"+
+							html += "<img src='img/translate.gif' width='17' height='15' align='absmiddle' class='textmiddle' /><span class='articleSubMenu_iyoutranslate'><a onClick='$(\"#trans_bar_"+container1[count1].id+"\").css(\"display\", \"block\")'>Translate!</a></span>";
+							html += "<div id='trans_bar_"+container1[count1].id+"' style='display:none' >"+
+							
+									'<form id=\"'+container1[count1].id+'\" name=\"'+container1[count1].id+'\" method=POST>'+
+									'<input type=hidden class="sid" id="sid" name="sid" value="'+container1[count1].id+'" />'+
+									'<input type=hidden id="voting" name="voting" value="0" />'+
+									'<input type=hidden id="ori_lan" name="ori_lan" value="" />'+
+									'<input type=hidden id="username" name="username" value="'+container1[count1].from.name+'" />'+
+									'<input type=hidden id="userid" name="userid" value="'+container1[count1].from.id+'" />'+
+									'<input type=hidden id="t_lan" name="t_lan" value="" />'+
+									'<input type=hidden id="vender" name="vender" value=0 />'+
+									'<input type=hidden id="profile_image_url" name="profile_image_url" value="http://graph.facebook.com/'+container1[count1].from.id+'/picture" />'+
+									'<input type=hidden id="ori_content" name="ori_content" value="'+container1[count1].message+'" />'+
+							
+									"<input type='text' name='t_content' id='t_content' class='qtranslateBar' style='width:400px' />"+
+								    "<a onClick='translate(\""+container1[count1].id+"\")'><img src='img/translate_small_send.gif'  alt='send' width='63' height='24' align='middle' style='border:none;vertical-algin:top'/></a> </p></form></div>";
+							html += "</div></div>";
+
+							count1++;
 				}	
 				
 				$('#articles').animate({opacity:0}, 500, function(){
@@ -467,45 +525,70 @@
 		
 		<%} else if (!user.getTwit_authT().equals("")) {%>
 				
-		if (mode==0)
-		{
-			url2= "/t_getTimeline";
-		}
-	
-		
-		 $.getJSON(url2,  function(oo){
-				$.each(oo.statuses, function (i,tw){
-					container2.push(tw);
-				
-				});
-				
-				var count2 = 0;
-				
-				for(j=0;j<5;j++)
-				{
-												
-								html+= "<div class='articleBox'  style='cursor:hand; cursor: pointer;'>"+
-						"<div id='profilePic'><img src='"+container2[count2].user.profile_image_url+"' width='48' height='48' alt='profile' /></div>"+
-						"<div id='profileText'><span class='content_id'><img src='img/tw_ico.gif' width='18' height='18' align='absmiddle' /> "+container2[count2].user.name+"</span> </div>"+
-						"<div id='timelineContent' onClick='showDetail(\""+container2[count2].id_str+"\", 1);'><span class='timelineContent_normal'>"+container2[count2].text+"</span></div><div id='articleSubMenu'>"+
-						"<span class='articleSubMenu_time'>"+ jQuery.timeago(new Date(Date.parse(container2[count2].created_at.replace(/(\+\S+) (.*)/, '$2 $1'))))+" / </span>"+
-						"<img src='img/tw_fav.gif' width='17' height='15' align='absmiddle' class='textmiddle' /><span class='articleSubMenu_twitter'>"+
-						"<a href='#' class='articleSubMenu_twitter' onClick='t_favorite(\""+container2[count2].id_str+"\");'>Favorite</a>&nbsp;"+
-						"<img src='img/tw_ret.gif' width='17' height='15' align='absmiddle' class='textmiddle' />Retweet&nbsp;"+
-						//"<img src='img/tw_rep.gif' width='17' height='15' align='absmiddle' class='textmiddle' />Reply</span>&nbsp;"+
-						"<img src='img/translate.gif' width='17' height='15' align='absmiddle' class='textmiddle' /><span class='articleSubMenu_iyoutranslate'>Translate!</span></div></div>";
-						count2++;
-				}	
-				
-				$('#articles').animate({opacity:0}, 500, function(){
-					$('#nextButton').remove();
-					$('#loading').remove();
-					$('#articles').html($('#articles').html()+html);
-					$('#articles').html($('#articles').html()+"<div id='nextButton'><a onClick=\"fbFetch(1, '', '/t_getTimeline/"+container2[count2-1].id_str+"')\">next!</a></div>");
-					
-			 	});
-				$('#articles').animate({opacity:1}, 500);							
+			if (mode==0)
+			{
+				url2= "/t_getTimeline";
+			}
 			
+				
+			 $.getJSON(url2,  function(oo){
+					$.each(oo.statuses, function (i,tw){
+						container2.push(tw);
+					
+					});
+					
+					var count2 = 0;
+					
+					for(j=0;j<5;j++)
+					{
+													
+								html+= "<div class='articleBox'  style='cursor:hand; cursor: pointer;'>"+
+							"<div id='profilePic'><img src='"+container2[count2].user.profile_image_url+"' width='48' height='48' alt='profile' /></div>"+
+							"<div id='profileText'><span class='content_id'><img src='img/tw_ico.gif' width='18' height='18' align='absmiddle' /> "+container2[count2].user.name+"</span> </div>"+
+							"<div id='timelineContent' onClick='showDetail(\""+container2[count2].id_str+"\", 1);'><span class='timelineContent_normal'>"+container2[count2].text+"</span></div><div id='articleSubMenu'>"+
+							"<span class='articleSubMenu_time'>"+ jQuery.timeago(new Date(Date.parse(container2[count2].created_at.replace(/(\+\S+) (.*)/, '$2 $1'))))+" / </span>"+
+							"<img src='img/tw_fav.gif' width='17' height='15' align='absmiddle' class='textmiddle' /><span class='articleSubMenu_twitter'>";
+							
+							if (container2[count2].favorited == false)						
+								html+="<span id='favorite_"+container2[count2].id_str+"' style='width:50px'><a href='#' class='articleSubMenu_twitter' id='a_"+container2[count2].id_str+"' onClick='t_favorite(\""+container2[count2].id_str+"\");'>Favorite&nbsp;</a></span>";
+							else
+								html+="<span id='favorite_"+container2[count2].id_str+"' style='width:50px'><a href='#' class='articleSubMenu_twitter' id='a_"+container2[count2].id_str+"' onClick='t_cancelfavorite(\""+container2[count2].id_str+"\");'>Favorited&nbsp;</a></span>";
+								
+							if (container2[count2].retweeted == false)		
+								html+= "<span id='retweet_"+container2[count2].id_str+"'><a onClick='t_retweet(\""+container2[count2].id_str+"\")'><img src='img/tw_ret.gif' width='17' height='15' align='absmiddle' class='textmiddle' />Retweet&nbsp;</a></span>";
+							else
+								html+= "<span id='retweet_"+container2[count2].id_str+"'><img src='img/tw_ret.gif' width='17' height='15' align='absmiddle' class='textmiddle' />Retweetd&nbsp;</span>";
+								
+							
+							html += "<img src='img/translate.gif' width='17' height='15' align='absmiddle' class='textmiddle' /><span class='articleSubMenu_iyoutranslate'><a onClick='$(\"#trans_bar_"+container2[count2].id_str+"\").css(\"display\", \"block\")'>Translate!</a></span>";
+							html += "<div id='trans_bar_"+container2[count2].id_str+"' style='display:none' >"+
+							
+									'<form id=\"'+container2[count2].id_str+'\" method=POST>'+
+									'<input type=hidden class="sid" id="sid" name="sid" value="'+container2[count2].id_str+'" />'+
+									'<input type=hidden id="voting" name="voting" value="0" />'+
+									'<input type=hidden id="ori_lan" name="ori_lan" value="" />'+
+									'<input type=hidden id="username" name="username" value="'+container2[count2].user.name+'" />'+
+									'<input type=hidden id="userid" name="userid" value="'+container2[count2].user.id_str+'" />'+
+									'<input type=hidden id="t_lan" name="t_lan" value="" />'+
+									'<input type=hidden id="vender" name="vender" value=1 />'+
+									'<input type=hidden id="profile_image_url" name="profile_image_url" value="'+container2[count2].user.profile_image_url+'" />'+
+									'<input type=hidden id="ori_content" name="ori_content" value="'+container2[count2].text+'" />'+
+							
+									"<input type='text' name='t_content' id='t_content' class='qtranslateBar' style='width:400px' />"+
+								    "<a onClick='translate(\""+container2[count2].id_str+"\")'><img src='img/translate_small_send.gif'  alt='send' width='63' height='24' align='middle' style='border:none;vertical-algin:top'/></a> </p></form></div>";
+							html += "</div></div>";
+							count2++;
+					}	
+					
+					$('#articles').animate({opacity:0}, 500, function(){
+						$('#nextButton').remove();
+						$('#loading').remove();
+						$('#articles').html($('#articles').html()+html);
+						$('#articles').html($('#articles').html()+"<div id='nextButton'><a onClick=\"fbFetch(1, '', '/t_getTimeline/"+container2[count2-1].id_str+"')\">next!</a></div>");
+						
+				 	});
+					$('#articles').animate({opacity:1}, 500);							
+				
 			});
 		
 		<% } %>
@@ -541,9 +624,27 @@
         		}
         		else
         		{
-        			alert("Successfully done!");
+        			$('#favorite_'+tid).html("<a href='#' class='articleSubMenu_twitter' id='a_"+tid+"' onClick='t_cancelfavorite(\""+tid+"\");'>Favorited</a>&nbsp;");
         		}
-		
+        		//"
+ 		
+		});
+	}
+	
+	function t_cancelfavorite(tid)
+	{
+		$.getJSON('/twitterAction/cancelfavorite/'+tid, function(data){
+		        		// do something with a
+        		if (data.success==0)
+        		{
+        			alert("Error!");
+        		}
+        		else
+        		{
+        			$('#favorite_'+tid).html("<a href='#' class='articleSubMenu_twitter' id='a_"+tid+"' onClick='t_favorite(\""+tid+"\");'>Favorite</a>&nbsp;");
+
+        		}
+ 		
 		});
 	}
 	
@@ -557,8 +658,27 @@
         		}
         		else
         		{
+        			$('#retweet_'+tid).html("<img src='img/tw_ret.gif' width='17' height='15' align='absmiddle' class='textmiddle' />Retweeted&nbsp;");
+        		}
+
+		
+		});
+	}
+	
+	
+	function t_cancelretweet(tid)
+	{
+		$.getJSON('/twitterAction/cancelretweet/'+tid, function(data){
+		        		// do something with a
+        		if (data.success==0)
+        		{
+        			alert("Error!");
+        		}
+        		else
+        		{
         			alert("Successfully done!");
         		}
+
 		
 		});
 	}
@@ -579,6 +699,25 @@
         		}
 		});
 		}
+	}
+	
+	function translate(aid)
+	{
+		$('#'+aid).ajaxForm();			
+			
+		var queryString = $('#'+aid).formSerialize(); 
+
+		// the data could now be submitted using $.get, $.post, $.ajax, etc 
+		$.post('/translate', queryString, function(response){
+			    			
+			$.getJSON('/translation/'+aid,  function(oo){
+				if (oo.result==1)
+				{							
+					$('#trans_bar_'+aid).html('<p class="qtranslate_content" style="margin:0 0 0 0"><span style="color:gray" style="margin:0 0 0 0">Yours:'+oo.t_content+'</span>');
+				}	
+			});
+		});
+			    
 	}
 
 </script>

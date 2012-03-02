@@ -74,7 +74,7 @@
 <div id="hideShowMenu" class="hideShowMenuStyle" style="visibility:hidden">
 	<div id="hsm_pic"><img src="img/profile_90_90.gif" width="20" height="20" /></div>
 	<div id="hsm_id">johnniek7</div>
-	<div id="hsm_menu" style="margin: 21px 0 0 23px"><a href="12.html">Account Settings</a></div>
+	<div id="hsm_menu" style="margin: 21px 0 0 23px"><a href="/account_view">Account Settings</a></div>
 	<div id="hsm_menu" style="margin: 13px 0 0 23px">Help Center</div>
 	<div id="hsm_menu" style="margin: 13px 0 0 23px"><a href="1-edit.html">Log Out</a></div>
 </div>

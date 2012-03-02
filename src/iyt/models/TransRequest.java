@@ -10,18 +10,25 @@ import javax.persistence.Id;
 
 import iyt.enums.*;
 
+/**
+ * 이 클래스는 번역 요청에 대한 클래스입니다.
+ * 
+ * @author hellcodes
+ *
+ */
+
 public class TransRequest {
 		
 		@Indexed @Id Long id;
-		Language language;
-		String uid; // author's id
+		Language language;             // 원 글의 언어
+		String uid; // 원글 저작자의 고유값(트위터, 페이스북)
 		String username; // author's name
-		String profile_image_url;
-		String aid; // article's id
-		String text;
-		Key<User> requester;
+		String profile_image_url;   // 원글 저작자의 이미지 url
+		String aid; // article's id  원글의 아이디(트위터, 페이스북)
+		String text;    // 원글의 내용
+		Key<User> requester;   // 요청자
 		@Indexed Date created_at;
-	    int vender;
+	    int vender;    // 페북인가 트위터인가
 			
     public void setId(Long id) {
 			this.id = id;

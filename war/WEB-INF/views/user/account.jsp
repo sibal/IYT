@@ -1,5 +1,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="iyt.enums.*" %>
+<%@ page import="iyt.models.*" %>
+
+
+<% @SuppressWarnings("unchecked") 
+   
+   	User user = (User)request.getAttribute("user");
+   	String result = (String)request.getAttribute("result");
+
+%>
+
 
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
@@ -23,8 +33,12 @@ a:active {
 <!-- 상단 Log in 클릭 시 나타나는 hide/show 메뉴 셋팅 --> 
 <script language="javascript" src="/js/jquery-1.7.1.js"></script>
 <script language="javascript" src="/js/jquery.form.js"></script>
-<script language="javascript" src="/js/form.js"></script>
-<script language="javascript" type="text/javascript"> 
+<script language="javascript" type="text/javascript">
+
+<% if (result != "true") { %>
+	alert('Password error!');
+<% } %>
+ 
 function showHideDiv()
     {
         var divstyle = new String();
@@ -73,7 +87,12 @@ function updateInterest()
 
 	document.forms["signupform"].interests_str.value=interests;
 }
+
+function submit() {
+    $('#signupform').submit();
+}
  
+
 </script> 
 
 
@@ -93,15 +112,6 @@ function updateInterest()
 				logout();
 			});
 
-			FB.getLoginStatus(function(response) {
-				var accessToken = response.authResponse.accessToken;
-				var userid = response.authResponse.userID;
-				document.forms["signupform"].signupAccess.value = accessToken;
-				document.forms["signupform"].signupUID.value = userid;
-				//alert(document.forms["signupform"].signupAccess.value);
-				alert("Successfully registered!");
-				
-			});
 
 		};
 		(function() {
@@ -119,8 +129,8 @@ function updateInterest()
 				FB.getLoginStatus(function(response) {
 				var accessToken = response.authResponse.accessToken;
 				var userid = response.authResponse.userID;
-				document.forms["signupform"].signupAccess.value = accessToken;
-				document.forms["signupform"].signupUID.value = userid;
+				document.forms["signupform"].face_access.value = accessToken;
+				document.forms["signupform"].fid.value = userid;
 				alert("Successfully registered!");
 				
 			});
@@ -147,11 +157,10 @@ function updateInterest()
 	
 	
     <div id="mainContent"> 
-		<form:form id="signupform" name="signupform" action="/signup_chk" method="POST"> 
+		<form id="signupform" name="signupform" action="/account_edit" method="POST"> 
 		<fb:login-button autologoutlink='true' perms='email,user_birthday,status_update,publish_stream,read_stream'></fb:login-button>
     	<div id="leftSide"><!-- 맨 왼쪽의 회원가입 항목 --> 
-			<p>Full Name</p> 
-    		<p>Email</p> 
+    		<p>Original Password</p> 
 			<p>Password</p> 
     		<p>Verify Password</p> 
 			<p>Nickname</p> 
@@ -169,24 +178,29 @@ function updateInterest()
     	</div> 
     	
 		<div id="centerMain"><!-- 회원가입 입력 영역 --> 
-            <p><form:input type="text" path="name" name="signupFullNameForm" id="signupFullName"  class="s_form" /><span id='c_name'/></p> 
-            <p><form:input type="text" path="username" name="signupEmailForm" id="signupEmail"  class="s_form" /><span id='c_username'/></p>
-            <p><form:input name="signupPasswordForm" path="password" type="password" class="s_form" id="signupPassword" /><span id='c_password'/></p>
+	  	    <p><input name="opassword" type="password" class="s_form" id="opassword" value=""/></p>
+            <p><input name="password" type="password" class="s_form" id="password" value="" /></p>
             <input type="hidden" name="interests_str" id="interests_str" value="" />
             <input type="hidden" name="twit_authT" id="twit_authT" value="" />
             <input type="hidden" name="twit_authTS" id="twit_authTS" value="" />
-            
-            <p><form:input type="password" path="password_c" name="signupPwvForm" id="signupPwv"  class="s_form" /><span id='c_password_c'/></p>
-            <p><form:input type="text" path="nick" name="signupNicknameForm" id="signupNickname"  class="s_form" /><span id='c_nick'/></p>
-            <form:input type="hidden" path="face_access" name="face_accessForm" id="signupAccess" />
-            <form:input type="hidden" path="fid" name="face_uid" id="signupUID" />
+            <p><input type="password" name="password_c" id="password_c"  class="s_form" value="" /></p>
+            <p><input type="text" name="nick" id="nick"  class="s_form" value="<%= user.getNick() %>" /></p>
+            <input type="hidden" name="face_access" id="face_access" value="" />
+            <input type="hidden" name="fid" id="fid" value="" />
             <p>&nbsp;</p> 
 			
 			<!-- 관심사 선택 부분 왼쪽 다단 --> 
 			<div id="centerMainLeft">
 				<% for(Interest i: Interest.values()) { %> 
 					<% if(i.num % 2 ==1){ %>
-				<p><input type="checkbox" class="i" id="interest<%= i.num %>" value="<%= i.num %>" name="interest<%= i.num %>" onClick="updateInterest()" /><%= i.name %></p>
+					
+					<% if (user.getInterests().contains(i)) {%>	
+						<p><input type="checkbox" class="i" id="interest<%= i.num %>" checked="true" value="<%= i.num %>" name="interest<%= i.num %>" onClick="updateInterest()" /><%= i.name %></p>
+				
+					<% } else { %>
+						<p><input type="checkbox" class="i" id="interest<%= i.num %>" value="<%= i.num %>" name="interest<%= i.num %>" onClick="updateInterest()" /><%= i.name %></p>
+					
+					<% } %>
 					<% } %>
 				<% } %> 
             </div> 
@@ -195,7 +209,15 @@ function updateInterest()
 			<div id="centerMainRight"> 
 				<% for(Interest i: Interest.values()) { %> 
 					<% if(i.num % 2 ==0){ %>
-				<p><input type="checkbox" class="i" id="interest<%= i.num %>" value="<%= i.num %>" name="interest<%= i.num %>" onClick="updateInterest()" /><%= i.name %></p>
+
+					<% if (user.getInterests().contains(i)) {%>	
+						<p><input type="checkbox" class="i" id="interest<%= i.num %>" checked="true" value="<%= i.num %>" name="interest<%= i.num %>" onClick="updateInterest()" /><%= i.name %></p>
+				
+					<% } else { %>
+						<p><input type="checkbox" class="i" id="interest<%= i.num %>" value="<%= i.num %>" name="interest<%= i.num %>" onClick="updateInterest()" /><%= i.name %></p>
+					
+					<% } %>
+					
 					<% } %>
 				<% } %> 
             </div> 
@@ -209,9 +231,11 @@ function updateInterest()
 				<select class="s_select" name="language1" id="language1" size="1"> 
 				<option value="-1">-- Select Language --</option> 
 				<% for(Language i: Language.values()) { %> 
-					
-				<option value="<%= i.num %>"><%= i.name_en %> - <%= i.name %></option> 
-
+					<% if(user.getLanguages().get(0).equals(i)) { %>
+					<option selected=true value="<%= i.num %>"><%= i.name_en %> - <%= i.name %></option> 
+					<% } else { %>
+					<option value="<%= i.num %>"><%= i.name_en %> - <%= i.name %></option> 
+					<% } %>
 				<% } %> 
 				
 				</select> 
@@ -223,7 +247,11 @@ function updateInterest()
 					<option value="-1">-- Select Language --</option> 
 				<% for(Language i: Language.values()) { %> 
 					
-				<option value="<%= i.num %>"><%= i.name_en %> - <%= i.name %></option> 
+					<% if(user.getLanguages().size() > 1 && user.getLanguages().get(1).equals(i)) { %>
+					<option selected=true value="<%= i.num %>"><%= i.name_en %> - <%= i.name %></option> 
+					<% } else { %>
+					<option value="<%= i.num %>"><%= i.name_en %> - <%= i.name %></option> 
+					<% } %>
 
 				<% } %> 
 				
@@ -236,7 +264,11 @@ function updateInterest()
 					<option value="-1">-- Select Language --</option> 
 					<% for(Language i: Language.values()) { %> 
 					
-				<option value="<%= i.num %>"><%= i.name_en %> - <%= i.name %></option> 
+					<% if(user.getLanguages().size() > 2 && user.getLanguages().get(2).equals(i)) { %>
+					<option selected=true value="<%= i.num %>"><%= i.name_en %> - <%= i.name %></option> 
+					<% } else { %>
+					<option value="<%= i.num %>"><%= i.name_en %> - <%= i.name %></option> 
+					<% } %>
 
 				<% } %> 
 				</select> 
@@ -253,7 +285,11 @@ function updateInterest()
 					<option value="-1">-- Select Language --</option> 
 					<% for(Language i: Language.values()) { %> 
 					
-				<option value="<%= i.num %>"><%= i.name_en %> - <%= i.name %></option> 
+					<% if(user.getLanguages().size() > 3 && user.getLanguages().get(3).equals(i)) { %>
+					<option selected=true value="<%= i.num %>"><%= i.name_en %> - <%= i.name %></option> 
+					<% } else { %>
+					<option value="<%= i.num %>"><%= i.name_en %> - <%= i.name %></option> 
+					<% } %>
 
 				<% } %> 
 				</select> 
@@ -265,7 +301,11 @@ function updateInterest()
 					<option value="-1">-- Select Language --</option> 
 					<% for(Language i: Language.values()) { %> 
 					
-				<option value="<%= i.num %>"><%= i.name_en %> - <%= i.name %></option> 
+					<% if(user.getLanguages().size() > 4 && user.getLanguages().get(4).equals(i)) { %>
+					<option selected=true value="<%= i.num %>"><%= i.name_en %> - <%= i.name %></option> 
+					<% } else { %>
+					<option value="<%= i.num %>"><%= i.name_en %> - <%= i.name %></option> 
+					<% } %>
 
 				<% } %> 
 				</select> 
@@ -275,7 +315,7 @@ function updateInterest()
 			
 		</div> 
 		
-		</form:form>
+		</form>
 		
 		<!-- 우측 도움말 영역 --> 
 		<div id="rightSide">

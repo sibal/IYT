@@ -17,6 +17,7 @@ body  {
 	padding: 0;
 	text-align: center; /* this centers the container in IE 5* browsers. The text is then set to the left aligned default in the #container selector */
 	color: #000000;
+	overflow:scroll;
 }
 .twoColFixRtHdr #container {
 	/* 전체 콘텐츠를 담는 컨테이너 */
