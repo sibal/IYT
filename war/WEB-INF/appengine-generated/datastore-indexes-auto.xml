@@ -1,14 +1,20 @@
-<!-- Indices written at Sat, 3 Mar 2012 04:42:52 UTC -->
+<!-- Indices written at Sat, 3 Mar 2012 04:44:54 UTC -->
 
 <datastore-indexes>
 
-    <!-- Used 23 times in query history -->
+    <!-- Used 5 times in query history -->
     <datastore-index kind="Translation" ancestor="false" source="auto">
         <property name="author" direction="asc"/>
         <property name="created_at" direction="desc"/>
     </datastore-index>
 
-    <!-- Used 6 times in query history -->
+    <!-- Used 3 times in query history -->
+    <datastore-index kind="Translation" ancestor="false" source="auto">
+        <property name="sid" direction="asc"/>
+        <property name="voting" direction="desc"/>
+    </datastore-index>
+
+    <!-- Used 4 times in query history -->
     <datastore-index kind="Mayors" ancestor="false" source="auto">
         <property name="userid" direction="asc"/>
         <property name="sumofvotes" direction="desc"/>

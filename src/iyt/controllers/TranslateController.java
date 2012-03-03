@@ -281,7 +281,7 @@ public class TranslateController {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		User user = (User)authentication.getPrincipal();
 		Objectify ofy = objectifyFactory.begin();
-		System.out.println("call!");
+
 		String result="";
 		String real_result="";
 		Translation t = ofy.query(Translation.class).filter("author", user.getKey()).filter("sid", sid).get();
