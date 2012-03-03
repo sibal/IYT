@@ -44,7 +44,6 @@
 		$('#'+aid).ajaxForm();			
 			
 		var queryString = $('#'+aid).formSerialize(); 
-		alert(queryString);
 		
 		// the data could now be submitted using $.get, $.post, $.ajax, etc 
 		$.post('/translate', queryString, function(response){
