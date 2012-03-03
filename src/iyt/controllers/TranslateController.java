@@ -95,6 +95,7 @@ public class TranslateController {
 		System.out.println(translation.getOri_content());
 		System.out.println(result.toString());
 		
+		// Language detection
 		try {
 			String s = URLEncoder.encode(translation.getOri_content(), "UTF-8");
 			URL url = new URL(

@@ -118,14 +118,12 @@ public class BasicViewController {
 			}
 		}		
 		
+		//사용자의 프로필에 표시를 위해
 		user.setNumFirstLan(max);
 		user.setNumSecondLan(secmax);
 		user.setFirstLanguage(Language.findByNum(maxid).name);
 		user.setSecondLanguage(Language.findByNum(secmaxid).name);
 		user.setNumOtherLan(total-max-secmax);
-		
-		//user.setFollowees();
-		//System.out.println(user.getFollowees().size());
 		
 		// Provide recent translations
 		List<Translation> trans = ofy.query(Translation.class).filter("author", user.getKey()).order("-created_at").limit(5).list();

@@ -57,8 +57,6 @@ public class RequestTranslateController {
 	
 	ArticleValidator articleValidator;
 
-	final int NUMBEROFMAYORS = 3;
-
 	@Autowired private ObjectifyFactory objectifyFactory;
 	@Autowired
 	public RequestTranslateController(ArticleValidator articleValidator){
@@ -74,7 +72,7 @@ public class RequestTranslateController {
 	@ResponseBody
     public String request_requestTranslate(@ModelAttribute("command") TransRequest transrequest, BindingResult result ) {
 		Objectify ofy = objectifyFactory.begin();
-		//What the hell?
+
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		User user = (User)authentication.getPrincipal();
 		
@@ -83,9 +81,8 @@ public class RequestTranslateController {
 		
 		transrequest.setRequester(user.getKey());
 		transrequest.setCreated_at(new Date());
-		
-		//System.out.println(transreque);
-		
+
+		// Language detection
 		try {
 			String s = URLEncoder.encode(transrequest.getText(), "UTF-8");
 			URL url = new URL(
@@ -109,7 +106,6 @@ public class RequestTranslateController {
 			
 			transrequest.setLanguage(Language.findByAbb(obj.getJSONObject("data").getJSONArray("detections").getJSONObject(0).get("language").toString()));
 
-		        //System.out.println(obj.get("confidence")); 
 		    } catch (UnsupportedEncodingException e) { 
 		        e.printStackTrace(); 
 		    } catch (MalformedURLException e) { 
@@ -133,7 +129,7 @@ public class RequestTranslateController {
 	@ResponseBody
     public String request_cancleRequestTranslate(@PathVariable long rid) {
 		Objectify ofy = objectifyFactory.begin();
-		//What the hell?
+
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		User user = (User)authentication.getPrincipal();
 				

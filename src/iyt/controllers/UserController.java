@@ -161,6 +161,7 @@ public class UserController {
 		List<User> popular = new ArrayList<User>();
 		List<String> maxTran = new ArrayList<String>();
 		
+		// 랜덤하게 유명한 유져들을 가져와서 뿌려줌.
 		Random oRandom = new Random();
 		for(int i=0; i<6; i++)
 		{
@@ -204,7 +205,7 @@ public class UserController {
 	@RequestMapping(value="/search.name", method=RequestMethod.GET)
     public ResponseEntity<String> searchByName(@RequestParam("name") String name) {
 		Objectify ofy = objectifyFactory.begin();
-		//What the hell?
+
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();				
 		User user = (User)authentication.getPrincipal();
 		List<User> users = ofy.query(User.class).filter("name", name).list();
@@ -335,7 +336,7 @@ public class UserController {
 	@ResponseBody
     public String beFan(@PathVariable String target_id) {
 		Objectify ofy = objectifyFactory.begin();
-		//What the hell?
+
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		target_id = new String(Base64.decodeBase64(target_id));
 		System.out.println(target_id);

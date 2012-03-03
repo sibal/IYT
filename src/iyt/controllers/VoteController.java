@@ -69,7 +69,7 @@ public class VoteController {
 	@ResponseBody
     public String voting_doVote(@PathVariable String t_id) {
 		Objectify ofy = objectifyFactory.begin();
-		//What the hell?
+
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		User user = (User)authentication.getPrincipal();
 		System.out.println(t_id);
@@ -112,7 +112,7 @@ public class VoteController {
 	@ResponseBody
     public String voting_cancleVote(@PathVariable String t_id) {
 		Objectify ofy = objectifyFactory.begin();
-		//What the hell?
+
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		User user = (User)authentication.getPrincipal();
 		Translation translation = ofy.get(Translation.class, t_id);
@@ -144,7 +144,7 @@ public class VoteController {
 	@ResponseBody
     public String voting_showVote(@PathVariable String t_id) {
 		Objectify ofy = objectifyFactory.begin();
-		//What the hell?
+
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		User user = (User)authentication.getPrincipal();
 		Translation translation = ofy.get(Translation.class, t_id);
