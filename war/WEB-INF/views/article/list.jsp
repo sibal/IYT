@@ -29,7 +29,8 @@
 	// when the translation button is clicked!
 	function translateClicked(aid, transMode, flag)
 	{
-		
+	
+		// showing translation content	
 		if (transMode == 0)
 		{
 			//$('#bigContentAreaMenu').html('');
@@ -111,7 +112,7 @@
 			
 
 		}
-		else
+		else  // sending translation
 		{
 			
 		
@@ -211,7 +212,7 @@
 		$('#sidebar1').css("padding","0");
 		$('#sidebar1').html('<p align=center><img src="/img/loading.gif" /></p>');
 		
-		if (flag == 0)
+		if (flag == 0) // facebook article
 		{
 		var url = "https://graph.facebook.com/"+aid+"?access_token="+access+"&date_format=U&callback=?";
 		$.getJSON(url, function(json) {
@@ -242,6 +243,7 @@
 			'<br />'+
 			'<div id="bigContentAreaCmt"><img src="img/side_cmtopn.gif" width="394" height="8" />';
             
+            // like
             if (likeflag==2)
             {
                 html+='<div class="bigContentAreaCmtR"><img src="img/fb_like.gif" width="17" height="15" align="absmiddle" /> You and <span class="articleSubMenu_facebook">'+(json.likes.count-1)+' others</span> like this</div>';
@@ -255,6 +257,7 @@
                 html+='<div class="bigContentAreaCmtR"><img src="img/fb_like.gif" width="17" height="15" align="absmiddle" /> <span class="articleSubMenu_facebook">0 people</span> like this</div>';
             }
 
+			// comments
 			var comments="";
 			if (typeof(json.comments.data) == "object")
 			{
@@ -299,7 +302,7 @@
 		});
 		
 		}
-		else
+		else // twitter
 		{
 			
 			var url = "/t_getTweet/"+aid;
@@ -342,7 +345,7 @@
 		
       //Use jQuery getJSON method to fetch the data from the url and then create our unordered list with the relevant data.
 		<% if (!user.getTwit_authT().equals("") && !user.getFace_access().equals("")) {%>
-					
+		// getting articles from facebook and twitter			
 		if (mode==0)
 		{
 			url= "https://graph.facebook.com/me/home?limit=5&access_token="+access+"&date_format=U&fields=id,from,message,comments,likes&callback=?";
@@ -463,7 +466,7 @@
 			});
 
 		<%} else if (!user.getFace_access().equals("")) {%>
-		
+		// getting articles from facebook only
 			
 			if (mode==0)
 			{
@@ -527,7 +530,7 @@
 			
 		
 		<%} else if (!user.getTwit_authT().equals("")) {%>
-				
+			// getting articles from twitter only		
 			if (mode==0)
 			{
 				url2= "/t_getTimeline";

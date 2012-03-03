@@ -42,6 +42,7 @@
 <br /><br />
 <% } %>
 
+<!-- // recent translations -->
 <% if (recent.size() != 0) { %>
 <p class="side_title">Recent Translations</p>
 	<p class="side_content" id="recentContent">
@@ -54,7 +55,7 @@
 	<% } %>
 	$('#recentContent').html(b);
 	</script>
-
+<!-- // translation request which you made -->
 	<div style="height:10px"></div>
 <% } %>
 <% if (requests.size() != 0) { %>

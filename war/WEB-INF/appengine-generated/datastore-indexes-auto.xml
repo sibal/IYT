@@ -1,11 +1,17 @@
-<!-- Indices written at Sat, 3 Mar 2012 04:02:18 UTC -->
+<!-- Indices written at Sat, 3 Mar 2012 04:42:52 UTC -->
 
 <datastore-indexes>
 
-    <!-- Used 6 times in query history -->
+    <!-- Used 23 times in query history -->
     <datastore-index kind="Translation" ancestor="false" source="auto">
         <property name="author" direction="asc"/>
         <property name="created_at" direction="desc"/>
+    </datastore-index>
+
+    <!-- Used 6 times in query history -->
+    <datastore-index kind="Mayors" ancestor="false" source="auto">
+        <property name="userid" direction="asc"/>
+        <property name="sumofvotes" direction="desc"/>
     </datastore-index>
 
 </datastore-indexes>

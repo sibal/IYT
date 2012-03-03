@@ -46,7 +46,7 @@
 		
     //Use jQuery getJSON method to fetch the data from the url and then create our unordered list with the relevant data.
 	<% if (!user.getTwit_authT().equals("") && !user.getFace_access().equals("")) {%>
-			
+	// getting articles from facebook and twitter		
 	if (mode==0)
 	{
 		url= "https://graph.facebook.com/me/home?limit=5&access_token="+access+"&date_format=U&fields=id,from,message,comments,likes&callback=?";
@@ -156,7 +156,7 @@
 		});
 
 		<%} else if (!user.getFace_access().equals("")) {%>
-		
+		// getting articles from facebook only
 		if (mode==0)
 		{
 			url= "https://graph.facebook.com/me/home?limit=10&access_token="+access+"&date_format=U&fields=id,from,message,comments,likes&callback=?";
@@ -225,7 +225,7 @@
 			
 		
 		<%} else if (!user.getTwit_authT().equals("")) {%>
-		
+		// getting articles from twitter only
 		if (mode==0)
 		{
 			url2= "/t_getTimeline";
@@ -336,7 +336,7 @@
 			<div class="topTen_row2" style="background-color:#f9f9f9"><%= user.getName() %></div>
 			<div class="topTen_row3" style="background-color:#f9f9f9"><span class="topTen_row3g"></span> <span class="topTen_row1g"></span></div>
 
-
+			<!-- // top-10 famous users -->
 			<% int count = 0; %>
 			<% for(User u: fusers) { %>
 			<% if (u==null) continue; %>
@@ -353,7 +353,7 @@
 			<p class="side_title">&nbsp;</p>
 			<p class="side_title"><img src="/img/table_line_f.gif" width="290" height="2" /></p>
 			
-
+			<!-- // recent translations -->
 			<% if (recent.size() != 0) { %>
 			<p class="side_title">Recent Translations</p>
 				<p class="side_content" id="recentContent">
@@ -367,6 +367,7 @@
 				$('#recentContent').html(b);
 				</script>
 			
+		<!--	// translation requests  -->
 				<div style="height:10px"></div>
 			<% } %>
 			<% if (requests.size() != 0) { %>

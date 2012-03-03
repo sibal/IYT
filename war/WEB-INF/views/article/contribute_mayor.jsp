@@ -75,7 +75,7 @@
 			<div class="topTen_row2" style="background-color:#f9f9f9"><%= user.getName() %></div>
 			<div class="topTen_row3" style="background-color:#f9f9f9"><span class="topTen_row3g"></span> <span class="topTen_row1g"></span></div>
 
-
+			<!-- // famous users -->
 			<% int count = 0; %>
 			<% for(User u: fusers) { %>
 			<% if (u==null) continue; %>
@@ -92,7 +92,7 @@
 			<p class="side_title">&nbsp;</p>
 			<p class="side_title"><img src="/img/table_line_f.gif" width="290" height="2" /></p>
 			
-			
+			<!-- // recent translations -->			
 			<% if (recent.size() != 0) { %>
 			<p class="side_title">Recent Translations</p>
 				<p class="side_content" id="recentContent">
@@ -153,7 +153,7 @@
   
 		<!-- 모아보기 1 -->
 			<div id="articles">
-			
+				<!-- // translation requests from mayor accounts -->
 				<% for (TransRequest r: mrequests) { %>			
 						<div class="qtranslate_type1">
 						<form id="<%= r.getAid() %>" name="<%= r.getAid() %>" method=POST>
